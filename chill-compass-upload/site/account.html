@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=6">
+<link rel="stylesheet" href="/assets/style.css?v=7">
 
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="#signup" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
@@ -73,7 +73,7 @@
       <button class="btn btn-sun" type="submit">Send Me the Guides</button>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 You're on the list! Watch your inbox.</div>
+    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
 </div></aside></div></div>
@@ -93,7 +93,7 @@
         <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
         <li><a href="#quote" data-quote>Free Quote</a></li>
-        <li><a href="#signup">Free Port Guides</a></li>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
       <div><h3>About</h3><ul>
@@ -146,7 +146,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=6"></script>
+<script src="/assets/app.js?v=7"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;

@@ -34,10 +34,12 @@ img{max-width:100%}
 @media(max-width:700px){.topbar .l span{display:none}.topbar .hide-s{display:none}.topbar{font-size:13px}.topbar a,.topbar button{white-space:nowrap}}
 
 /* ---------- masthead (the beach banner stays!) ---------- */
-.masthead{position:relative;background:#0B3954 url('/assets/img/banner.jpg') center 55%/cover no-repeat;height:260px}
-.masthead.tall{height:min(42vw,440px)}
-.masthead a.home{position:absolute;inset:0}
-@media(max-width:700px){.masthead{background-image:url('/assets/img/banner-sm.jpg');height:150px}.masthead.tall{height:46vw}}
+.masthead{position:relative;background:#0B3954;height:140px;overflow:hidden}
+.masthead:before{content:"";position:absolute;inset:-30px;background:url('/assets/img/banner-sm.jpg') center/cover;filter:blur(18px) saturate(1.2) brightness(.95)}
+.masthead:after{content:"";position:absolute;inset:0;background:url('/assets/img/banner.jpg') center/contain no-repeat}
+.masthead.tall{height:160px}
+.masthead a.home{position:absolute;inset:0;z-index:2}
+@media(max-width:700px){.masthead,.masthead.tall{height:30vw;max-height:120px}.masthead:after{background-image:url('/assets/img/banner-sm.jpg');background-size:cover;background-position:center 75%}}
 
 /* ---------- sticky nav dock ---------- */
 .dock{position:sticky;top:0;z-index:30;background:rgba(255,244,224,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -388,3 +390,6 @@ footer.site a:hover{color:var(--sun)}
 .faq summary:after{content:"+";position:absolute;right:18px;top:10px;font-size:24px;color:var(--coral)}
 .faq details[open] summary:after{content:"–"}
 .faq details div{padding:0 18px 16px;color:var(--ink-soft)}
+.g-lock{position:relative}
+.g-lock:after{content:"🔒";position:absolute;right:12px;top:10px;font-size:14px}
+.g-lock.open:after{content:"⬇️"}

@@ -5,7 +5,7 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '6'
+V = '7'
 
 def head(title, desc=DESC, path='/', extra=''):
     full = title if title == 'The Chill Compass' else f'{title} | The Chill Compass'
@@ -37,7 +37,7 @@ def head(title, desc=DESC, path='/', extra=''):
 
 def header(tall=False):
     return f'''<div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="#signup" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
@@ -91,7 +91,7 @@ GUIDES_W = '''<div class="widget teal" id="signup">
       <button class="btn btn-sun" type="submit">Send Me the Guides</button>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 You're on the list! Watch your inbox.</div>
+    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
 </div>'''
@@ -141,7 +141,7 @@ FOOTER = '''<footer class="site">
         <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
         <li><a href="#quote" data-quote>Free Quote</a></li>
-        <li><a href="#signup">Free Port Guides</a></li>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
       <div><h3>About</h3><ul>
@@ -210,9 +210,17 @@ CAT_INTRO = {
 def blog_page(fname, cat, path, desc):
     eyebrow, sub = CAT_INTRO[cat]
     is_home = cat == ''
-    guides_band = '''<section class="sec"><div class="band"><div class="e">🗺️</div><div><h3>Free printable port guides</h3>
-  <p>Palm Beach, Tampa, Miami and Galveston: parking, terminals, timing and port-of-call cheat sheets.</p></div>
-  <a href="#signup" class="btn btn-sun">Send Me the Guides</a></div></section>''' if cat == 'Port Guides' else ''
+    guides_band = ('''<section class="sec" id="guides"><div class="sec-h"><h2>🗺️ Free printable port guides</h2></div>
+  <p style="margin:-4px 0 12px;color:var(--ink-soft)">Terminal addresses, parking, check-in times, airports, where to stay and play, plus a cheat sheet for every port of call.</p>
+  <div class="guide-grid">''' + ''.join(f'''<a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-{f}.pdf" href="#guides"><span class="e">{e}</span><div><b>{t}</b><small>{s}</small></div></a>''' for f, e, t, s in [
+        ('paradise-palm-beach', '🌺', 'Paradise · Palm Beach', 'Port of Palm Beach, Riviera Beach'),
+        ('islander-tampa', '🏝️', 'Islander · Tampa', 'Port Tampa Bay, Terminal 6'),
+        ('beachcomber-miami', '🐚', 'Beachcomber · Miami', 'PortMiami, Terminal C (from Jan 2027)'),
+        ('beachcomber-galveston', '🤠', 'Beachcomber · Galveston', 'Galveston Terminal 28 (from Oct 2027)')]) + '''</div>
+  <div class="card g-gate" style="margin-top:14px"><b>📬 Unlock all four guides free.</b> Pop in your email and they'll open right here (and we'll send you cruise tips and deals, no spam).
+    <form class="form js-signup" data-source="port-guides-page" style="margin-top:10px"><input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80"><input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><button class="btn btn-coral" type="submit">Unlock the Guides</button></form>
+    <div class="err"></div><div class="thanks">🎉 Unlocked! Click any guide above to open it.</div></div>
+</section>''') if cat == 'Port Guides' else ''
     body = (title_block(eyebrow, 'Where the cruise is chill &amp; the drinks come with umbrellas' if is_home else cat, sub) +
         guides_band +
         ('<section class="sec"><div id="lead"></div></section>' if is_home else '') +
@@ -223,6 +231,14 @@ def blog_page(fname, cat, path, desc):
   <a href="/write-for-us" class="btn btn-sun">How to Submit</a></div></section>''' if is_home else ''))
     js = '''<script>
 const PAGE_CAT = %s;
+function unlockGuides() {
+  if (!store('cc_subscribed')) return;
+  document.querySelectorAll('.g-lock').forEach(a => { a.href = a.dataset.href; a.target = '_blank'; a.rel = 'noopener'; a.classList.add('open'); });
+  const g = document.querySelector('.g-gate'); if (g && !g.querySelector('.thanks').style.display) g.innerHTML = '<b>✅ Your free guides are unlocked.</b> Click any guide above to open or download it.';
+}
+document.addEventListener('submit', e => { if (e.target.matches('.g-gate form')) setTimeout(function chk(){ store('cc_subscribed') ? unlockGuides() : setTimeout(chk, 300); }, 300); }, true);
+document.querySelectorAll('.g-lock').forEach(a => a.addEventListener('click', e => { if (!store('cc_subscribed')) { e.preventDefault(); const f = document.querySelector('.g-gate input[type=email]'); f.scrollIntoView({behavior:'smooth', block:'center'}); f.focus({preventScroll:true}); } }));
+unlockGuides();
 document.addEventListener('cc:ready', async () => {
   const qcat = catBySlug(new URLSearchParams(location.search).get('cat'));
   const cat = PAGE_CAT || qcat || null;

@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=6">
+<link rel="stylesheet" href="/assets/style.css?v=7">
 
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="#signup" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
@@ -42,9 +42,13 @@
   </ul></nav>
   <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
 </div></div>
-<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🏝️ Port Guides</div><h1>Port Guides</h1><p>What to do, eat and skip in every Margaritaville at Sea port, plus tips for the homeports.</p></div><section class="sec"><div class="band"><div class="e">🗺️</div><div><h3>Free printable port guides</h3>
-  <p>Palm Beach, Tampa, Miami and Galveston: parking, terminals, timing and port-of-call cheat sheets.</p></div>
-  <a href="#signup" class="btn btn-sun">Send Me the Guides</a></div></section><div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div><div class="ad-slot" data-slot="blog-bottom"></div></main><aside class="side"><div class="widget" id="quote">
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🏝️ Port Guides</div><h1>Port Guides</h1><p>What to do, eat and skip in every Margaritaville at Sea port, plus tips for the homeports.</p></div><section class="sec" id="guides"><div class="sec-h"><h2>🗺️ Free printable port guides</h2></div>
+  <p style="margin:-4px 0 12px;color:var(--ink-soft)">Terminal addresses, parking, check-in times, airports, where to stay and play, plus a cheat sheet for every port of call.</p>
+  <div class="guide-grid"><a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-paradise-palm-beach.pdf" href="#guides"><span class="e">🌺</span><div><b>Paradise · Palm Beach</b><small>Port of Palm Beach, Riviera Beach</small></div></a><a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-islander-tampa.pdf" href="#guides"><span class="e">🏝️</span><div><b>Islander · Tampa</b><small>Port Tampa Bay, Terminal 6</small></div></a><a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-beachcomber-miami.pdf" href="#guides"><span class="e">🐚</span><div><b>Beachcomber · Miami</b><small>PortMiami, Terminal C (from Jan 2027)</small></div></a><a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-beachcomber-galveston.pdf" href="#guides"><span class="e">🤠</span><div><b>Beachcomber · Galveston</b><small>Galveston Terminal 28 (from Oct 2027)</small></div></a></div>
+  <div class="card g-gate" style="margin-top:14px"><b>📬 Unlock all four guides free.</b> Pop in your email and they'll open right here (and we'll send you cruise tips and deals, no spam).
+    <form class="form js-signup" data-source="port-guides-page" style="margin-top:10px"><input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80"><input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><button class="btn btn-coral" type="submit">Unlock the Guides</button></form>
+    <div class="err"></div><div class="thanks">🎉 Unlocked! Click any guide above to open it.</div></div>
+</section><div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div><div class="ad-slot" data-slot="blog-bottom"></div></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Tell us your dream sailing. A real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb">
     <form class="qf js-quote">
@@ -74,7 +78,7 @@
       <button class="btn btn-sun" type="submit">Send Me the Guides</button>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 You're on the list! Watch your inbox.</div>
+    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
 </div><div class="widget navy">
@@ -98,7 +102,7 @@
         <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
         <li><a href="#quote" data-quote>Free Quote</a></li>
-        <li><a href="#signup">Free Port Guides</a></li>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
       <div><h3>About</h3><ul>
@@ -151,7 +155,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=6"></script>
+<script src="/assets/app.js?v=7"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
@@ -162,6 +166,14 @@ document.addEventListener('cc:ready', async () => {
 </script>
 <script>
 const PAGE_CAT = 'Port Guides';
+function unlockGuides() {
+  if (!store('cc_subscribed')) return;
+  document.querySelectorAll('.g-lock').forEach(a => { a.href = a.dataset.href; a.target = '_blank'; a.rel = 'noopener'; a.classList.add('open'); });
+  const g = document.querySelector('.g-gate'); if (g && !g.querySelector('.thanks').style.display) g.innerHTML = '<b>✅ Your free guides are unlocked.</b> Click any guide above to open or download it.';
+}
+document.addEventListener('submit', e => { if (e.target.matches('.g-gate form')) setTimeout(function chk(){ store('cc_subscribed') ? unlockGuides() : setTimeout(chk, 300); }, 300); }, true);
+document.querySelectorAll('.g-lock').forEach(a => a.addEventListener('click', e => { if (!store('cc_subscribed')) { e.preventDefault(); const f = document.querySelector('.g-gate input[type=email]'); f.scrollIntoView({behavior:'smooth', block:'center'}); f.focus({preventScroll:true}); } }));
+unlockGuides();
 document.addEventListener('cc:ready', async () => {
   const qcat = catBySlug(new URLSearchParams(location.search).get('cat'));
   const cat = PAGE_CAT || qcat || null;
