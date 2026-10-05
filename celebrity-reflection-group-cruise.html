@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register: Celebrity Reflection Group Cruise | Cruises Tours & Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Alex+Brush&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=1787258110">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=1790173696">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1790173696">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1790173696">
+</head>
+<body>
+
+  <header class="site">
+    <div class="wrap">
+      <a class='brand' href='/'><img src="logo-horizontal.png?v=1790171267" alt="Cruises Tours & Travel logo"></a>
+      <nav class="primary">
+        <ul>
+          <li><a href='/cruises'>Cruises</a></li>
+          <li class="has-dropdown">
+            <a href='/tours'>Tours</a>
+            <button class="dropdown-toggle" aria-label="Show Tours menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href="https://www.viator.com/?pid=P00319511&uid=U00864606&mcid=58086&currency=USD" target="_blank" rel="noopener">Viator</a></li>
+              <li><a href="https://www.getyourguide.com?partner_id=RM6PLZ4&cmp=share_to_earn" target="_blank" rel="noopener">Get Your Guide</a></li>
+              <li><a href="https://www.shoreexcursionsgroup.com/?id=2033842&data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">Shore Excursions</a></li>
+              <li><a href="https://resortforaday.com/?Click=105368" target="_blank" rel="noopener">Resort for a Day</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href='/vacations'>Travel</a>
+            <button class="dropdown-toggle" aria-label="Show Travel menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href='/vacations?category=hotels'>Hotels</a></li>
+              <li><a href='/vacations?category=all-inclusive'>All-Inclusive Resorts</a></li>
+              <li><a href='/vacations?category=fit-custom'>FIT Custom Tours and Itineraries</a></li>
+              <li><a href='/vacations?category=weddings'>Destination Weddings</a></li>
+              <li><a href='/vacations?category=disney-universal'>Disney &amp; Universal Vacations</a></li>
+              <li><a href='/vacations?category=car-rentals'>Car Rentals</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href='/groups-events'>Groups &amp; Events</a>
+            <button class="dropdown-toggle" aria-label="Show Groups & Events menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href='/groups-events'>Group Planning</a></li>
+              <li><a href='/open-group-events'>Open Group Events</a></li>
+            </ul>
+          </li>
+          <li><a href='/about'>About</a></li>
+          <li><a href='/agents'>Our Agents</a></li>
+          <li class="has-dropdown">
+            <a href='/already-booked'>Already Booked</a>
+            <button class="dropdown-toggle" aria-label="Show Already Booked menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href='/already-booked#credit-card-authorization'>Credit Card Authorization</a></li>
+              <li><a href='/pre-register-cruise-lines'>Pre-Register with Cruise Lines</a></li>
+              <li><a href='/first-time-cruisers'>First Time Cruisers</a></li>
+              <li><a href='/know-before-you-go'>Know Before You Go</a></li>
+              <li><a href="https://order.ceifx.com/" target="_blank" rel="noopener">Currency Exchange</a></li>
+            </ul>
+          </li>
+          <li><a href='/contact'>Contact</a></li>
+        </ul>
+      </nav>
+      <button class="navbtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <style>
+    .room-group{ margin-bottom:18px; }
+    .room-group h3{ font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--navy-900); margin:0 0 10px; }
+    .room-options{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .room-opt{ position:relative; display:block; cursor:pointer; background:#fff; border:2px solid var(--sand-100); border-radius:12px; padding:14px 16px; transition:border-color .15s, box-shadow .15s; }
+    .room-opt:hover{ border-color:var(--teal-600); }
+    .room-opt input{ position:absolute; opacity:0; pointer-events:none; }
+    .room-opt .pkg{ font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--teal-600); }
+    .room-opt .price{ font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:700; color:var(--navy-900); margin:4px 0 2px; }
+    .room-opt .price small{ font-family:'Jost',sans-serif; font-size:.72rem; font-weight:500; color:#7a8998; }
+    .room-opt .incl{ font-size:.8rem; color:#5b6b7c; line-height:1.45; }
+    .room-opt:has(input:checked){ border-color:var(--teal-600); box-shadow:0 0 0 3px rgba(20,140,140,.15); background:#f4fbfb; }
+    .room-opt:has(input:checked)::after{ content:'\2713'; position:absolute; top:10px; right:12px; width:22px; height:22px; border-radius:50%; background:var(--teal-600); color:#fff; font-size:.8rem; display:flex; align-items:center; justify-content:center; }
+    .room-error{ display:none; color:#b3261e; font-size:.85rem; margin-top:6px; }
+    .flyer-link img{ width:100%; border-radius:10px; margin-top:18px; box-shadow:0 10px 24px rgba(11,37,69,.12); }
+    .flyer-link span{ display:block; text-align:center; font-size:.78rem; color:#7a8998; margin-top:6px; }
+    .room-opt .pp{ font-size:.78rem; color:#5b6b7c; margin-bottom:4px; }
+    .room-group .cat{ font-family:'Jost',sans-serif; font-size:.72rem; font-weight:600; color:#7a8998; letter-spacing:.04em; margin-left:6px; }
+    .military-note{ background:#f4fbfb; border:1px solid var(--sand-100); border-left:4px solid var(--teal-600); border-radius:10px; padding:10px 14px; font-size:.84rem; color:#33475b; margin:4px 0 16px; }
+    @media (max-width:640px){ .room-options{ grid-template-columns:1fr; } }
+  </style>
+
+  <section class="quote-hero">
+    <div class="wrap">
+      <div class="breadcrumb"><a href='/'>Home</a> / <a href='/open-group-events'>Open Group Events</a> / Celebrity Reflection Group Cruise</div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="wrap">
+      <div class="quote-layout">
+        <aside class="quote-sidebar">
+          <div class="sail-card" id="sail-card">
+            <div id="sail-filled">
+              <div class="sail-line" id="sail-line">Celebrity Cruises</div>
+              <h3 id="sail-ship">Celebrity Reflection</h3>
+              <div id="sail-rows">
+                <div class="sail-row"><span class="k">Event</span><span class="v">Group Cruise</span></div>
+                <div class="sail-row"><span class="k">Dates</span><span class="v">March 19 &ndash; 22, 2027</span></div>
+                <div class="sail-row"><span class="k">Length</span><span class="v">3 Nights</span></div>
+                <div class="sail-row"><span class="k">Departs</span><span class="v">Fort Lauderdale, FL</span></div>
+                <div class="sail-row"><span class="k">Itinerary</span><span class="v">Key West, FL &amp; Grand Bahama, Bahamas</span></div>
+                <div class="sail-row"><span class="k">Pricing</span><span class="v">Per stateroom, based on 2 adults &middot; includes taxes &amp; fees</span></div>
+                <div class="sail-row"><span class="k">Host Advisor</span><span class="v"><a href='/agent-profile?slug=samantha-pollack' style='color:var(--teal-600); text-decoration:underline;'>Samantha Pollack</a></span></div>
+              </div>
+            </div>
+          </div>
+          <a class="flyer-link" href="celebrity-reflection-group-flyer.jpg" target="_blank" rel="noopener">
+            <img src="celebrity-reflection-group-flyer.jpg" alt="Celebrity Reflection group cruise flyer, March 19-22, 2027">
+            <span>View the full flyer</span>
+          </a>
+        </aside>
+
+        <div class="quote-main">
+          <h1 class="serif">Register for the Celebrity Reflection Group Cruise</h1>
+          <p class="quote-sub">Join our group aboard the newly revamped Celebrity Reflection &mdash; back with 13 new venues &mdash; for a 3-night Bahamas getaway round-trip from Fort Lauderdale to Key West and Grand Bahama, March 19&ndash;22, 2027. Pick your stateroom below and fill out the form to reserve your spot; this isn't a payment.</p>
+
+          <div class="quote-banner" id="quote-banner"><strong>Celebrity Cruises</strong> Celebrity Reflection <span class="sep">|</span> 3 Nights <span class="sep">|</span> March 19 &ndash; 22, 2027 <span class="sep">|</span> Departs Fort Lauderdale, FL</div>
+
+          <form id="quote-form" novalidate>
+            <div class="quote-step">
+              <div class="step-head"><span class="step-num">1</span><h2>Choose your stateroom</h2></div>
+              <p style="font-size:.86rem; color:#5b6b7c; margin:0 0 12px;">Prices are the total per stateroom for 2 adults and include taxes &amp; fees. <strong>Cruise Only</strong> includes a $50 onboard credit per stateroom. <strong>Group Rate (GroupX)</strong> adds the Classic Drinks Package and WiFi, plus the $50 onboard credit.</p>
+              <div class="military-note"><strong>Military:</strong> save $100 per person off the Group Rate. Let us know below if you qualify. (Already included in the Cruise Only rate.)</div>
+
+              <div class="room-group">
+                <h3>Prime Inside<span class="cat">Category I1</span></h3>
+                <div class="room-options">
+                  <label class="room-opt"><input type="radio" name="room" value="Prime Inside (I1) - Cruise Only - $1,109.44 total ($554.72 pp)"><div class="pkg">Cruise Only</div><div class="price">$1,109.44 <small>total for 2</small></div><div class="pp">$554.72 per person</div><div class="incl">$50 onboard credit &middot; taxes &amp; fees included</div></label>
+                  <label class="room-opt"><input type="radio" name="room" value="Prime Inside (I1) - Group Rate - $1,566.44 total ($783.22 pp)"><div class="pkg">Group Rate</div><div class="price">$1,566.44 <small>total for 2</small></div><div class="pp">$783.22 per person</div><div class="incl">Classic Drinks Package &middot; WiFi &middot; $50 onboard credit &middot; taxes &amp; fees included</div></label>
+                </div>
+              </div>
+
+              <div class="room-group">
+                <h3>Concierge Class<span class="cat">Category C4</span></h3>
+                <div class="room-options">
+                  <label class="room-opt"><input type="radio" name="room" value="Concierge Class (C4) - Cruise Only - $1,235.44 total ($617.72 pp)"><div class="pkg">Cruise Only</div><div class="price">$1,235.44 <small>total for 2</small></div><div class="pp">$617.72 per person</div><div class="incl">$50 onboard credit &middot; taxes &amp; fees included</div></label>
+                  <label class="room-opt"><input type="radio" name="room" value="Concierge Class (C4) - Group Rate - $1,678.44 total ($839.22 pp)"><div class="pkg">Group Rate</div><div class="price">$1,678.44 <small>total for 2</small></div><div class="pp">$839.22 per person</div><div class="incl">Classic Drinks Package &middot; WiFi &middot; $50 onboard credit &middot; taxes &amp; fees included</div></label>
+                </div>
+              </div>
+
+              <div class="room-group">
+                <h3>AquaClass<span class="cat">Category A2</span></h3>
+                <div class="room-options">
+                  <label class="room-opt"><input type="radio" name="room" value="AquaClass (A2) - Cruise Only - $1,714.44 total ($857.22 pp)"><div class="pkg">Cruise Only</div><div class="price">$1,714.44 <small>total for 2</small></div><div class="pp">$857.22 per person</div><div class="incl">$50 onboard credit &middot; taxes &amp; fees included</div></label>
+                  <label class="room-opt"><input type="radio" name="room" value="AquaClass (A2) - Group Rate - $2,126.44 total ($1,063.22 pp)"><div class="pkg">Group Rate</div><div class="price">$2,126.44 <small>total for 2</small></div><div class="pp">$1,063.22 per person</div><div class="incl">Classic Drinks Package &middot; WiFi &middot; $50 onboard credit &middot; taxes &amp; fees included</div></label>
+                </div>
+              </div>
+              <div class="room-error" id="room-error">Please choose a stateroom option above.</div>
+            </div>
+
+            <div class="quote-step">
+              <div class="step-head"><span class="step-num">2</span><h2>Your details</h2></div>
+              <div class="form-row">
+                <div class="field"><label for="fname">First name *</label><input id="fname" required type="text" placeholder="Jane"></div>
+                <div class="field"><label for="lname">Last name *</label><input id="lname" required type="text" placeholder="Doe"></div>
+              </div>
+              <div class="form-row">
+                <div class="field"><label for="email">Email *</label><input id="email" required type="email" placeholder="jane@email.com"></div>
+                <div class="field"><label for="phone">Phone *</label><input id="phone" required type="tel" placeholder="(555) 555-5555"></div>
+              </div>
+            </div>
+
+            <div class="quote-step">
+              <div class="step-head"><span class="step-num">3</span><h2>Travelers</h2></div>
+              <div class="form-row">
+                <div class="field"><label for="staterooms">Number of staterooms *</label><input id="staterooms" required type="number" min="1" value="1"></div>
+                <div class="field"><label for="travelers">Total travelers *</label><input id="travelers" required type="number" min="1" value="2"></div>
+              </div>
+              <div class="field full">
+                <label for="traveler-info">Traveler names &amp; dates of birth *</label>
+                <textarea id="traveler-info" required rows="4" placeholder="Names exactly as on passports, e.g. Jane Doe (DOB 5/12/1985), John Doe (DOB 6/3/1985)"></textarea>
+              </div>
+              <p style="font-size:.8rem; color:#7a8998; margin:8px 0 0;">Traveling with a 3rd or 4th guest in the room? Include them above and we'll send you updated pricing.</p>
+            </div>
+
+            <div class="quote-step">
+              <div class="step-head"><span class="step-num">4</span><h2>Preferences</h2></div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="sailed-before">Sailed with Celebrity before?</label>
+                  <select id="sailed-before">
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="insurance">Interested in travel insurance?</label>
+                  <select id="insurance">
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="Not sure">Not sure</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label for="military">Active or retired military?</label>
+                  <select id="military">
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="loyalty">Captain's Club number (optional)</label>
+                  <input id="loyalty" type="text" placeholder="If you have one">
+                </div>
+              </div>
+              <div class="field full">
+                <label for="more-info">Anything else? (optional)</label>
+                <textarea id="more-info" rows="3" placeholder="Roommate requests, dietary or accessibility needs, who you're traveling with in the group"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary quote-submit">Register My Stateroom</button>
+          </form>
+
+          <p class="quote-note">This reserves your spot on the group list &mdash; it's not a payment. Samantha will confirm your stateroom, final pricing and deposit details with you directly. Prices are per stateroom based on 2 adults, include taxes &amp; fees, and are subject to availability until booked.</p>
+
+          <p class="quote-form-success" id="form-success">Thanks! You're on the list for the Celebrity Reflection Group Cruise &mdash; Samantha Pollack will follow up shortly to confirm your stateroom and next steps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="logo-horizontal.png?v=1790171267" alt="Cruises Tours & Travel logo">
+          <p>Full-service travel planning for cruises, guided tours and custom vacations — more choices, more memories.</p>
+          <p style="margin-top:14px;"><a class="admin-signin-link" href="/login" target="_blank" rel="noopener" style="font-size:.8rem; color:inherit; opacity:.75; text-decoration:underline;">Administrator Sign In</a></p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href='/cruises'>Cruises</a></li>
+            <li><a href='/tours'>Tours</a></li>
+            <li><a href='/vacations'>Travel</a></li>
+            <li><a href='/groups-events'>Group Planning</a></li>
+            <li><a href='/open-group-events'>Open Group Events</a></li>
+            <li><a href='/about'>About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href='/agents'>Our Agents</a></li>
+            <li><a href='/advisor-signup'>Join Our Team</a></li>
+            <li><a href='/already-booked'>Already Booked</a></li>
+            <li><a href='/contact'>Contact</a></li>
+            <li><a href='/contact?type=quote'>Request a Quote</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18132786555">(813) 278-6555</a></li>
+            <li><a href="mailto:samanthap@cruisestoursandtravel.com">samanthap@cruisestoursandtravel.com</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=61593052929944" target="_blank">Facebook</a></li>
+            <li style="color:#7a8998;">Mon–Fri 9am–6pm ET</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Cruises Tours & Travel, LLC. All rights reserved.</span>
+        <span>Fla. Seller of Travel Reg. No. ST150140</span>
+        <span>Your Journey. Our Passion.</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(item) {
+    item.addEventListener('mouseenter', function() {
+      document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(other) {
+        other.classList.remove('open');
+        var btn = other.querySelector('.dropdown-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+      item.classList.add('open');
+    });
+    item.addEventListener('mouseleave', function() {
+      item.classList.remove('open');
+      var btn = item.querySelector('.dropdown-toggle');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+    var toggle = item.querySelector('.dropdown-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(other) {
+          other.classList.remove('open');
+          var b = other.querySelector('.dropdown-toggle');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  });
+</script>
+
+<script>
+  var navBtn = document.querySelector('.navbtn');
+  var siteHeader = document.querySelector('header.site');
+  if (navBtn && siteHeader) {
+    navBtn.addEventListener('click', function() {
+      siteHeader.classList.toggle('nav-open');
+    });
+    document.querySelectorAll('nav.primary a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        siteHeader.classList.remove('nav-open');
+      });
+    });
+  }
+</script>
+
+<script>
+(function() {
+  const SUPABASE_URL = 'https://nqbfrvpusfxslqjleset.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_fiOAGP5-SZMBsPlPDGU-6w_IAea7UMW';
+  const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  var form = document.getElementById('quote-form');
+  var roomError = document.getElementById('room-error');
+  form.querySelectorAll('input[name="room"]').forEach(function(r) {
+    r.addEventListener('change', function() { roomError.style.display = 'none'; });
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    var room = form.querySelector('input[name="room"]:checked');
+    if (!room) {
+      roomError.style.display = 'block';
+      document.querySelector('.room-group').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    var submitBtn = form.querySelector('.quote-submit');
+    var originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    var lines = [];
+    lines.push('CELEBRITY REFLECTION GROUP CRUISE REGISTRATION');
+    lines.push('');
+    lines.push('Sailing:');
+    lines.push('Cruise Line: Celebrity Cruises');
+    lines.push('Ship: Celebrity Reflection');
+    lines.push('Dates: March 19 - 22, 2027 (3 Nights)');
+    lines.push('Departure Port: Fort Lauderdale, FL (round-trip)');
+    lines.push('Itinerary: Key West (FL), Grand Bahama (Bahamas)');
+    lines.push('');
+    lines.push('STATEROOM SELECTED: ' + room.value);
+    lines.push('Number of staterooms: ' + document.getElementById('staterooms').value);
+    lines.push('Total travelers: ' + document.getElementById('travelers').value);
+    lines.push('Traveler names & DOB: ' + document.getElementById('traveler-info').value.trim());
+
+    lines.push('');
+    lines.push('Preferences:');
+    var sailedBefore = document.getElementById('sailed-before').value;
+    if (sailedBefore) lines.push('Sailed with Celebrity before: ' + sailedBefore);
+    var insurance = document.getElementById('insurance').value;
+    if (insurance) lines.push('Interested in insurance: ' + insurance);
+    var loyalty = document.getElementById('loyalty').value.trim();
+    if (loyalty) lines.push("Captain's Club number: " + loyalty);
+    var military = document.getElementById('military').value;
+    if (military) lines.push('Military: ' + military);
+
+    var moreInfo = document.getElementById('more-info').value.trim();
+    if (moreInfo) {
+      lines.push('');
+      lines.push('Anything else:');
+      lines.push(moreInfo);
+    }
+
+    var payload = {
+      full_name: (document.getElementById('fname').value.trim() + ' ' + document.getElementById('lname').value.trim()).trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim() || null,
+      trip_type: 'cruise',
+      details: lines.join('\n'),
+      source: 'groups_events',
+      status: 'unclaimed',
+      // Hosted by Samantha Pollack — registrations go straight to her
+      requested_advisor_id: '5cc6996a-2f9d-4beb-b6b8-0d84d4d262de'
+    };
+
+    var { error } = await client.from('leads').insert(payload);
+
+    if (error) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+      alert("Sorry, something went wrong submitting your registration. Please try again or call us at (813) 278-6555.");
+      return;
+    }
+
+    form.style.display = 'none';
+    document.querySelector('.quote-note').style.display = 'none';
+    var ok = document.getElementById('form-success');
+    ok.style.display = 'block';
+    ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
+<script src="/agent-attribution.js"></script>
+
+</body>
+</html>

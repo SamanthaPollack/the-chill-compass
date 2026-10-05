@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groups & Events | Cruises Tours & Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Alex+Brush&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=1787258110">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=1790173696">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=1790173696">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1790173696">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1790173696">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class='brand' href='/'><img src="logo-horizontal.png?v=1790171267" alt="Cruises Tours & Travel logo"></a>
+      <nav class="primary">
+        <ul>
+          <li><a href='/cruises'>Cruises</a></li>
+          <li class="has-dropdown">
+            <a href='/tours'>Tours</a>
+            <button class="dropdown-toggle" aria-label="Show Tours menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href="https://www.viator.com/?pid=P00319511&uid=U00864606&mcid=58086&currency=USD" target="_blank" rel="noopener">Viator</a></li>
+              <li><a href="https://www.getyourguide.com?partner_id=RM6PLZ4&cmp=share_to_earn" target="_blank" rel="noopener">Get Your Guide</a></li>
+              <li><a href="https://www.shoreexcursionsgroup.com/?id=2033842&data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">Shore Excursions</a></li>
+              <li><a href="https://resortforaday.com/?Click=105368" target="_blank" rel="noopener">Resort for a Day</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href='/vacations'>Travel</a>
+            <button class="dropdown-toggle" aria-label="Show Travel menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href='/vacations?category=hotels'>Hotels</a></li>
+              <li><a href='/vacations?category=all-inclusive'>All-Inclusive Resorts</a></li>
+              <li><a href='/vacations?category=fit-custom'>FIT Custom Tours and Itineraries</a></li>
+              <li><a href='/vacations?category=weddings'>Destination Weddings</a></li>
+              <li><a href='/vacations?category=disney-universal'>Disney &amp; Universal Vacations</a></li>
+              <li><a href='/vacations?category=car-rentals'>Car Rentals</a></li>
+            </ul>
+          </li>
+          <li><a class='active' href='/groups-events'>Groups &amp; Events</a></li>
+          <li><a href='/about'>About</a></li>
+          <li><a href='/agents'>Our Agents</a></li>
+          <li class="has-dropdown">
+            <a href='/already-booked'>Already Booked</a>
+            <button class="dropdown-toggle" aria-label="Show Already Booked menu" aria-expanded="false"></button>
+            <ul class="dropdown-menu">
+              <li><a href='/already-booked#credit-card-authorization'>Credit Card Authorization</a></li>
+              <li><a href='/pre-register-cruise-lines'>Pre-Register with Cruise Lines</a></li>
+              <li><a href='/first-time-cruisers'>First Time Cruisers</a></li>
+              <li><a href='/know-before-you-go'>Know Before You Go</a></li>
+              <li><a href="https://order.ceifx.com/" target="_blank" rel="noopener">Currency Exchange</a></li>
+            </ul>
+          </li>
+          <li><a href='/contact'>Contact</a></li>
+        </ul>
+      </nav>
+      <button class="navbtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" data-photo-query="group friends celebration beach resort" data-bg-gradient="linear-gradient(180deg, rgba(8,27,49,.55), rgba(8,27,49,.82))" style="background:linear-gradient(180deg, rgba(8,27,49,.55), rgba(8,27,49,.82)), var(--navy-900); background-size:cover; background-position:center;">
+    <div class="wrap">
+      <div class="breadcrumb"><a href='/'>Home</a> / Groups &amp; Events</div>
+      <div class="eyebrow">Groups &amp; Events</div>
+      <h1 class="serif">Travel better together</h1>
+      <p>Join one of our open group trips below, or let us plan a group trip of your own — weddings, reunions, corporate trips and milestone celebrations.</p>
+    </div>
+  </section>
+
+  <section class="listing-section" id="open-trips">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Open Group Trips</div>
+        <h2>Join a group trip</h2>
+        <p>Already-planned group trips with open spots — no group of your own required. Pick a trip, register, and enjoy the group perks.</p>
+      </div>
+      <div class="listing-toolbar">
+        <div class="count" id="open-trip-count"></div>
+      </div>
+
+      <!-- To add another open group trip: duplicate a .listing-card block below,
+           update the title, badge, meta, description, price and the ?event= link, and place it here.
+           Also update the "Hosted by" line (name + /agent-profile.html?slug=<slug> link) and add the event to
+           OPEN_GROUP_EVENTS in contact.html with that advisor's advisorId so registrations go to them.
+           The "open trips right now" count updates on its own. -->
+
+      <div class="listing-grid">
+
+        <div class="listing-card">
+          <div class="thumb"><span class="badge">Key West &amp; Bahamas</span><img src="celebrity-reflection-group-flyer.jpg" alt="Celebrity Reflection 3-Night Bahamas Getaway Group Cruise" style="background:var(--sand-100); object-position:top;"></div>
+          <div class="body-pad">
+            <h3>Celebrity Reflection 3-Night Bahamas Getaway</h3>
+            <div class="meta"><span>Celebrity Cruises &middot; Celebrity Reflection</span><span>Group Cruise &middot; 3 Nights</span></div>
+            <div class="host" style="font-size:.82rem; color:#5b6b7c; margin:6px 0 10px;">Hosted by <a href='/agent-profile?slug=samantha-pollack' style='color:var(--teal-600); text-decoration:underline;'>Samantha Pollack</a></div>
+            <p class="desc">Sail with our group March 19&ndash;22, 2027, round-trip from Fort Lauderdale to Key West and Grand Bahama aboard the newly revamped Celebrity Reflection, back with 13 new venues. The GroupX rate includes the Classic Drinks Package, WiFi, a $50 onboard credit and all taxes and port fees &mdash; or book cruise-only with a $50 onboard credit. Military save $100 per person on the group rate. Choose Prime Inside, Concierge Class or AquaClass.</p>
+            <div class="cta-row">
+              <div class="from-price">From <strong>$1,566.44</strong> <span style="display:block; font-weight:400; font-size:.72rem; color:#8a97a6;">GroupX rate &middot; total per stateroom &middot; based on 2 adults</span></div>
+              <a class='btn btn-outline' href='/celebrity-reflection-group-cruise' style='padding:8px 18px; font-size:.78rem;'>Register</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="thumb"><span class="badge">Cozumel &amp; Bahamas</span><img src="ncl-escape-group-flyer.jpg" alt="Norwegian Escape Group Cruise" style="background:var(--sand-100); object-position:top;"></div>
+          <div class="body-pad">
+            <h3>Norwegian Escape Group Cruise</h3>
+            <div class="meta"><span>Norwegian Cruise Line &middot; Norwegian Escape</span><span>Group Cruise &middot; 5 Nights</span></div>
+            <div class="host" style="font-size:.82rem; color:#5b6b7c; margin:6px 0 10px;">Hosted by <a href='/agent-profile?slug=samantha-pollack' style='color:var(--teal-600); text-decoration:underline;'>Samantha Pollack</a></div>
+            <p class="desc">Sail with our group July 2&ndash;7, 2027, round-trip from Port Canaveral to Cozumel and Great Stirrup Cay. Every stateroom includes WiFi, a $50 shore excursion credit and a $50 onboard credit &mdash; or upgrade to All 4 Options with the Premium Beverage Package and Specialty Dining. Choose Inside, Balcony or Club Balcony Suite.</p>
+            <div class="cta-row">
+              <div class="from-price">From <strong>$1,492.30</strong> <span style="display:block; font-weight:400; font-size:.72rem; color:#8a97a6;">total per stateroom &middot; based on 2 adults</span></div>
+              <a class='btn btn-outline' href='/ncl-escape-group-cruise' style='padding:8px 18px; font-size:.78rem;'>Register</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="thumb"><span class="badge">Punta Cana</span><img data-photo-query="Dreams Royal Beach Punta Cana resort" alt="Dreams Royal Beach Punta Cana" style="background:var(--sand-100);"></div>
+          <div class="body-pad">
+            <h3>Dreams Royal Beach 2027 &ndash; Family &amp; Friends</h3>
+            <div class="meta"><span>Dreams Royal Beach Punta Cana</span><span>All-Inclusive &middot; Birthday Reunion</span></div>
+            <div class="host" style="font-size:.82rem; color:#5b6b7c; margin:6px 0 10px;">Hosted by <a href='/agent-profile?slug=samantha-pollack' style='color:var(--teal-600); text-decoration:underline;'>Samantha Pollack</a></div>
+            <p class="desc">Join the Ashley Morris Group at this all-inclusive beachfront resort in Punta Cana for a birthday reunion getaway &mdash; July 2027. Group perks include a private cocktail hour and group transfers; booking outside the group means missing out on these. Flexible payment options available, with final payment due 75 days before arrival.</p>
+            <div class="cta-row">
+              <div class="from-price">From <strong>$1,405</strong> pp <span style="display:block; font-weight:400; font-size:.72rem; color:#8a97a6;">dbl occupancy &middot; varies by room type</span></div>
+              <a class='btn btn-outline' href='/contact?type=quote&amp;trip=groups&amp;event=dreams-royal-beach-2027' style='padding:8px 18px; font-size:.78rem;'>Register</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="listing-card">
+          <div class="thumb"><span class="badge">Bahamas</span><img data-photo-query="Royal Caribbean Utopia of the Seas cruise ship" alt="Lumpkin Wedding Cruise aboard Utopia of the Seas" style="background:var(--sand-100);"></div>
+          <div class="body-pad">
+            <h3>Lumpkin Wedding Cruise</h3>
+            <div class="meta"><span>Royal Caribbean &middot; Utopia of the Seas</span><span>Wedding Cruise</span></div>
+            <div class="host" style="font-size:.82rem; color:#5b6b7c; margin:6px 0 10px;">Hosted by <a href='/agent-profile?slug=samantha-pollack' style='color:var(--teal-600); text-decoration:underline;'>Samantha Pollack</a></div>
+            <p class="desc">Celebrate with the Lumpkins aboard Royal Caribbean's Utopia of the Seas &mdash; a 4-night cruise round-trip from Port Canaveral, FL to Perfect Day at CocoCay and Nassau, Bahamas, with the wedding ceremony taking place in Nassau. Sept 3&ndash;6, 2027. A $100 refundable deposit per person reserves your cabin; final payment due June 20, 2027.</p>
+            <div class="cta-row">
+              <div class="from-price">Ask us for pricing</div>
+              <a class='btn btn-outline' href='/lumpkin-wedding-cruise' style='padding:8px 18px; font-size:.78rem;'>Register</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="wrap">
+      <h2 class="serif">Looking to plan group travel?</h2>
+      <p>Tell us the occasion, group size and where you're thinking — we'll take it from there.</p>
+      <div class="btns">
+        <a class='btn btn-primary' href='/contact?type=quote&trip=groups'>Contact Us</a>
+        <a href="tel:+18132786555" class="btn btn-outline">Call (813) 278-6555</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="destinations" id="destinations">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What We Plan</div>
+        <h2>Group travel, done right</h2>
+        <p>From 8 guests to 500, we coordinate group rates, cabin or room blocks, payment tracking and communication — all through one dedicated advisor.</p>
+      </div>
+      <div class="dest-grid">
+        <div class="dest-card">
+          <img data-photo-query="destination wedding beach ceremony" data-photo-orientation="portrait" alt="Destination weddings" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Celebration</div>
+            <h3>Destination Weddings</h3>
+            <p>Venue sourcing, room blocks for guests, and coordination with the resort or ship's wedding team.</p>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img data-photo-query="family reunion group vacation" data-photo-orientation="portrait" alt="Family reunions" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Family</div>
+            <h3>Family Reunions</h3>
+            <p>Multi-generational trips with something for every age, and group rates that make it easier on everyone's budget.</p>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img data-photo-query="corporate retreat group meeting resort" data-photo-orientation="portrait" alt="Corporate travel" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Business</div>
+            <h3>Corporate Trips &amp; Incentives</h3>
+            <p>Company retreats, incentive trips and team travel, handled with clear budgets and a single point of contact.</p>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img data-photo-query="friends group cruise ship deck party" data-photo-orientation="portrait" alt="Milestone celebrations" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Celebration</div>
+            <h3>Milestone Celebrations</h3>
+            <p>Big birthdays, anniversaries, girls' trips and bachelor/bachelorette getaways — planned around what your group actually wants.</p>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img data-photo-query="cruise ship group excursion" data-photo-orientation="portrait" alt="Group cruises" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Cruise</div>
+            <h3>Group Cruises</h3>
+            <p>Cabin blocks, onboard group perks and coordinated dining and excursions across ocean and river cruise lines.</p>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img data-photo-query="group tour travelers landmark" data-photo-orientation="portrait" alt="Group tours" style="background:var(--sand-100);">
+          <div class="content">
+            <div class="tag">Tour</div>
+            <h3>Group Tours &amp; Custom Itineraries</h3>
+            <p>Guided land tours or a fully custom multi-stop itinerary, built around your group's dates and interests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="listing-section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How It Works</div>
+        <h2>Simple from first inquiry to final payment</h2>
+      </div>
+      <div class="why-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:20px;">
+        <div>
+          <h3 style="font-size:1.05rem; color:var(--navy-900);">1. Tell us about your group</h3>
+          <p style="color:#5a6a7a; font-size:.92rem;">Share your group size, dates, budget and the occasion when you contact us.</p>
+        </div>
+        <div>
+          <h3 style="font-size:1.05rem; color:var(--navy-900);">2. We build your options</h3>
+          <p style="color:#5a6a7a; font-size:.92rem;">Your advisor puts together group rate options and handles the back-and-forth with the supplier.</p>
+        </div>
+        <div>
+          <h3 style="font-size:1.05rem; color:var(--navy-900);">3. We manage the details</h3>
+          <p style="color:#5a6a7a; font-size:.92rem;">Room or cabin assignments, individual payments and final documents — coordinated for the whole group.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="wrap">
+      <h2 class="serif">Ready to start planning your group trip?</h2>
+      <p>One dedicated advisor, group rates and every detail handled.</p>
+      <div class="btns">
+        <a class='btn btn-primary' href='/contact?type=quote&trip=groups'>Request Group Pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="logo-horizontal.png?v=1790171267" alt="Cruises Tours & Travel logo">
+          <p>Full-service travel planning for cruises, guided tours and custom vacations — more choices, more memories.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href='/cruises'>Cruises</a></li>
+            <li><a href='/tours'>Tours</a></li>
+            <li><a href='/vacations'>Travel</a></li>
+            <li><a href='/groups-events'>Groups &amp; Events</a></li>
+            <li><a href='/about'>About Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href='/agents'>Our Agents</a></li>
+            <li><a href='/advisor-signup'>Join Our Team</a></li>
+            <li><a href='/already-booked'>Already Booked</a></li>
+            <li><a href='/login' target='_blank'>Sign In</a></li>
+            <li><a href='/client-signup' target='_blank'>New Client? Sign Up</a></li>
+            <li><a href='/contact'>Contact</a></li>
+            <li><a href='/contact?type=quote'>Request a Quote</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a id="footer-phone" href="tel:+18132786555">(813) 278-6555</a></li>
+            <li><a id="footer-email" href="mailto:samanthap@cruisestoursandtravel.com">samanthap@cruisestoursandtravel.com</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=61593052929944" target="_blank">Facebook</a></li>
+            <li style="color:#7a8998;">Mon–Fri 9am–6pm ET</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Cruises Tours & Travel, LLC. All rights reserved.</span>
+        <span>Fla. Seller of Travel Reg. No. ST150140</span>
+        <span>Your Journey. Our Passion.</span>
+      </div>
+    </div>
+  </footer>
+
+
+<script>
+  document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(item) {
+    item.addEventListener('mouseenter', function() {
+      document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(other) {
+        other.classList.remove('open');
+        var btn = other.querySelector('.dropdown-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+      item.classList.add('open');
+    });
+    item.addEventListener('mouseleave', function() {
+      item.classList.remove('open');
+      var btn = item.querySelector('.dropdown-toggle');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+    var toggle = item.querySelector('.dropdown-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('nav.primary li.has-dropdown').forEach(function(other) {
+          other.classList.remove('open');
+          var b = other.querySelector('.dropdown-toggle');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  });
+</script>
+
+<script>
+  var navBtn = document.querySelector('.navbtn');
+  var siteHeader = document.querySelector('header.site');
+  if (navBtn && siteHeader) {
+    navBtn.addEventListener('click', function() {
+      siteHeader.classList.toggle('nav-open');
+    });
+    document.querySelectorAll('nav.primary a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        siteHeader.classList.remove('nav-open');
+      });
+    });
+  }
+</script>
+
+<script>
+(function() {
+  const PEXELS_FN = 'https://nqbfrvpusfxslqjleset.supabase.co/functions/v1/pexels-photo';
+  async function loadPhoto(el) {
+    const query = el.getAttribute('data-photo-query');
+    const orientation = el.getAttribute('data-photo-orientation') || 'landscape';
+    if (!query) return;
+    try {
+      const res = await fetch(PEXELS_FN + '?query=' + encodeURIComponent(query) + '&orientation=' + orientation);
+      const data = await res.json();
+      if (data.url) {
+        if (el.tagName === 'IMG') {
+          el.src = data.url;
+        } else {
+          const gradient = el.getAttribute('data-bg-gradient') || '';
+          el.style.backgroundImage = (gradient ? gradient + ', ' : '') + "url('" + data.url + "')";
+          el.style.backgroundSize = 'cover';
+          el.style.backgroundPosition = 'center';
+        }
+      }
+    } catch (e) { /* leave fallback color in place */ }
+  }
+  document.querySelectorAll('[data-photo-query]').forEach(loadPhoto);
+})();
+</script>
+<script>
+  (function() {
+    var n = document.querySelectorAll('#open-trips .listing-card').length;
+    var el = document.getElementById('open-trip-count');
+    if (el) el.textContent = n === 1 ? '1 open trip right now' : n + ' open trips right now';
+  })();
+</script>
+<script src="/agent-attribution.js"></script>
+</body>
+</html>
