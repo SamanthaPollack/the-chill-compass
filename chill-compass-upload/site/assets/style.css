@@ -34,7 +34,7 @@ img{max-width:100%}
 @media(max-width:700px){.topbar .l span{display:none}.topbar .hide-s{display:none}.topbar{font-size:13px}.topbar a,.topbar button{white-space:nowrap}}
 
 /* ---------- masthead (the beach banner stays!) ---------- */
-.masthead{position:relative;background:#0B3954 url('/assets/img/banner.jpg') center 85%/cover no-repeat;height:26vw;max-height:400px;min-height:150px;overflow:hidden}
+.masthead{position:relative;background:#0B3954 url('/assets/img/banner.jpg') center 85%/cover no-repeat;height:26vw;min-height:150px;overflow:hidden}
 .masthead.tall{height:26vw}
 .masthead a.home{position:absolute;inset:0;z-index:2}
 @media(max-width:700px){.masthead,.masthead.tall{background-image:url('/assets/img/banner-sm.jpg');height:34vw;min-height:0}}
