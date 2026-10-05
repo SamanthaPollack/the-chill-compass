@@ -4,11 +4,11 @@ Run:  python3 build.py   then drag the site/ folder onto Netlify."""
 import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
-DESC = "Cruise tips, staterooms, roll calls, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '5'
+DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
+V = '8'
 
 def head(title, desc=DESC, path='/', extra=''):
-    full = title if title == 'The Chill Compass' else f'{title} | The Chill Compass'
+    full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -37,21 +37,22 @@ def head(title, desc=DESC, path='/', extra=''):
 
 def header(tall=False):
     return f'''<div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="#signup" class="hide-s">🗺️ Free Port Guides</a><span>Licensed FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
-<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
+<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1><div class="tagline">A Margaritaville at Sea Blog</div></header>
 <div class="dock"><div class="wrap">
   <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
   <nav aria-label="Main"><ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/staterooms">Staterooms</a></li>
-    <li><a href="/rollcalls">Roll Calls</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/blog?cat=port-guides">Port Guides</a></li>
-    <li><a href="/blog?cat=packing-hacks">Packing Hacks</a></li>
-    <li><a href="/blog?cat=deals">Deals</a></li>
-    <li><a href="/about">About</a></li>
+    <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+    <li><a href="/extra-packages">Extra Packages</a></li>
+    <li><a href="/deck-plans">Deck Plans</a></li>
+    <li><a href="/port-guides">Port Guides</a></li>
+    <li><a href="/deals">Deals</a></li>
+    <li><a href="/newsletter">Newsletter</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/faq">FAQ</a></li>
   </ul></nav>
   <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
 </div></div>
@@ -90,7 +91,7 @@ GUIDES_W = '''<div class="widget teal" id="signup">
       <button class="btn btn-sun" type="submit">Send Me the Guides</button>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 You're on the list! Watch your inbox.</div>
+    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
 </div>'''
@@ -129,17 +130,18 @@ FOOTER = '''<footer class="site">
     <div class="fgrid">
       <div>
         <h3>The Chill Compass</h3>
-        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise tips, staterooms and roll calls from travel advisors who keep going back for more. 🍹</p>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise reviews, deck plans and roll calls from travel advisors who keep going back for more. 🍹</p>
       </div>
       <div><h3>Explore</h3><ul>
-        <li><a href="/staterooms">Staterooms</a></li>
+        <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+        <li><a href="/deck-plans">Deck Plans &amp; Staterooms</a></li>
+        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
-        <li><a href="/blog">All Posts</a></li>
-        <li><a href="/blog?cat=port-guides">Port Guides</a></li>
-        <li><a href="/blog?cat=deals">Deals</a></li></ul></div>
+        <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
         <li><a href="#quote" data-quote>Free Quote</a></li>
-        <li><a href="#signup">Free Port Guides</a></li>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
       <div><h3>About</h3><ul>
@@ -196,136 +198,309 @@ def page(name, title, main, desc=DESC, path='/', extra_head='', extra_js='', sid
 def title_block(eyebrow, h1, p=''):
     return f'<div class="page-title"><div class="eyebrow">{eyebrow}</div><h1>{h1}</h1>{f"<p>{p}</p>" if p else ""}</div>'
 
-# ======================= HOME =======================
-home = '''
-<section class="sec"><div id="lead"><div class="loading">Loading the latest post…</div></div></section>
+# ======================= HOME = THE BLOG =======================
+CAT_INTRO = {
+    '': ('📰 Fresh from the deck', 'The latest Margaritaville at Sea reviews, port guides, deals and tips from our deck chairs.'),
+    'Cruise Reviews': ('⭐ Cruise Reviews', 'Honest, sail-by-sail reviews of Paradise, Islander and Beachcomber: cabins, food, drinks, shows and the real vibe onboard.'),
+    'Port Guides': ('🏝️ Port Guides', 'What to do, eat and skip in every Margaritaville at Sea port, plus tips for the homeports.'),
+    'Deals': ('💸 Deals', 'Sales, promos and offers worth celebrating. Ask us to price any deal for your dates.'),
+    'Tips & News': ('🧭 Tips & News', 'Packing hacks, planning tips and the latest Margaritaville at Sea news.'),
+}
 
-<section class="sec">
-  <div class="sec-h"><h2>🛏️ Pick your stateroom</h2><a href="/staterooms">See every room →</a></div>
-  <div class="ships">
-    <a class="ship ship-paradise" href="/staterooms#paradise"><span class="wm">🌺</span><span class="big">Paradise</span><small>Palm Beach · 4 room types</small></a>
-    <a class="ship ship-islander" href="/staterooms#islander"><span class="wm">🏝️</span><span class="big">Islander</span><small>Tampa · 12 room types</small></a>
-    <a class="ship ship-beachcomber" href="/staterooms#beachcomber"><span class="wm">🐚</span><span class="big">Beachcomber</span><small>Miami · Galveston · 12 room types</small></a>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="sec-h"><h2>📰 Fresh from the deck</h2><a href="/blog">All posts →</a></div>
-  <div class="rows" id="latest"><div class="loading">Loading posts…</div></div>
-</section>
-
-<div class="ad-slot" data-slot="home-mid"></div>
-
-<section class="sec">
-  <div class="sec-h"><h2>🙋 Upcoming Roll Calls</h2><a href="/rollcalls">Find your sailing →</a></div>
-  <div class="rc-list" id="rcHome"><div class="loading">Loading roll calls…</div></div>
-</section>
-
-<section class="sec">
-  <div class="band"><div class="e">📝</div><div><h3>Got a Margaritaville at Sea story?</h3>
+def blog_page(fname, cat, path, desc):
+    eyebrow, sub = CAT_INTRO[cat]
+    is_home = cat == ''
+    guides_band = ('''<section class="sec" id="guides"><div class="sec-h"><h2>🗺️ Free printable port guides</h2></div>
+  <p style="margin:-4px 0 12px;color:var(--ink-soft)">Terminal addresses, parking, check-in times, airports, where to stay and play, plus a cheat sheet for every port of call.</p>
+  <div class="guide-grid">''' + ''.join(f'''<a class="guide g-lock" data-href="/assets/guides/chill-compass-port-guide-{f}.pdf" href="#guides"><span class="e">{e}</span><div><b>{t}</b><small>{s}</small></div></a>''' for f, e, t, s in [
+        ('paradise-palm-beach', '🌺', 'Paradise · Palm Beach', 'Port of Palm Beach, Riviera Beach'),
+        ('islander-tampa', '🏝️', 'Islander · Tampa', 'Port Tampa Bay, Terminal 6'),
+        ('beachcomber-miami', '🐚', 'Beachcomber · Miami', 'PortMiami, Terminal C (from Jan 2027)'),
+        ('beachcomber-galveston', '🤠', 'Beachcomber · Galveston', 'Galveston Terminal 28 (from Oct 2027)')]) + '''</div>
+  <div class="card g-gate" style="margin-top:14px"><b>📬 Unlock all four guides free.</b> Pop in your email and they'll open right here (and we'll send you cruise tips and deals, no spam).
+    <form class="form js-signup" data-source="port-guides-page" style="margin-top:10px"><input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80"><input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><button class="btn btn-coral" type="submit">Unlock the Guides</button></form>
+    <div class="err"></div><div class="thanks">🎉 Unlocked! Click any guide above to open it.</div></div>
+</section>''') if cat == 'Port Guides' else ''
+    body = (title_block(eyebrow, 'Where the cruise is chill &amp; the drinks come with umbrellas' if is_home else cat, sub) +
+        guides_band +
+        ('<section class="sec"><div id="lead"></div></section>' if is_home else '') +
+        '<div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div>' +
+        f'<div class="ad-slot" data-slot="{"home-mid" if is_home else "blog-bottom"}"></div>' +
+        ('''<section class="sec"><div class="band"><div class="e">📝</div><div><h3>Got a Margaritaville at Sea story?</h3>
   <p>Send your trip report, tips or photos to <a href="mailto:admin@margaritavilleatseablog.com?subject=Blog%20Submission">admin@margaritavilleatseablog.com</a> and you could be featured.</p></div>
-  <a href="/write-for-us" class="btn btn-sun">How to Submit</a></div>
-</section>
-
-<section class="sec">
-  <div class="sec-h"><h2>🩴 Who we are</h2><a href="/about">Meet the crew →</a></div>
-  <div class="card"><p style="margin:0">We're a crew of travel advisors who've enjoyed Margaritaville at Sea so much that we couldn't stop talking about it, so we started a blog. Think of us as your cruise buddies who've already tested the pool deck, tried the cocktails and found the best spot to watch the sunset. <b>100+ cruises sailed, 15+ years of advising, and more sunsets than we can count.</b></p></div>
-</section>'''
-home_js = '''<script>
+  <a href="/write-for-us" class="btn btn-sun">How to Submit</a></div></section>''' if is_home else ''))
+    js = '''<script>
+const PAGE_CAT = %s;
+function unlockGuides() {
+  if (!store('cc_subscribed')) return;
+  document.querySelectorAll('.g-lock').forEach(a => { a.href = a.dataset.href; a.target = '_blank'; a.rel = 'noopener'; a.classList.add('open'); });
+  const g = document.querySelector('.g-gate'); if (g && !g.querySelector('.thanks').style.display) g.innerHTML = '<b>✅ Your free guides are unlocked.</b> Click any guide above to open or download it.';
+}
+document.addEventListener('submit', e => { if (e.target.matches('.g-gate form')) setTimeout(function chk(){ store('cc_subscribed') ? unlockGuides() : setTimeout(chk, 300); }, 300); }, true);
+document.querySelectorAll('.g-lock').forEach(a => a.addEventListener('click', e => { if (!store('cc_subscribed')) { e.preventDefault(); const f = document.querySelector('.g-gate input[type=email]'); f.scrollIntoView({behavior:'smooth', block:'center'}); f.focus({preventScroll:true}); } }));
+unlockGuides();
 document.addEventListener('cc:ready', async () => {
-  const [posts, rc] = await Promise.all([
-    fetchPosts({ limit: 6 }),
-    sb.from('roll_calls').select('*').gte('sail_date', new Date().toISOString().slice(0, 10)).order('sail_date').limit(4)
-  ]);
-  const L = document.getElementById('lead'), el = document.getElementById('latest');
-  if (!posts.length) {
-    L.innerHTML = `<div class="lead"><div class="img" style="background:${CATS['Ship Scoop'].grad}">🛳️</div><div class="txt"><div class="eyebrow">Welcome aboard</div><h2>Where the cruise is chill &amp; the drinks come with umbrellas</h2><p>Our first post is setting sail soon! Browse the staterooms, find your Roll Call or grab our free port guides.</p><a href="/staterooms" class="btn btn-coral">Explore Staterooms</a></div></div>`;
-    el.innerHTML = emptyBox('Our first posts are setting sail soon!');
-  } else {
-    L.innerHTML = leadCard(posts[0]);
-    el.innerHTML = posts.length > 1 ? posts.slice(1).map(postRow).join('') : emptyBox('More posts are on the way!');
+  const qcat = catBySlug(new URLSearchParams(location.search).get('cat'));
+  const cat = PAGE_CAT || qcat || null;
+  document.getElementById('chips').innerHTML = `<a class="chip ${cat ? '' : 'on'}" href="/">All</a>` +
+    Object.keys(CATS).map(k => `<a class="chip ${k === cat ? 'on' : ''}" href="/${CATS[k].slug}">${CATS[k].emoji} ${k}</a>`).join('');
+  const posts = await fetchPosts({ limit: 60, category: cat });
+  const lead = document.getElementById('lead');
+  let rest = posts;
+  if (lead && !cat) {
+    if (posts.length) { lead.innerHTML = leadCard(posts[0]); rest = posts.slice(1); }
+    else lead.innerHTML = '';
   }
-  const r = rc.data || [];
-  document.getElementById('rcHome').innerHTML = r.length ? r.map(rcRow).join('')
-    : emptyBox('No roll calls yet', 'Sailing soon? <a href="/rollcalls">Start the roll call for your cruise</a> and meet your shipmates.');
+  document.getElementById('list').innerHTML = rest.length ? rest.map(postRow).join('')
+    : (posts.length ? '' : emptyBox(cat ? 'No ' + cat + ' posts yet. Stay tuned!' : 'Our first posts are setting sail soon!'));
 });
-</script>'''
-page('index.html', 'The Chill Compass', home, path='/', extra_js=home_js, tall=True,
-     extra_head='<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"The Chill Compass","url":"https://margaritavilleatseablog.com","description":"' + DESC + '","publisher":{"@type":"Organization","name":"Cruises Tours and Travel, LLC"}}</script>')
+</script>''' % ('null' if is_home else repr(cat))
+    page(fname, 'The Chill Compass' if is_home else cat, body, desc=desc, path=path, extra_js=js, tall=is_home,
+         extra_head=('<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"The Chill Compass","url":"https://margaritavilleatseablog.com","description":"' + DESC + '","publisher":{"@type":"Organization","name":"Cruises Tours and Travel, LLC"}}</script>') if is_home else '')
 
-# ======================= STATEROOMS =======================
-rooms = title_block('🛏️ Staterooms', 'Find your perfect stateroom',
-    'Pick a ship, then click through every room type one at a time. Found the one? Hit <b>Quote this room</b> and we\'ll price it for you.') + '''
-<div class="ships" id="shipPick">
-  <button class="ship ship-paradise" data-ship="Paradise"><span class="wm">🌺</span><span class="big">Paradise</span><small>Palm Beach, FL</small></button>
-  <button class="ship ship-islander" data-ship="Islander"><span class="wm">🏝️</span><span class="big">Islander</span><small>Tampa, FL</small></button>
-  <button class="ship ship-beachcomber" data-ship="Beachcomber"><span class="wm">🐚</span><span class="big">Beachcomber</span><small>Miami, FL · Galveston, TX</small></button>
-</div>
-<div class="viewer" id="viewer">
-  <div class="room-nav" id="roomNav" role="tablist" aria-label="Stateroom types"></div>
-  <div class="room" id="room"><div class="loading">Loading staterooms…</div></div>
-</div>
-<p class="room-fine">Room details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Illustrations are for fun, not exact layouts.</p>'''
-rooms_js = '''<script>
-let ROOMS = [], SHIP = 'Paradise', IDX = 0;
-const TIER_ORDER = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
-function shipRooms() { return ROOMS.filter(r => r.ship === SHIP); }
-function renderNav() {
-  const list = shipRooms(); let html = '', last = '';
-  list.forEach((r, i) => {
-    if (r.tier !== last) { html += `<h4>${esc(r.tier)}</h4>`; last = r.tier; }
-    html += `<button role="tab" aria-selected="${i === IDX}" class="${i === IDX ? 'on' : ''}" data-i="${i}"><span class="n">${i + 1}</span>${esc(r.name.replace(/ Stateroom$/, ''))}</button>`;
-  });
-  const nav = document.getElementById('roomNav'); nav.innerHTML = html;
-  nav.querySelectorAll('button').forEach(b => b.onclick = () => show(+b.dataset.i, true));
-  const on = nav.querySelector('.on');
-  if (on) { const nr = nav.getBoundingClientRect(), r = on.getBoundingClientRect();
-    if (r.top < nr.top || r.bottom > nr.bottom) nav.scrollTop += r.top - nr.top - 40;
-    if (r.left < nr.left || r.right > nr.right) nav.scrollLeft += r.left - nr.left - 20; }
-}
-function show(i, user) {
-  const list = shipRooms();
-  if (!list.length) { document.getElementById('room').innerHTML = emptyBox('Rooms coming soon', 'We\\'re still adding this ship\\'s staterooms.'); document.getElementById('roomNav').innerHTML = ''; return; }
-  IDX = Math.max(0, Math.min(i, list.length - 1));
-  const r = list[IDX], s = SHIPS[r.ship];
-  const pic = r.image_url ? `<img src="${esc(r.image_url)}" alt="${esc(r.name)} on ${esc(r.ship)}">` : roomArt(r.tier, s.accent);
-  const facts = [['Ship', r.ship], ['Category', r.tier], r.decks && ['Where', r.decks], r.occupancy && ['Sleeps', r.occupancy]].filter(Boolean);
-  document.getElementById('room').innerHTML = `
-    <div class="pic">${pic}<span class="tag tier tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span><span class="count">${IDX + 1} of ${list.length}</span>
-      <div class="arrows"><button id="prv" aria-label="Previous room" ${IDX === 0 ? 'disabled' : ''}>‹</button><button id="nxt" aria-label="Next room" ${IDX === list.length - 1 ? 'disabled' : ''}>›</button></div></div>
-    <div class="info">
-      <h2>${esc(r.name)}</h2>
-      <div class="ship-line"><span class="dot d-${s.slug}"></span>Margaritaville at Sea ${esc(r.ship)} · sails from ${esc(s.port)}</div>
-      <div class="facts-row">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>
-      <p style="margin:0">${esc(r.blurb || '')}</p>
-      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : '<div style="height:16px"></div>'}
-      <div class="acts"><button class="btn btn-coral" id="qThis">🛳️ Quote this room</button>
-        ${IDX < list.length - 1 ? `<button class="btn btn-ghost" id="nxt2">Next: ${esc(list[IDX + 1].name.replace(/ Stateroom$/, ''))} →</button>` : ''}</div>
-    </div>`;
-  document.getElementById('prv').onclick = () => show(IDX - 1, true);
-  document.getElementById('nxt').onclick = () => show(IDX + 1, true);
-  const n2 = document.getElementById('nxt2'); if (n2) n2.onclick = () => show(IDX + 1, true);
-  document.getElementById('qThis').onclick = () => prefillQuote(r.ship, r.tier === 'Suite' ? 'Suite' : r.tier);
-  renderNav();
-  if (user) history.replaceState(null, '', '#' + s.slug + '/' + slugify(r.name));
-}
-function pickShip(name, roomSlug) {
-  SHIP = name; IDX = 0;
-  document.querySelectorAll('#shipPick .ship').forEach(b => { b.classList.toggle('on', b.dataset.ship === name); b.setAttribute('aria-pressed', b.dataset.ship === name); });
-  if (roomSlug) { const k = shipRooms().findIndex(r => slugify(r.name) === roomSlug); if (k >= 0) IDX = k; }
-  show(IDX, false);
-}
-document.querySelectorAll('#shipPick .ship').forEach(b => b.onclick = () => { pickShip(b.dataset.ship); history.replaceState(null, '', '#' + SHIPS[b.dataset.ship].slug); document.getElementById('viewer').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-document.addEventListener('keydown', e => { if (e.target.closest('input,textarea,select')) return; if (e.key === 'ArrowRight') show(IDX + 1, true); if (e.key === 'ArrowLeft') show(IDX - 1, true); });
+blog_page('index.html', '', '/', DESC)
+blog_page('cruise-reviews.html', 'Cruise Reviews', '/cruise-reviews', 'Margaritaville at Sea cruise reviews: Paradise, Islander and Beachcomber, from travel advisors who sail them.')
+blog_page('port-guides.html', 'Port Guides', '/port-guides', 'Margaritaville at Sea port guides for Palm Beach, Tampa, Miami, Galveston and every port of call.')
+blog_page('deals.html', 'Deals', '/deals', 'The best Margaritaville at Sea deals and promotions, found by travel advisors.')
+blog_page('blog.html', 'Tips & News', '/tips', 'Margaritaville at Sea packing hacks, planning tips and news.')
+
+# ======================= DECK PLANS (landing) =======================
+dp = title_block('🗺️ Deck Plans & Staterooms', 'Pick your ship', 'Tap a ship to see its deck plans and every stateroom and suite type on one page, with photos.') + '''
+<div class="ship-cards" id="shipCards"><div class="loading">Loading ships…</div></div>'''
+dp_js = '''<script>
 document.addEventListener('cc:ready', async () => {
-  const { data, error } = await sb.from('staterooms').select('*').eq('active', true).order('sort');
-  if (error || !data) { document.getElementById('room').innerHTML = '<div class="loading">Sorry, we couldn\\'t load the staterooms. Please refresh.</div>'; return; }
-  ROOMS = data.sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
-  const [sh, rm] = location.hash.slice(1).split('/');
-  pickShip(shipBySlug(sh) || 'Paradise', rm);
+  const [{ data: ships }, { data: rooms }] = await Promise.all([
+    sb.from('ships').select('*').order('sort'), sb.from('staterooms').select('ship').eq('active', true)]);
+  const count = s => (rooms || []).filter(r => r.ship === s).length;
+  document.getElementById('shipCards').innerHTML = (ships || []).map(s => `
+    <a class="ship-card" href="/deck-plans/${SHIPS[s.name].slug}">
+      <div class="sc-img ship-${SHIPS[s.name].slug}" style="${s.hero_url ? `background-image:url('${esc(s.hero_url)}')` : ''}">${s.hero_url ? '' : `<span class="wm">${SHIPS[s.name].emoji}</span>`}</div>
+      <div class="sc-body"><div class="eyebrow">${esc(s.tagline || '')}</div><h2>${esc(s.name)}</h2>
+        <p>${esc(s.homeport || '')}</p><span class="btn btn-coral btn-sm">See ${count(s.name)} room types &amp; deck plans →</span></div>
+    </a>`).join('');
 });
 </script>'''
-page('staterooms.html', 'Staterooms', rooms, desc='Explore every Margaritaville at Sea stateroom and suite on Paradise, Islander and Beachcomber, one room at a time, and get a free quote.', path='/staterooms', extra_js=rooms_js, rc=False)
+page('deck-plans.html', 'Deck Plans', dp, desc='Margaritaville at Sea deck plans and every stateroom type on Paradise, Islander and Beachcomber, with photos.', path='/deck-plans', extra_js=dp_js, rc=False)
+
+# ======================= DECK PLANS (one ship, all rooms) =======================
+ship = '''<div class="chips" id="shipChips" style="margin-top:4px"></div>
+<div id="shipHead"><div class="loading">Loading…</div></div>
+<div id="roomsAll"></div>
+<p class="room-fine">Stateroom details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Photos are representative.</p>'''
+ship_js = '''<script>
+const TIER_ORDER = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
+const TIER_EMOJI = { 'Interior': '🛏️', 'Ocean View': '🌊', 'Balcony': '🌅', 'Suite': '👑' };
+function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
+function roomCard(r, s) {
+  const pics = roomPics(r), id = 'r-' + slugify(r.name);
+  const main = pics.length ? `<img src="${esc(pics[0])}" alt="${esc(r.name)} on Margaritaville at Sea ${esc(r.ship)}" loading="lazy">`
+    : `<div class="ph"><span>📸</span>Photo coming soon</div>`;
+  const thumbs = pics.length > 1 ? `<div class="thumbs">${pics.map((p, i) => `<button type="button" class="${i ? '' : 'on'}" data-src="${esc(p)}" aria-label="Photo ${i + 1}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : '';
+  const chips = [r.decks && '📍 ' + r.decks, r.occupancy && '👥 ' + r.occupancy].filter(Boolean).map(c => `<span>${esc(c)}</span>`).join('');
+  return `<article class="room-card" id="${id}">
+    <div class="rc-pic">${main}<span class="tag tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span></div>${thumbs}
+    <div class="rc-body"><h3>${esc(r.name)}</h3>${chips ? `<div class="rc-chips">${chips}</div>` : ''}
+      <p>${esc(r.blurb || '')}</p>
+      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+      <button class="btn btn-coral btn-sm" data-q="${esc(r.tier)}">🛳️ Quote this room</button></div>
+  </article>`;
+}
+document.addEventListener('cc:ready', async () => {
+  const slug = location.pathname.replace(/^\\/deck-plans\\/?/, '').replace(/\\/$/, '') || new URLSearchParams(location.search).get('ship') || 'paradise';
+  const name = shipBySlug(slug) || 'Paradise';
+  document.getElementById('shipChips').innerHTML = Object.keys(SHIPS).map(k => `<a class="chip ${k === name ? 'on' : ''}" href="/deck-plans/${SHIPS[k].slug}"><span class="dot d-${SHIPS[k].slug}"></span>${k}</a>`).join('') + `<a class="chip" href="/deck-plans">All ships</a>`;
+  const [{ data: s }, { data: rooms }] = await Promise.all([
+    sb.from('ships').select('*').eq('name', name).maybeSingle(),
+    sb.from('staterooms').select('*').eq('ship', name).eq('active', true).order('sort')]);
+  document.title = `${name} Deck Plans & Staterooms | The Chill Compass`;
+  const sh = s || { name };
+  const facts = [['Homeport', sh.homeport], ['Guests', sh.guests], ['Size', sh.tonnage], ['Built', sh.built && (sh.built + (sh.former_name ? ' (as ' + sh.former_name + ')' : ''))]].filter(f => f[1]);
+  document.getElementById('shipHead').innerHTML = `
+    <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.1),rgba(11,57,84,.75)),url('${esc(sh.hero_url)}')` : ''}">
+      <div class="eyebrow" style="color:var(--sun)">${esc(sh.tagline || 'Margaritaville at Sea')}</div>
+      <h1>Margaritaville at Sea ${esc(name)}</h1><p>${esc(sh.intro || '')}</p></div>
+    <div class="facts-row" style="margin-top:14px">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>
+    <div class="card deck-box"><div><h2>🗺️ ${esc(name)} deck plans</h2>
+      <p>See where every stateroom, pool, bar and restaurant sits, deck by deck.</p></div>
+      <div class="deck-acts">${sh.deck_plan_url ? `<a class="btn btn-navy" href="${esc(sh.deck_plan_url)}" target="_blank" rel="noopener">View deck plan</a>` : ''}
+      ${sh.official_deck_plan_link ? `<a class="btn btn-ghost" href="${esc(sh.official_deck_plan_link)}" target="_blank" rel="noopener">Official deck plans ↗</a>` : ''}</div>
+      ${sh.deck_plan_url ? `<a href="${esc(sh.deck_plan_url)}" target="_blank" rel="noopener" class="deck-img"><img src="${esc(sh.deck_plan_url)}" alt="${esc(name)} deck plan" loading="lazy"></a>` : ''}</div>`;
+  const list = (rooms || []).sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
+  const jump = TIER_ORDER.filter(t => list.some(r => r.tier === t));
+  let html = `<div class="sec-h" style="margin-top:28px"><h2>🛏️ Staterooms &amp; suites on ${esc(name)}</h2><span class="fine" style="margin:0">${list.length} room types</span></div>
+    <div class="chips tier-jump">${jump.map(t => `<a class="chip" href="#tier-${slugify(t)}">${TIER_EMOJI[t]} ${t}</a>`).join('')}</div>`;
+  jump.forEach(t => {
+    html += `<h3 class="tier-h" id="tier-${slugify(t)}">${TIER_EMOJI[t]} ${t === "Suite" ? "Suites" : t + " Staterooms"}</h3><div class="room-grid">${list.filter(r => r.tier === t).map(r => roomCard(r, sh)).join('')}</div>`;
+  });
+  document.getElementById('roomsAll').innerHTML = list.length ? html : emptyBox('Room details coming soon');
+  document.querySelectorAll('.room-card [data-q]').forEach(b => b.onclick = () => prefillQuote(name, b.dataset.q));
+  document.querySelectorAll('.thumbs button').forEach(b => b.onclick = () => {
+    const card = b.closest('.room-card'); card.querySelector('.rc-pic img').src = b.dataset.src;
+    card.querySelectorAll('.thumbs button').forEach(x => x.classList.toggle('on', x === b));
+  });
+  if (location.hash) { const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
+});
+</script>'''
+page('deckplan.html', 'Deck Plans', ship, desc='Margaritaville at Sea deck plans and every stateroom and suite type, with photos.', path='/deck-plans', extra_js=ship_js, rc=False)
+
+# ======================= EXTRA PACKAGES =======================
+def tbl(rows, head=('Package', 'Price (from)', "What you get")):
+    return '<div class="tbl-wrap"><table class="tbl"><thead><tr>' + ''.join(f'<th>{h}</th>' for h in head) + '</tr></thead><tbody>' + \
+        ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in rows) + '</tbody></table></div>'
+
+pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, decoded',
+    'Here\'s what you can add to your Margaritaville at Sea cruise, what it costs and when it\'s worth it.') + '''
+<div class="notice">Prices below are the cruise line's published "from" prices as of October 2026 and change often, especially with pre-cruise sales. Many packages are cheaper if you buy before you sail. <a href="#quote" data-quote>Ask us</a> for current pricing on your sailing.</div>
+
+<div class="toc chips"><a class="chip" href="#drinks">🍹 Drinks</a><a class="chip" href="#dining">🍤 Dining</a><a class="chip" href="#wifi">📶 Wi-Fi</a><a class="chip" href="#bundles">🎟️ Bundles</a><a class="chip" href="#more">🌴 More add-ons</a><a class="chip" href="#worth">🤔 Worth it?</a></div>
+
+<div class="article" style="margin-top:14px">
+<h2 id="drinks">🍹 Beverage packages</h2>
+''' + tbl([
+    ['<b>Ultimate Beverage Chill</b>', 'About $50–$70 per person, per night (varies by ship and sailing)', 'Beer, wine by the glass, cocktails and frozen "boat drinks," plus soda, juices, mocktails and bottled water. Up to 15 alcoholic or specialty drinks a day.'],
+    ['<b>Unlimited Soda Package</b>', '$12 per person, per night', 'Souvenir cup with unlimited fountain soda refills.'],
+    ['<b>Beers &amp; Cheers</b> (Paradise)', '$59.99 per package', 'Five chilled beers delivered with a souvenir cooler.'],
+    ['<b>Berries &amp; Bubbly</b> (Paradise)', '$39.99 per package', 'Chilled sparkling wine with fresh berries, a sweet in-cabin treat.'],
+]) + '''
+<div class="tip"><b>Good to know:</b> If one adult (21+) in a stateroom buys the alcoholic package, every other adult in that stateroom has to buy it too. An automatic service charge is added to beverage packages, and specialty coffee, room-service drinks and full bottles aren't included.</div>
+
+<h2 id="dining">🍤 Specialty dining</h2>
+''' + tbl([
+    ['<b>JWB Prime Steakhouse dinner</b>', '$55 per person', 'The splurge-worthy steakhouse night.'],
+    ['<b>Sparkling Brunch</b>', '$19.90 per person', 'Chef-made brunch with a mimosa, bellini or sparkling wine.'],
+    ['<b>Far Side Sampler</b> (Islander)', '$75 per person', 'A sampler from the Far Side sushi menu.'],
+    ['<b>Prime Dining Package</b>', '$89 per person', 'JWB dinner, Sparkling Brunch and Far Side sushi, bundled for savings.'],
+    ['<b>Ultimate Dining Chill</b> (Islander)', '$159 per person', 'The full specialty-dining lineup for big foodies.'],
+]) + '''
+
+<h2 id="wifi">📶 Wi-Fi ("Coconut Telegraph")</h2>
+''' + tbl([
+    ['<b>Connect</b>', '$19.99 per night, per device', 'Messaging on select apps (iMessage, WhatsApp and similar).'],
+    ['<b>Basic</b>', '$26.99 per night, per device', 'Web browsing, email and Wi-Fi calling.'],
+    ['<b>Premium</b>', '$30.99 per night, per device', 'Streaming, social media and general surfing.'],
+    ['<b>Business</b>', '$39.99 per night, per device', 'The fastest tier, for working at sea.'],
+]) + '''
+<p>Buying before you sail usually gets you a pre-cruise discount, and hourly or daily plans are also sold onboard.</p>
+
+<h2 id="bundles">🎟️ All-in-one bundles</h2>
+''' + tbl([
+    ['<b>Paradise License to Chill</b>', 'From $399 per person', 'Cocktails, dining, spa credit, Wi-Fi and VIP perks rolled into one.'],
+    ['<b>Paradise Ultimate License to Chill</b>', 'From $499 per person', 'Upgrades to fine dining plus spa credit, Wi-Fi and VIP perks.'],
+    ['<b>Islander Signature Chill</b>', 'From $599 per person', 'Islander-only bundle of drinks, dining and perks.'],
+    ['<b>Ultimate Islander Escape</b>', 'From $799 per person', 'Express check-in, unlimited beverages, specialty dining, spa and more.'],
+    ['<b>Faster Chill</b>', 'From $129 per stateroom', 'Express check-in, priority luggage delivery and Wi-Fi for two devices.'],
+    ['<b>Express Pass</b>', 'From $49 per stateroom', 'Express check-in and disembarkation.'],
+]) + '''
+
+<h2 id="more">🌴 More fun add-ons</h2>
+''' + tbl([
+    ['<b>Pool-deck cabana</b>', 'From $499 (Paradise) / $799 (Islander) per cruise', 'Your own shady cabana for the whole cruise. Limited and non-refundable.'],
+    ['<b>Changes in Latitude wine tasting</b>', '$29.99 per person', 'Curated wines paired with cheese.'],
+    ['<b>Mixology class</b>', '$34.99 per person', 'Learn to make four cocktails (sea days, limited spots).'],
+    ['<b>St. Somewhere Spa</b>', 'Massage from $179; couples $299', 'Massages, facials and the Ultimate Bliss package ($499).'],
+    ['<b>Photo packages</b>', 'From $35.99', 'Professional cruise photos, or private sessions from $199.99.'],
+]) + '''
+
+<h2 id="worth">🤔 Are they worth it?</h2>
+<ul>
+<li><b>Drink package:</b> worth it if you'll have about 5 or more drinks a day. Do the math with the bar menu before you buy.</li>
+<li><b>Soda package:</b> a no-brainer for kids and soda lovers on longer sailings.</li>
+<li><b>Wi-Fi:</b> one Connect plan for messaging is plenty for most people. Save Premium for streaming or work.</li>
+<li><b>Bundles:</b> great value if you'd buy the drinks <i>and</i> the specialty dining anyway.</li>
+</ul>
+<p style="margin-top:20px">Want us to price packages for your sailing? <a href="#quote" data-quote><b>Get a free quote</b></a> and we'll include the current package deals.</p>
+</div>'''
+page('extra-packages.html', 'Extra Packages', pk, desc='Margaritaville at Sea drink packages, specialty dining, Wi-Fi and add-ons explained, with prices and tips.', path='/extra-packages')
+
+# ======================= NEWSLETTER =======================
+nl = title_block('💌 Newsletter', 'Join the crew!', 'Our free email newsletter is the best way to keep up with The Chill Compass.') + '''
+<div class="nl-card">
+  <div class="nl-perks">
+    <div><span>🗺️</span><b>Free port guides</b><small>Palm Beach, Tampa, Miami &amp; Galveston, printable PDFs</small></div>
+    <div><span>💸</span><b>Deal alerts</b><small>Sales and promos as soon as we spot them</small></div>
+    <div><span>⭐</span><b>New reviews &amp; tips</b><small>Fresh posts, straight to your inbox</small></div>
+    <div><span>🎉</span><b>Event news</b><small>Themed cruises, group sailings and meet-ups</small></div>
+  </div>
+  <form class="form js-signup nl-form" data-source="newsletter-page">
+    <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+    <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+    <button class="btn btn-coral" type="submit">Sign Me Up!</button>
+  </form>
+  <div class="err"></div>
+  <div class="thanks" style="font-size:18px;margin-top:10px">🎉 You're on the list! Watch your inbox for your free guides.</div>
+  <p class="fine">No spam, ever. Unsubscribe anytime.</p>
+</div>'''
+page('newsletter.html', 'Newsletter', nl, desc='Join The Chill Compass newsletter for free Margaritaville at Sea port guides, deals and tips.', path='/newsletter')
+
+# ======================= EVENTS =======================
+ev = title_block('🎉 Events', 'Themed cruises, group sailings &amp; big dates',
+    'Holiday cruises, festival sailings, ship debuts and group trips worth planning around.') + '''
+<div class="ev-list" id="evList"><div class="loading">Loading events…</div></div>
+<div class="band" style="margin-top:24px"><div class="e">🙋</div><div><h3>Meet your shipmates</h3><p>Sailing one of these? Find or start the Roll Call for your date and say hi before you sail.</p></div><a href="/rollcalls" class="btn btn-sun">Roll Calls</a></div>'''
+ev_js = '''<script>
+function fmtRange(a, b) {
+  const A = dateOnly(a), o = { month: 'long', day: 'numeric', year: 'numeric' };
+  if (!b) return A.toLocaleDateString('en-US', o);
+  const B = dateOnly(b);
+  return A.getMonth() === B.getMonth() && A.getFullYear() === B.getFullYear()
+    ? `${A.toLocaleDateString('en-US', { month: 'long' })} ${A.getDate()}–${B.getDate()}, ${A.getFullYear()}`
+    : `${A.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${B.toLocaleDateString('en-US', o)}`;
+}
+document.addEventListener('cc:ready', async () => {
+  const today = new Date().toISOString().slice(0, 10);
+  const { data } = await sb.from('events').select('*').eq('active', true).order('start_date');
+  const list = (data || []).filter(e => (e.end_date || e.start_date) >= today);
+  document.getElementById('evList').innerHTML = list.length ? list.map(e => {
+    const d = dateOnly(e.start_date);
+    return `<article class="ev">
+      <div class="date-badge"><span>${d.toLocaleDateString('en-US', { month: 'short' })}</span><b>${d.getDate()}</b><span>${d.getFullYear()}</span></div>
+      <div class="ev-body">${e.image_url ? `<img src="${esc(e.image_url)}" alt="" loading="lazy" class="ev-img">` : ''}
+        <h3>${esc(e.title)}</h3>
+        <div class="ev-meta">${[e.ship && '🚢 ' + esc(e.ship), '📅 ' + fmtRange(e.start_date, e.end_date), e.location && '📍 ' + esc(e.location)].filter(Boolean).join(' &nbsp;·&nbsp; ')}</div>
+        <p>${esc(e.description || '')}</p>
+        <div class="acts">${e.link ? `<a class="btn btn-navy btn-sm" href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.link_label || 'Learn more')} ↗</a>` : ''}
+          <button class="btn btn-coral btn-sm" data-ship="${esc((e.ship || '').split(' ')[0])}">Quote this sailing</button></div>
+      </div></article>`;
+  }).join('') : emptyBox('New events coming soon', 'Join the newsletter and we\\'ll let you know.');
+  document.querySelectorAll('.ev [data-ship]').forEach(b => b.onclick = () => prefillQuote(SHIPS[b.dataset.ship] ? b.dataset.ship : ''));
+});
+</script>'''
+page('events.html', 'Events', ev, desc='Margaritaville at Sea themed cruises, holiday sailings, group cruises and ship debuts.', path='/events', extra_js=ev_js)
+
+# ======================= FAQ =======================
+FAQS = [
+ ('Booking & money', [
+  ("What's included in my cruise fare?", "Your stateroom, meals in the main dining room and buffet, most casual eateries, entertainment, pools and the kids' clubs. Not included: alcohol and soda (unless you buy a package), specialty dining, Wi-Fi, gratuities, spa treatments and shore excursions."),
+  ("How much are gratuities?", "They're added to your onboard account automatically: $22 per person, per night in staterooms and $25 per person, per night in suites. Many people prepay them so there are no surprises at the end."),
+  ("Does it cost more to book with a travel advisor?", "Nope! We're paid by the cruise line, so our help is free. We compare sailings and cabins, watch for price drops and promos, and help if anything goes sideways. <a href='#quote' data-quote>Get a free quote</a>."),
+  ("Should I buy travel insurance?", "We strongly recommend it, especially for hurricane-season sailings (June to November). It can cover cancellations, missed departures, medical care at sea and lost luggage. Ask us for options."),
+ ]),
+ ('Who can sail', [
+  ("How old do I have to be?", "The person booking must be 18 or older at the time of sailing. You must be 21 to drink alcohol and 18 to enter the casino."),
+  ("Can I bring my baby?", "Yes. On Paradise, infants must be at least 6 months old on the day you sail."),
+  ("Are there kids' programs?", "Yes! There are three supervised kids' programs for ages 3 to 17, grouped by age, with games, crafts and parties."),
+  ("What documents do I need?", "U.S. citizens on round-trip cruises from a U.S. port can usually sail with an original birth certificate plus government photo ID, but we always recommend a valid passport. If you have to fly home from a foreign port in an emergency, you'll need one. No photocopies or phone photos of IDs, and the name on your ID must match your reservation."),
+ ]),
+ ('Embarkation day', [
+  ("When should I arrive at the port?", "About three weeks before sailing you'll get an arrival window based on your stateroom location. The terminal closes at 3:00 PM in Palm Beach and 2:30 PM in Tampa, and late guests are denied boarding. Grab our free port guides for parking and terminal tips."),
+  ("How much luggage can I bring?", "Each guest can bring two standard-sized bags up to 50 pounds each. Extra bags are $55 each."),
+  ("Can I bring my own alcohol?", "No outside alcohol is allowed. Bottles you buy in port are held at the gangway and returned at the end of the cruise."),
+ ]),
+ ('Onboard', [
+  ("Is there Wi-Fi?", "Yes. The \"Coconut Telegraph\" plans start around $19.99 per night, per device for messaging. See our <a href='/extra-packages#wifi'>Extra Packages</a> page."),
+  ("Is the drink package worth it?", "If you'll have about five or more drinks a day, usually yes. Remember that every adult in the stateroom has to buy it if one does. Our <a href='/extra-packages#drinks'>Extra Packages</a> page has the details."),
+  ("Where can I smoke?", "Only in designated outdoor areas: Deck 9 next to the License to Chill pool on Paradise, and Deck 10 overlooking the LandShark pool on Islander. Smoking anywhere else can mean fines of up to $500."),
+  ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/deck-plans'>Deck Plans</a> page."),
+ ]),
+]
+faq_html = title_block('❓ FAQ', 'Frequently asked questions', 'Quick answers about sailing Margaritaville at Sea. Don\'t see your question? <a href="/contact">Ask us</a>!')
+for sec, items in FAQS:
+    faq_html += f'<h2 class="faq-h">{sec}</h2><div class="faq">' + ''.join(f'<details><summary>{q}</summary><div>{a}</div></details>' for q, a in items) + '</div>'
+faq_html += '<p class="room-fine">Policies summarized from Margaritaville at Sea\'s published FAQ as of October 2026 and can change. Always check your booking documents.</p>'
+import json as _json
+faq_ld = '<script type="application/ld+json">' + _json.dumps({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+    {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for _, items in FAQS for q, a in items]}) + '</script>'
+page('faq.html', 'FAQ', faq_html, desc='Margaritaville at Sea FAQ: gratuities, drink packages, documents, age rules, luggage and more.', path='/faq', extra_head=faq_ld)
 
 # ======================= ROLL CALLS (list) =======================
 rcl = title_block('🙋 Roll Calls', 'Meet your shipmates before you sail',
@@ -475,24 +650,6 @@ document.addEventListener('cc:auth', () => { if (RC) { loadSailors(); loadPosts(
 </script>'''
 page('rollcall.html', 'Roll Call', rct, path='/rollcalls', extra_js=rct_js)
 
-# ======================= BLOG =======================
-blog = title_block('📰 The Blog', '<span id="bh">All the Chill Cruise Intel</span>', 'Ship scoop, port guides, packing hacks and deals, fresh from our deck chairs.') + '''
-<div class="chips" id="chips"></div>
-<div class="rows" id="list"><div class="loading">Loading posts…</div></div>
-<div class="ad-slot" data-slot="blog-bottom"></div>'''
-blog_js = '''<script>
-document.addEventListener('cc:ready', async () => {
-  const slug = new URLSearchParams(location.search).get('cat');
-  const cat = catBySlug(slug);
-  document.getElementById('chips').innerHTML = `<a class="chip ${cat ? '' : 'on'}" href="/blog">All</a>` +
-    Object.keys(CATS).map(k => `<a class="chip ${k === cat ? 'on' : ''}" href="/blog?cat=${CATS[k].slug}">${CATS[k].emoji} ${k}</a>`).join('');
-  if (cat) { document.getElementById('bh').textContent = cat; document.title = cat + ' | The Chill Compass'; }
-  const posts = await fetchPosts({ limit: 60, category: cat });
-  document.getElementById('list').innerHTML = posts.length ? posts.map(postRow).join('') : emptyBox(cat ? 'No ' + cat + ' posts yet. Stay tuned!' : 'Our first posts are setting sail soon!');
-});
-</script>'''
-page('blog.html', 'Blog', blog, path='/blog', extra_js=blog_js)
-
 # ======================= POST =======================
 post = '''<div id="post"><div class="loading" style="padding:120px 20px">Loading…</div></div>
 <div class="ad-slot" data-slot="post-bottom"></div>
@@ -504,8 +661,8 @@ document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('post');
   const slug = decodeURIComponent(location.pathname.replace(/^\\/post\\//, '').replace(/\\/$/, '')) || new URLSearchParams(location.search).get('slug');
   const { data: p } = await sb.from('posts').select('*').eq('slug', slug).maybeSingle();
-  if (!p) { el.innerHTML = emptyBox('Oops, we drifted off course!', 'That post isn\\'t here. Try the <a href="/blog">blog</a> instead.'); return; }
-  const c = CATS[p.category] || CATS['Ship Scoop'];
+  if (!p) { el.innerHTML = emptyBox('Oops, we drifted off course!', 'That post isn\\'t here. Try the <a href="/">home page</a> instead.'); return; }
+  const c = CATS[p.category] || CATS['Cruise Reviews'];
   document.title = p.title + ' | The Chill Compass';
   const d = p.excerpt || p.title;
   setMeta('meta[name=description]', 'content', d); setMeta('meta[property="og:title"]', 'content', p.title);
@@ -516,7 +673,7 @@ document.addEventListener('cc:ready', async () => {
   const url = encodeURIComponent(location.href), t = encodeURIComponent(p.title);
   el.innerHTML = `
     <section class="article-hero" style="${heroBg}">
-      <a class="tag" href="/blog?cat=${c.slug}">${c.emoji} ${esc(p.category)}</a>
+      <a class="tag" href="/${c.slug}">${c.emoji} ${esc(p.category)}</a>
       <h1>${esc(p.title)}</h1>
       <div>${p.published ? fmtDate(p.published_at) : '<b>DRAFT (only you can see this)</b>'}</div>
     </section>
@@ -536,7 +693,7 @@ document.addEventListener('cc:ready', async () => {
   if (rel.length) { document.getElementById('related').innerHTML = rel.map(postRow).join(''); document.getElementById('related-wrap').style.display = 'block'; }
 });
 </script>'''
-page('post.html', 'Post', post, path='/blog', extra_js=post_js)
+page('post.html', 'Post', post, path='/', extra_js=post_js)
 
 # ======================= ABOUT =======================
 about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet the crew behind The Chill Compass.') + '''
@@ -545,11 +702,11 @@ about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet 
   <p>We're a crew of travel advisors who've enjoyed Margaritaville at Sea so much that we couldn't stop talking about it, so we started a blog. Between us we've sailed more than 100 cruises and spent over 15 years helping travelers plan everything from quick weekend getaways to big family reunions at sea.</p>
   <h2>What you'll find here</h2>
   <ul>
-    <li><b>🛏️ Staterooms:</b> click through every room type on Paradise, Islander and Beachcomber</li>
+    <li><b>⭐ Cruise Reviews:</b> the real deal on Paradise, Islander and Beachcomber</li>
+    <li><b>🗺️ Deck Plans:</b> every stateroom and suite type on each ship, with photos</li>
+    <li><b>🍹 Extra Packages:</b> drink, dining and Wi-Fi packages decoded</li>
+    <li><b>🏝️ Port Guides</b>, <b>💸 Deals</b> and <b>🎉 Events</b> worth planning around</li>
     <li><b>🙋 Roll Calls:</b> meet the people sailing on your ship and date</li>
-    <li><b>🚢 Ship Scoop:</b> the real deal on dining, pools, drinks and entertainment</li>
-    <li><b>🏝️ Port Guides:</b> what to do, eat and skip in every port</li>
-    <li><b>🧳 Packing Hacks</b> and <b>💸 Deals</b> worth celebrating</li>
   </ul>
   <h2>Want us to plan it for you?</h2>
   <p>The Chill Compass is presented by <a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel, LLC</a>. Our advisors can find the best cabin, perks and pricing for your next sailing, at no extra cost to you. Just fill out the <a href="#quote" data-quote>free quote form</a>.</p>
@@ -662,17 +819,28 @@ nf = '''<div class="empty" style="padding:60px 20px"><div class="e">🧭</div><h
 page('404.html', 'Page Not Found', nf, path='/404')
 
 # ======================= Netlify config =======================
-open(os.path.join(SITE, '_redirects'), 'w').write('''/post/*      /post.html        200
-/rollcall/*  /rollcall.html    200
-/blog        /blog.html        200
-/staterooms  /staterooms.html  200
-/rollcalls   /rollcalls.html   200
-/account     /account.html     200
-/about       /about.html       200
-/contact     /contact.html     200
-/write-for-us /write-for-us.html 200
-/privacy     /privacy.html     200
-/admin       /admin/index.html 200
+open(os.path.join(SITE, '_redirects'), 'w').write('''/staterooms      /deck-plans          301!
+/staterooms/*    /deck-plans          301!
+/blog            /                    301!
+/post/*          /post.html           200
+/rollcall/*      /rollcall.html       200
+/deck-plans      /deck-plans.html     200
+/deck-plans/*    /deckplan.html       200
+/cruise-reviews  /cruise-reviews.html 200
+/extra-packages  /extra-packages.html 200
+/port-guides     /port-guides.html    200
+/deals           /deals.html          200
+/tips            /blog.html           200
+/newsletter      /newsletter.html     200
+/events          /events.html         200
+/faq             /faq.html            200
+/rollcalls       /rollcalls.html      200
+/account         /account.html        200
+/about           /about.html          200
+/contact         /contact.html        200
+/write-for-us    /write-for-us.html   200
+/privacy         /privacy.html        200
+/admin           /admin/index.html    200
 ''')
 open(os.path.join(SITE, '_headers'), 'w').write('''/*
   X-Content-Type-Options: nosniff
@@ -688,5 +856,5 @@ open(os.path.join(SITE, '_headers'), 'w').write('''/*
 ''')
 open(os.path.join(SITE, 'robots.txt'), 'w').write(f'User-agent: *\nDisallow: /admin\nDisallow: /account\nSitemap: {DOMAIN}/sitemap.xml\n')
 open(os.path.join(SITE, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/staterooms', '/rollcalls', '/blog', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
+    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/cruise-reviews', '/extra-packages', '/deck-plans', '/deck-plans/paradise', '/deck-plans/islander', '/deck-plans/beachcomber', '/port-guides', '/deals', '/newsletter', '/events', '/faq', '/rollcalls', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
 print('built')

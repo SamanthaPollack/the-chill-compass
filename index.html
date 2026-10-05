@@ -8,7 +8,7 @@
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=5">
+<link rel="stylesheet" href="/assets/style.css?v=8">
 <style>
 body{background:#f4efe4}
 .top{background:var(--navy);color:#fff}
@@ -41,6 +41,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
 .side .btn{width:100%;margin-bottom:12px;text-align:center}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:999px;font-family:Fredoka;display:none;z-index:99}
 .login{max-width:420px;margin:70px auto}
+.gal{display:flex;flex-wrap:wrap;gap:8px}.gal .g{position:relative;width:96px;height:72px;border-radius:10px;overflow:hidden;border:2px solid #e6dcc6}.gal .g:first-child{border-color:var(--coral)}.gal img{width:100%;height:100%;object-fit:cover}.gal .ga{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;background:rgba(11,57,84,.75);color:#fff;font-size:11px;padding:2px 4px}.gal .ga button{background:none;border:0;color:#fff;cursor:pointer;font-size:12px;padding:0 2px}
 .amsg{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px}
 .amsg .h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:Fredoka}
 .amsg p{white-space:pre-wrap;margin:10px 0}
@@ -79,6 +80,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
       <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
       <button class="tab" data-p="rc">🙋 Roll Calls</button>
       <button class="tab" data-p="rooms">🛏️ Staterooms</button>
+      <button class="tab" data-p="events">🎉 Events</button>
       <button class="tab" data-p="acct">⚙️ Account</button>
     </div>
 
@@ -105,7 +107,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
               <button class="link red" id="coverRemove" style="display:none;margin-top:6px">Remove cover photo</button>
             </div>
             <div class="field"><label for="fCat">Category</label>
-              <select id="fCat"><option>Ship Scoop</option><option>Port Guides</option><option>Packing Hacks</option><option>Deals</option></select></div>
+              <select id="fCat"><option>Cruise Reviews</option><option>Port Guides</option><option>Deals</option><option>Tips &amp; News</option></select></div>
             <div class="field"><label for="fExcerpt">Short summary</label><textarea id="fExcerpt" rows="3" maxlength="300" placeholder="1–2 sentences shown on the post card and in Google results"></textarea></div>
             <div class="field"><label for="fSlug">Web address</label><input id="fSlug" maxlength="120"><div class="hint" id="slugHint"></div></div>
             <div class="status" id="edStatus"></div>
@@ -148,13 +150,23 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
     <!-- STATEROOMS -->
     <div class="panel" id="p-rooms">
       <div class="bar"><h2>Staterooms</h2><div style="display:flex;gap:10px"><select id="rShip" style="font:inherit;padding:8px;border-radius:10px"><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select><button class="btn btn-coral" id="rNew">+ Add Room</button></div></div>
-      <p class="hint" style="margin-top:-6px">Tip: add your own stateroom photos here. Rooms without a photo show a fun illustration on the site.</p>
+      <p class="hint" style="margin-top:-6px">Use photos from the Margaritaville at Sea travel-advisor media library (or your own). Rooms without photos show "Photo coming soon."</p>
+      <div class="card" style="padding:18px;margin-bottom:18px"><h3 style="margin-bottom:10px">🚢 <span id="sName">Ship</span> page settings</h3>
+        <div class="grid2" style="grid-template-columns:1fr 1fr">
+          <div class="field"><label>Ship banner photo</label><div class="cover" id="sHero">Click to add</div><input type="file" id="sHeroF" accept="image/*" hidden><button type="button" class="link red" id="sHeroDel">Remove</button></div>
+          <div class="field"><label>Deck plan image or PDF</label><div class="cover" id="sDeck">Click to add</div><input type="file" id="sDeckF" accept="image/*,application/pdf" hidden><button type="button" class="link red" id="sDeckDel">Remove</button></div>
+        </div>
+        <div class="field"><label for="sTag">Tagline</label><input id="sTag" maxlength="80"></div>
+        <div class="field"><label for="sIntro">Intro</label><textarea id="sIntro" rows="3" maxlength="600"></textarea></div>
+        <button class="btn btn-coral" id="sSave" type="button">💾 Save Ship Settings</button>
+      </div>
       <div class="grid2">
         <div><table><thead><tr><th>Room</th><th class="hide-m">Category</th><th>Photo</th><th></th></tr></thead><tbody id="rRows"></tbody></table></div>
         <div class="card" style="padding:22px" id="rEdit">
           <h3 id="rTitle" style="margin-bottom:12px">Pick a room to edit</h3>
           <form id="rForm" style="display:none">
-            <div class="field"><label>Photo</label><div class="cover" id="rPic">Click to add a photo</div><input type="file" id="rFile" accept="image/*" hidden><button type="button" class="link red" id="rPicDel" style="display:none;margin-top:6px">Remove photo</button></div>
+            <div class="field"><label>Photos <span class="hint">(first photo is the main one)</span></label><div class="gal" id="rGal"></div>
+              <button type="button" class="btn btn-teal" id="rAdd" style="margin-top:8px;padding:8px 14px;font-size:14px">+ Add photos</button><input type="file" id="rFile" accept="image/*" multiple hidden></div>
             <div class="field"><label for="rName">Room name</label><input id="rName" required maxlength="120"></div>
             <div class="field"><label for="rTier">Category</label><select id="rTier"><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
             <div class="field"><label for="rDecks">Where (decks)</label><input id="rDecks" maxlength="120"></div>
@@ -167,6 +179,27 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
             <button class="link red" type="button" id="rDel" style="margin-top:10px">Delete this room</button>
           </form>
         </div>
+      </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="panel" id="p-events">
+      <div class="bar"><h2>Events</h2><button class="btn btn-coral" id="eNew">+ Add Event</button></div>
+      <div class="grid2">
+        <div><table><thead><tr><th>Date</th><th>Event</th><th></th></tr></thead><tbody id="eRows"></tbody></table></div>
+        <div class="card" style="padding:22px"><h3 id="eTitle" style="margin-bottom:12px">Pick an event to edit</h3>
+          <form id="eForm" style="display:none">
+            <div class="field"><label for="eT">Title</label><input id="eT" required maxlength="140"></div>
+            <div class="field"><label for="eShip">Ship</label><input id="eShip" maxlength="60" placeholder="e.g. Paradise, or Paradise & Islander"></div>
+            <div class="grid2" style="grid-template-columns:1fr 1fr;gap:10px"><div class="field"><label for="eS">Start date</label><input id="eS" type="date" required></div><div class="field"><label for="eE">End date (optional)</label><input id="eE" type="date"></div></div>
+            <div class="field"><label for="eLoc">Location / port</label><input id="eLoc" maxlength="120"></div>
+            <div class="field"><label for="eD">Description</label><textarea id="eD" rows="4" maxlength="1500"></textarea></div>
+            <div class="grid2" style="grid-template-columns:1fr 1fr;gap:10px"><div class="field"><label for="eL">Link (optional)</label><input id="eL" type="url" placeholder="https://"></div><div class="field"><label for="eLL">Button text</label><input id="eLL" maxlength="40" placeholder="Learn more"></div></div>
+            <div class="field"><label>Photo (optional)</label><div class="cover" id="ePic">Click to add</div><input type="file" id="ePicF" accept="image/*" hidden><button type="button" class="link red" id="ePicDel">Remove</button></div>
+            <div class="field"><label><input type="checkbox" id="eA" style="width:auto"> Show on website</label></div>
+            <button class="btn btn-coral" type="submit" style="width:100%">💾 Save Event</button>
+            <button class="link red" type="button" id="eDel" style="margin-top:10px">Delete this event</button>
+          </form></div>
       </div>
     </div>
 
@@ -189,7 +222,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
-<script src="/assets/app.js?v=5"></script>
+<script src="/assets/app.js?v=8"></script>
 <script>
 const $ = id => document.getElementById(id);
 let posts = [], subs = [], current = null, coverUrl = null, slugTouched = false, quill;
@@ -210,7 +243,7 @@ async function boot() {
   const { data: ok } = await sb.rpc('is_admin');
   if (!ok) { await sb.auth.signOut(); $('lerr').textContent = 'This account does not have admin access.'; $('lerr').style.display = 'block'; return show('login'); }
   $('who').textContent = session.user.email;
-  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadQuotes(); loadRc(); loadRooms();
+  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
 }
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault(); $('lerr').style.display = 'none';
@@ -305,7 +338,7 @@ function openEditor(p) {
   current = p || null; slugTouched = !!p;
   $('edTitle').textContent = p ? 'Edit Post' : 'New Post';
   $('fTitle').value = p?.title || ''; $('fSlug').value = p?.slug || ''; $('fExcerpt').value = p?.excerpt || '';
-  $('fCat').value = p?.category || 'Ship Scoop'; setCover(p?.cover_url || null);
+  $('fCat').value = p?.category || 'Cruise Reviews'; setCover(p?.cover_url || null);
   quill.setContents([]); if (p?.content) quill.clipboard.dangerouslyPasteHTML(p.content);
   $('edStatus').textContent = ''; slugHint(); refreshButtons(); tab('edit');
 }
@@ -431,7 +464,7 @@ async function delRoll(id) { if (!confirm('Delete this whole roll call and all i
 async function ban(id, b) { await sb.from('profiles').update({ banned: b }).eq('id', id); toast(b ? 'Member blocked' : 'Member unblocked'); loadRc(); }
 
 /* ---------- staterooms editor ---------- */
-let rooms = [], room = null, roomPic = null;
+let rooms = [], room = null, roomPics = [];
 async function loadRooms() {
   const { data } = await sb.from('staterooms').select('*').order('sort');
   rooms = data || []; drawRooms();
@@ -439,33 +472,96 @@ async function loadRooms() {
 const TIERS = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
 function drawRooms() {
   const list = rooms.filter(r => r.ship === $('rShip').value).sort((a, b) => TIERS.indexOf(a.tier) - TIERS.indexOf(b.tier) || a.sort - b.sort);
-  $('rRows').innerHTML = list.map(r => `<tr><td><b>${esc(r.name)}</b>${r.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td class="hide-m">${esc(r.tier)}</td><td>${r.image_url ? '✅' : '–'}</td><td><button class="link" onclick="editRoom('${r.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="4">No rooms yet.</td></tr>';
+  $('rRows').innerHTML = list.map(r => `<tr><td><b>${esc(r.name)}</b>${r.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td class="hide-m">${esc(r.tier)}</td><td>${((r.photos||[]).length || (r.image_url?1:0)) || '–'}</td><td><button class="link" onclick="editRoom('${r.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="4">No rooms yet.</td></tr>';
 }
 $('rShip').onchange = drawRooms;
-function setRoomPic(u) { roomPic = u; $('rPic').style.backgroundImage = u ? `url('${u}')` : ''; $('rPic').textContent = u ? '' : 'Click to add a photo'; $('rPicDel').style.display = u ? 'inline' : 'none'; }
+function drawGal() {
+  $('rGal').innerHTML = roomPics.length ? roomPics.map((u, i) => `<div class="g"><img src="${esc(u)}" alt=""><div class="ga">${i ? `<button type="button" onclick="mainPic(${i})" title="Make main photo">★</button>` : '<b>Main</b>'}<button type="button" onclick="delPic(${i})" title="Remove">✕</button></div></div>`).join('') : '<div class="hint">No photos yet. Rooms without photos show "Photo coming soon" on the site.</div>';
+}
+function mainPic(i) { roomPics.unshift(roomPics.splice(i, 1)[0]); drawGal(); }
+function delPic(i) { roomPics.splice(i, 1); drawGal(); }
 function editRoom(id) {
   room = rooms.find(r => r.id === id) || null;
   $('rTitle').textContent = room ? 'Edit: ' + room.name : 'New ' + $('rShip').value + ' room';
   $('rForm').style.display = 'block'; $('rDel').style.display = room ? 'inline' : 'none';
   $('rName').value = room?.name || ''; $('rTier').value = room?.tier || 'Interior'; $('rDecks').value = room?.decks || '';
   $('rOcc').value = room?.occupancy || ''; $('rBlurb').value = room?.blurb || ''; $('rFeat').value = (room?.features || []).join('\n');
-  $('rSort').value = room?.sort ?? 100; $('rActive').checked = room ? room.active : true; setRoomPic(room?.image_url || null);
+  $('rSort').value = room?.sort ?? 100; $('rActive').checked = room ? room.active : true; roomPics = [...(room?.photos || [])]; if (!roomPics.length && room?.image_url) roomPics.push(room.image_url); drawGal();
   $('rEdit').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 $('rNew').onclick = () => editRoom(null);
-$('rPic').onclick = () => $('rFile').click();
-$('rFile').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('rPic').textContent = 'Uploading…'; const u = await uploadImage(f); setRoomPic(u || roomPic); e.target.value = ''; };
-$('rPicDel').onclick = () => setRoomPic(null);
+$('rAdd').onclick = () => $('rFile').click();
+$('rFile').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; for (const f of fs) { toast('Uploading ' + f.name + '…'); const u = await uploadImage(f); if (u) { roomPics.push(u); drawGal(); } } toast('Photos added ✓ (remember to Save Room)'); };
 $('rForm').onsubmit = async e => {
   e.preventDefault();
   const row = { ship: room?.ship || $('rShip').value, name: $('rName').value.trim(), tier: $('rTier').value, decks: $('rDecks').value.trim() || null, occupancy: $('rOcc').value.trim() || null,
-    blurb: $('rBlurb').value.trim() || null, features: $('rFeat').value.split('\n').map(x => x.trim()).filter(Boolean), sort: parseInt($('rSort').value || '100', 10), active: $('rActive').checked, image_url: roomPic, updated_at: new Date().toISOString() };
+    blurb: $('rBlurb').value.trim() || null, features: $('rFeat').value.split('\n').map(x => x.trim()).filter(Boolean), sort: parseInt($('rSort').value || '100', 10), active: $('rActive').checked, photos: roomPics, image_url: roomPics[0] || null, updated_at: new Date().toISOString() };
   const q = room ? sb.from('staterooms').update(row).eq('id', room.id) : sb.from('staterooms').insert(row);
   const { data, error } = await q.select().single();
   if (error) return toast('Save failed: ' + error.message);
   toast('Room saved ✓'); await loadRooms(); editRoom(data.id);
 };
 $('rDel').onclick = async () => { if (!room || !confirm(`Delete "${room.name}"?`)) return; await sb.from('staterooms').delete().eq('id', room.id); toast('Deleted'); room = null; $('rForm').style.display = 'none'; $('rTitle').textContent = 'Pick a room to edit'; loadRooms(); };
+
+/* ---------- ship settings ---------- */
+let ships = {}, shipHero = null, shipDeck = null;
+function setCoverBox(id, u) { const el = $(id); el.style.backgroundImage = u && !/\.pdf(\?|$)/i.test(u) ? `url('${u}')` : ''; el.textContent = u ? (/\.pdf(\?|$)/i.test(u) ? '📄 PDF uploaded' : '') : 'Click to add'; }
+async function loadShips() { const { data } = await sb.from('ships').select('*'); (data || []).forEach(x => ships[x.name] = x); drawShip(); }
+function drawShip() {
+  const n = $('rShip').value, x = ships[n] || {}; $('sName').textContent = n;
+  shipHero = x.hero_url || null; shipDeck = x.deck_plan_url || null;
+  setCoverBox('sHero', shipHero); setCoverBox('sDeck', shipDeck);
+  $('sTag').value = x.tagline || ''; $('sIntro').value = x.intro || '';
+}
+$('rShip').addEventListener('change', drawShip);
+$('sHero').onclick = () => $('sHeroF').click(); $('sDeck').onclick = () => $('sDeckF').click();
+$('sHeroF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('sHero').textContent = 'Uploading…'; shipHero = await uploadImage(f) || shipHero; setCoverBox('sHero', shipHero); e.target.value = ''; };
+$('sDeckF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('sDeck').textContent = 'Uploading…'; shipDeck = await uploadAny(f) || shipDeck; setCoverBox('sDeck', shipDeck); e.target.value = ''; };
+$('sHeroDel').onclick = () => { shipHero = null; setCoverBox('sHero', null); };
+$('sDeckDel').onclick = () => { shipDeck = null; setCoverBox('sDeck', null); };
+$('sSave').onclick = async () => {
+  const n = $('rShip').value;
+  const { error } = await sb.from('ships').update({ hero_url: shipHero, deck_plan_url: shipDeck, tagline: $('sTag').value.trim() || null, intro: $('sIntro').value.trim() || null, updated_at: new Date().toISOString() }).eq('name', n);
+  if (error) return toast('Save failed: ' + error.message); toast('Ship settings saved ✓'); loadShips();
+};
+async function uploadAny(file) {
+  if (file.type !== 'application/pdf') return uploadImage(file);
+  if (file.size > 20 * 1024 * 1024) { toast('PDF is too big (20 MB max)'); return null; }
+  const path = `deckplans/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.pdf`;
+  const { error } = await sb.storage.from('post-images').upload(path, file, { contentType: 'application/pdf', cacheControl: '31536000' });
+  if (error) { toast('Upload failed: ' + error.message); return null; }
+  return sb.storage.from('post-images').getPublicUrl(path).data.publicUrl;
+}
+
+/* ---------- events ---------- */
+let events = [], evt = null, evPic = null;
+async function loadEvents() {
+  const { data } = await sb.from('events').select('*').order('start_date', { ascending: false });
+  events = data || [];
+  const today = new Date().toISOString().slice(0, 10);
+  $('eRows').innerHTML = events.map(e => `<tr><td style="white-space:nowrap">${esc(e.start_date)}</td><td><b>${esc(e.title)}</b>${(e.end_date || e.start_date) < today ? ' <span class="pill draft">Past</span>' : ''}${e.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td><button class="link" onclick="editEvent('${e.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="3">No events yet.</td></tr>';
+}
+function editEvent(id) {
+  evt = events.find(e => e.id === id) || null;
+  $('eTitle').textContent = evt ? 'Edit event' : 'New event'; $('eForm').style.display = 'block'; $('eDel').style.display = evt ? 'inline' : 'none';
+  $('eT').value = evt?.title || ''; $('eShip').value = evt?.ship || ''; $('eS').value = evt?.start_date || ''; $('eE').value = evt?.end_date || '';
+  $('eLoc').value = evt?.location || ''; $('eD').value = evt?.description || ''; $('eL').value = evt?.link || ''; $('eLL').value = evt?.link_label || '';
+  $('eA').checked = evt ? evt.active : true; evPic = evt?.image_url || null; setCoverBox('ePic', evPic);
+}
+$('eNew').onclick = () => editEvent(null);
+$('ePic').onclick = () => $('ePicF').click();
+$('ePicF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('ePic').textContent = 'Uploading…'; evPic = await uploadImage(f) || evPic; setCoverBox('ePic', evPic); e.target.value = ''; };
+$('ePicDel').onclick = () => { evPic = null; setCoverBox('ePic', null); };
+$('eForm').onsubmit = async e => {
+  e.preventDefault();
+  const row = { title: $('eT').value.trim(), ship: $('eShip').value.trim() || null, start_date: $('eS').value, end_date: $('eE').value || null, location: $('eLoc').value.trim() || null,
+    description: $('eD').value.trim() || null, link: $('eL').value.trim() || null, link_label: $('eLL').value.trim() || null, image_url: evPic, active: $('eA').checked };
+  const q = evt ? sb.from('events').update(row).eq('id', evt.id) : sb.from('events').insert(row);
+  const { data, error } = await q.select().single();
+  if (error) return toast('Save failed: ' + error.message);
+  toast('Event saved ✓'); await loadEvents(); editEvent(data.id);
+};
+$('eDel').onclick = async () => { if (!evt || !confirm(`Delete "${evt.title}"?`)) return; await sb.from('events').delete().eq('id', evt.id); toast('Deleted'); evt = null; $('eForm').style.display = 'none'; $('eTitle').textContent = 'Pick an event to edit'; loadEvents(); };
 
 boot();
 </script>

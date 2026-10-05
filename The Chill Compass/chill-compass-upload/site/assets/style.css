@@ -34,12 +34,10 @@ img{max-width:100%}
 @media(max-width:700px){.topbar .l span{display:none}.topbar .hide-s{display:none}.topbar{font-size:13px}.topbar a,.topbar button{white-space:nowrap}}
 
 /* ---------- masthead (the beach banner stays!) ---------- */
-.masthead{position:relative;background:#0B3954;height:190px;overflow:hidden}
-.masthead:before{content:"";position:absolute;inset:-30px;background:url('/assets/img/banner-sm.jpg') center/cover;filter:blur(18px) saturate(1.2) brightness(.95)}
-.masthead:after{content:"";position:absolute;inset:0;background:url('/assets/img/banner.jpg') center/contain no-repeat}
-.masthead.tall{height:230px}
+.masthead{position:relative;background:#0B3954 url('/assets/img/banner.jpg') center 85%/cover no-repeat;height:26vw;max-height:400px;min-height:150px;overflow:hidden}
+.masthead.tall{height:26vw}
 .masthead a.home{position:absolute;inset:0;z-index:2}
-@media(max-width:700px){.masthead,.masthead.tall{height:38vw;max-height:160px}.masthead:after{background-image:url('/assets/img/banner-sm.jpg');background-size:cover}}
+@media(max-width:700px){.masthead,.masthead.tall{background-image:url('/assets/img/banner-sm.jpg');height:34vw;min-height:0}}
 
 /* ---------- sticky nav dock ---------- */
 .dock{position:sticky;top:0;z-index:30;background:rgba(255,244,224,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -393,3 +391,7 @@ footer.site a:hover{color:var(--sun)}
 .g-lock{position:relative}
 .g-lock:after{content:"🔒";position:absolute;right:12px;top:10px;font-size:14px}
 .g-lock.open:after{content:"⬇️"}
+
+/* tagline badge on the banner */
+.masthead .tagline{position:absolute;right:max(20px,calc((100vw - 1240px)/2 + 20px));top:16px;z-index:3;pointer-events:none;background:rgba(255,255,255,.92);color:var(--navy);font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(14px,1.5vw,20px);padding:7px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,57,84,.25);border:2px solid var(--teal)}
+@media(max-width:700px){.masthead .tagline{top:8px;right:8px;font-size:11px;padding:3px 9px;border-width:1.5px}}

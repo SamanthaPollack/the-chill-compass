@@ -5,10 +5,10 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '7'
+V = '8'
 
 def head(title, desc=DESC, path='/', extra=''):
-    full = title if title == 'The Chill Compass' else f'{title} | The Chill Compass'
+    full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -40,7 +40,7 @@ def header(tall=False):
   <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
-<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
+<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1><div class="tagline">A Margaritaville at Sea Blog</div></header>
 <div class="dock"><div class="wrap">
   <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
   <nav aria-label="Main"><ul>
