@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staterooms | The Chill Compass</title>
+<meta name="description" content="Explore every Margaritaville at Sea stateroom and suite on Paradise, Islander and Beachcomber, one room at a time, and get a free quote.">
+<link rel="canonical" href="https://margaritavilleatseablog.com/staterooms">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Chill Compass">
+<meta property="og:title" content="Staterooms | The Chill Compass">
+<meta property="og:description" content="Explore every Margaritaville at Sea stateroom and suite on Paradise, Islander and Beachcomber, one room at a time, and get a free quote.">
+<meta property="og:url" content="https://margaritavilleatseablog.com/staterooms">
+<meta property="og:image" content="https://margaritavilleatseablog.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<meta name="theme-color" content="#0B3954">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=5">
+
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="#signup" class="hide-s">🗺️ Free Port Guides</a><span>Licensed FL Seller of Travel ST150140</span></div>
+  <div class="r" id="tbUser"></div>
+</div></div>
+<header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass</h1></header>
+<div class="dock"><div class="wrap">
+  <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
+  <nav aria-label="Main"><ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/staterooms">Staterooms</a></li>
+    <li><a href="/rollcalls">Roll Calls</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/blog?cat=port-guides">Port Guides</a></li>
+    <li><a href="/blog?cat=packing-hacks">Packing Hacks</a></li>
+    <li><a href="/blog?cat=deals">Deals</a></li>
+    <li><a href="/about">About</a></li>
+  </ul></nav>
+  <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
+</div></div>
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🛏️ Staterooms</div><h1>Find your perfect stateroom</h1><p>Pick a ship, then click through every room type one at a time. Found the one? Hit <b>Quote this room</b> and we'll price it for you.</p></div>
+<div class="ships" id="shipPick">
+  <button class="ship ship-paradise" data-ship="Paradise"><span class="wm">🌺</span><span class="big">Paradise</span><small>Palm Beach, FL</small></button>
+  <button class="ship ship-islander" data-ship="Islander"><span class="wm">🏝️</span><span class="big">Islander</span><small>Tampa, FL</small></button>
+  <button class="ship ship-beachcomber" data-ship="Beachcomber"><span class="wm">🐚</span><span class="big">Beachcomber</span><small>Miami, FL · Galveston, TX</small></button>
+</div>
+<div class="viewer" id="viewer">
+  <div class="room-nav" id="roomNav" role="tablist" aria-label="Stateroom types"></div>
+  <div class="room" id="room"><div class="loading">Loading staterooms…</div></div>
+</div>
+<p class="room-fine">Room details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Illustrations are for fun, not exact layouts.</p></main><aside class="side"><div class="widget" id="quote">
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Tell us your dream sailing. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb">
+    <form class="qf js-quote">
+      <div class="full"><label for="q_name">Your name</label><input id="q_name" name="name" required maxlength="140" autocomplete="name"></div>
+      <div class="full"><label for="q_email">Email</label><input id="q_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
+      <div><label for="q_phone">Phone</label><input id="q_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
+      <div><label for="q_state">State</label><select id="q_state" name="state"><option value="">Choose</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option></select></div>
+      <div><label for="q_ship">Ship</label><select id="q_ship" name="ship"><option value="">Not sure yet</option><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select></div>
+      <div><label for="q_date">Sail month</label><input id="q_date" name="sail_date" type="month"></div>
+      <div class="full"><label for="q_room">Stateroom</label><select id="q_room" name="stateroom"><option value="">Not sure yet</option><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
+      <div><label for="q_ad">Adults</label><select id="q_ad" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div><label for="q_ch">Kids</label><select id="q_ch" name="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+      <div class="full"><label for="q_pref">Best way to reach you</label><select id="q_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
+      <div class="full"><label for="q_notes">Anything else?</label><textarea id="q_notes" name="notes" rows="2" maxlength="2000" placeholder="Celebrating something? Flexible dates?"></textarea></div>
+      <div class="full"><button class="btn btn-coral" type="submit">Get My Free Quote</button></div>
+    </form>
+    <div class="err"></div>
+    <div class="qf-done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options and pricing. Cheers! 🍹</p></div>
+    <p class="qf-fine">Quotes by Cruises Tours and Travel, LLC · FL ST150140</p>
+  </div>
+</div><div class="widget teal" id="signup">
+  <div class="wh"><h3>🗺️ Free Port Guides</h3><p>Palm Beach · Tampa · Miami · Galveston, plus our packing list.</p></div>
+  <div class="wb">
+    <form class="mini-form js-signup" data-source="sidebar">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit">Send Me the Guides</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're on the list! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div></aside></div></div>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>The Chill Compass</h3>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise tips, staterooms and roll calls from travel advisors who keep going back for more. 🍹</p>
+      </div>
+      <div><h3>Explore</h3><ul>
+        <li><a href="/staterooms">Staterooms</a></li>
+        <li><a href="/rollcalls">Roll Calls</a></li>
+        <li><a href="/blog">All Posts</a></li>
+        <li><a href="/blog?cat=port-guides">Port Guides</a></li>
+        <li><a href="/blog?cat=deals">Deals</a></li></ul></div>
+      <div><h3>Connect</h3><ul>
+        <li><a href="#quote" data-quote>Free Quote</a></li>
+        <li><a href="#signup">Free Port Guides</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/write-for-us">Write for Us</a></li></ul></div>
+      <div><h3>About</h3><ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/account">My Account</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel</a></li></ul></div>
+    </div>
+    <div class="disclaimer">
+      © <span id="yr">2026</span> The Chill Compass · Presented by Cruises Tours and Travel, LLC · FL Seller of Travel Reg. No. ST150140<br>
+      Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
+    </div>
+  </div>
+</footer>
+<a href="#quote" class="btn btn-coral fab" data-quote>🛳️ Free Quote</a>
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <div style="font-size:46px">🗺️🧳</div>
+    <h2>Free Port Guides!</h2>
+    <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
+    <form class="form js-signup" data-source="popup">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're in! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <h2>⛱️ Join the Crew</h2>
+    <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
+    <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
+    <div id="authMsg"></div>
+    <form id="authForm">
+      <div class="field only-up" style="display:none"><label for="aName">Screen name</label><input id="aName" maxlength="40" placeholder="e.g. ParrotheadPam"></div>
+      <div class="field only-up" style="display:none"><label for="aTown">Hometown (optional)</label><input id="aTown" maxlength="60" placeholder="e.g. Tampa, FL"></div>
+      <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
+      <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
+      <p class="err" id="authErr"></p>
+      <p class="fine" style="text-align:center"><button type="button" class="link" id="authForget">Forgot password?</button></p>
+      <p class="fine only-up" style="display:none">By joining you agree to be kind. Posts are public. No spam, selling or personal info, please; we may remove posts or accounts that break the rules.</p>
+    </form>
+  </div>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/app.js?v=5"></script>
+<script>
+document.addEventListener('cc:ready', async () => {
+  const el = document.getElementById('rcSide'); if (!el) return;
+  const { data } = await sb.from('roll_calls').select('id,ship,sail_date,post_count,last_post_at').gte('sail_date', new Date().toISOString().slice(0,10)).order('last_post_at', { ascending: false, nullsFirst: false }).limit(5);
+  el.innerHTML = (data && data.length) ? data.map(r => `<li><a href="/rollcall/${r.id}"><span class="dot d-${SHIPS[r.ship].slug}"></span>${esc(r.ship)} · ${dateOnly(r.sail_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</a><small>${r.post_count} posts${r.last_post_at ? ' · ' + timeAgo(r.last_post_at) : ''}</small></li>`).join('')
+    : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
+});
+</script>
+<script>
+let ROOMS = [], SHIP = 'Paradise', IDX = 0;
+const TIER_ORDER = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
+function shipRooms() { return ROOMS.filter(r => r.ship === SHIP); }
+function renderNav() {
+  const list = shipRooms(); let html = '', last = '';
+  list.forEach((r, i) => {
+    if (r.tier !== last) { html += `<h4>${esc(r.tier)}</h4>`; last = r.tier; }
+    html += `<button role="tab" aria-selected="${i === IDX}" class="${i === IDX ? 'on' : ''}" data-i="${i}"><span class="n">${i + 1}</span>${esc(r.name.replace(/ Stateroom$/, ''))}</button>`;
+  });
+  const nav = document.getElementById('roomNav'); nav.innerHTML = html;
+  nav.querySelectorAll('button').forEach(b => b.onclick = () => show(+b.dataset.i, true));
+  const on = nav.querySelector('.on');
+  if (on) { const nr = nav.getBoundingClientRect(), r = on.getBoundingClientRect();
+    if (r.top < nr.top || r.bottom > nr.bottom) nav.scrollTop += r.top - nr.top - 40;
+    if (r.left < nr.left || r.right > nr.right) nav.scrollLeft += r.left - nr.left - 20; }
+}
+function show(i, user) {
+  const list = shipRooms();
+  if (!list.length) { document.getElementById('room').innerHTML = emptyBox('Rooms coming soon', 'We\'re still adding this ship\'s staterooms.'); document.getElementById('roomNav').innerHTML = ''; return; }
+  IDX = Math.max(0, Math.min(i, list.length - 1));
+  const r = list[IDX], s = SHIPS[r.ship];
+  const pic = r.image_url ? `<img src="${esc(r.image_url)}" alt="${esc(r.name)} on ${esc(r.ship)}">` : roomArt(r.tier, s.accent);
+  const facts = [['Ship', r.ship], ['Category', r.tier], r.decks && ['Where', r.decks], r.occupancy && ['Sleeps', r.occupancy]].filter(Boolean);
+  document.getElementById('room').innerHTML = `
+    <div class="pic">${pic}<span class="tag tier tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span><span class="count">${IDX + 1} of ${list.length}</span>
+      <div class="arrows"><button id="prv" aria-label="Previous room" ${IDX === 0 ? 'disabled' : ''}>‹</button><button id="nxt" aria-label="Next room" ${IDX === list.length - 1 ? 'disabled' : ''}>›</button></div></div>
+    <div class="info">
+      <h2>${esc(r.name)}</h2>
+      <div class="ship-line"><span class="dot d-${s.slug}"></span>Margaritaville at Sea ${esc(r.ship)} · sails from ${esc(s.port)}</div>
+      <div class="facts-row">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>
+      <p style="margin:0">${esc(r.blurb || '')}</p>
+      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : '<div style="height:16px"></div>'}
+      <div class="acts"><button class="btn btn-coral" id="qThis">🛳️ Quote this room</button>
+        ${IDX < list.length - 1 ? `<button class="btn btn-ghost" id="nxt2">Next: ${esc(list[IDX + 1].name.replace(/ Stateroom$/, ''))} →</button>` : ''}</div>
+    </div>`;
+  document.getElementById('prv').onclick = () => show(IDX - 1, true);
+  document.getElementById('nxt').onclick = () => show(IDX + 1, true);
+  const n2 = document.getElementById('nxt2'); if (n2) n2.onclick = () => show(IDX + 1, true);
+  document.getElementById('qThis').onclick = () => prefillQuote(r.ship, r.tier === 'Suite' ? 'Suite' : r.tier);
+  renderNav();
+  if (user) history.replaceState(null, '', '#' + s.slug + '/' + slugify(r.name));
+}
+function pickShip(name, roomSlug) {
+  SHIP = name; IDX = 0;
+  document.querySelectorAll('#shipPick .ship').forEach(b => { b.classList.toggle('on', b.dataset.ship === name); b.setAttribute('aria-pressed', b.dataset.ship === name); });
+  if (roomSlug) { const k = shipRooms().findIndex(r => slugify(r.name) === roomSlug); if (k >= 0) IDX = k; }
+  show(IDX, false);
+}
+document.querySelectorAll('#shipPick .ship').forEach(b => b.onclick = () => { pickShip(b.dataset.ship); history.replaceState(null, '', '#' + SHIPS[b.dataset.ship].slug); document.getElementById('viewer').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+document.addEventListener('keydown', e => { if (e.target.closest('input,textarea,select')) return; if (e.key === 'ArrowRight') show(IDX + 1, true); if (e.key === 'ArrowLeft') show(IDX - 1, true); });
+document.addEventListener('cc:ready', async () => {
+  const { data, error } = await sb.from('staterooms').select('*').eq('active', true).order('sort');
+  if (error || !data) { document.getElementById('room').innerHTML = '<div class="loading">Sorry, we couldn\'t load the staterooms. Please refresh.</div>'; return; }
+  ROOMS = data.sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
+  const [sh, rm] = location.hash.slice(1).split('/');
+  pickShip(shipBySlug(sh) || 'Paradise', rm);
+});
+</script></body>
+</html>

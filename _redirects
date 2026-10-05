@@ -1,0 +1,11 @@
+/post/*      /post.html        200
+/rollcall/*  /rollcall.html    200
+/blog        /blog.html        200
+/staterooms  /staterooms.html  200
+/rollcalls   /rollcalls.html   200
+/account     /account.html     200
+/about       /about.html       200
+/contact     /contact.html     200
+/write-for-us /write-for-us.html 200
+/privacy     /privacy.html     200
+/admin       /admin/index.html 200
