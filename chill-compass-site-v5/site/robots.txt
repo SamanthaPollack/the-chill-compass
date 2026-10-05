@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin
+Disallow: /account
+Sitemap: https://margaritavilleatseablog.com/sitemap.xml
