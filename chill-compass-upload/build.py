@@ -5,7 +5,7 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '8'
+V = '10'
 
 def head(title, desc=DESC, path='/', extra=''):
     full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
@@ -47,7 +47,7 @@ def header(tall=False):
     <li><a href="/">Home</a></li>
     <li><a href="/cruise-reviews">Cruise Reviews</a></li>
     <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/deck-plans">Deck Plans</a></li>
+    <li><a href="/fleet">Fleet</a></li>
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
     <li><a href="/newsletter">Newsletter</a></li>
@@ -134,7 +134,7 @@ FOOTER = '''<footer class="site">
       </div>
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-        <li><a href="/deck-plans">Deck Plans &amp; Staterooms</a></li>
+        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
         <li><a href="/extra-packages">Extra Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
@@ -264,40 +264,49 @@ blog_page('port-guides.html', 'Port Guides', '/port-guides', 'Margaritaville at 
 blog_page('deals.html', 'Deals', '/deals', 'The best Margaritaville at Sea deals and promotions, found by travel advisors.')
 blog_page('blog.html', 'Tips & News', '/tips', 'Margaritaville at Sea packing hacks, planning tips and news.')
 
-# ======================= DECK PLANS (landing) =======================
-dp = title_block('🗺️ Deck Plans & Staterooms', 'Pick your ship', 'Tap a ship to see its deck plans and every stateroom and suite type on one page, with photos.') + '''
+# ======================= FLEET (landing) =======================
+fl = title_block('🚢 The Fleet', 'Meet the Margaritaville at Sea ships', 'Pick a ship to explore it: ship details and highlights, photos, deck plans, and every stateroom and suite type on one page.') + '''
 <div class="ship-cards" id="shipCards"><div class="loading">Loading ships…</div></div>'''
-dp_js = '''<script>
+fl_js = '''<script>
 document.addEventListener('cc:ready', async () => {
   const [{ data: ships }, { data: rooms }] = await Promise.all([
     sb.from('ships').select('*').order('sort'), sb.from('staterooms').select('ship').eq('active', true)]);
   const count = s => (rooms || []).filter(r => r.ship === s).length;
-  document.getElementById('shipCards').innerHTML = (ships || []).map(s => `
-    <a class="ship-card" href="/deck-plans/${SHIPS[s.name].slug}">
+  document.getElementById('shipCards').innerHTML = (ships || []).map(s => {
+    const facts = [s.guests && '👥 ' + s.guests, s.tonnage && '⚓ ' + s.tonnage].filter(Boolean).map(f => `<span>${esc(f)}</span>`).join('');
+    return `<a class="ship-card" href="/fleet/${SHIPS[s.name].slug}">
       <div class="sc-img ship-${SHIPS[s.name].slug}" style="${s.hero_url ? `background-image:url('${esc(s.hero_url)}')` : ''}">${s.hero_url ? '' : `<span class="wm">${SHIPS[s.name].emoji}</span>`}</div>
       <div class="sc-body"><div class="eyebrow">${esc(s.tagline || '')}</div><h2>${esc(s.name)}</h2>
-        <p>${esc(s.homeport || '')}</p><span class="btn btn-coral btn-sm">See ${count(s.name)} room types &amp; deck plans →</span></div>
-    </a>`).join('');
+        <p>📍 ${esc(s.homeport || '')}</p>${facts ? `<div class="rc-chips">${facts}</div>` : ''}
+        <p class="sc-what">Ship details · photos · deck plans · ${count(s.name)} room types</p>
+        <span class="btn btn-coral btn-sm">Explore ${esc(s.name)} →</span></div>
+    </a>`;
+  }).join('');
 });
 </script>'''
-page('deck-plans.html', 'Deck Plans', dp, desc='Margaritaville at Sea deck plans and every stateroom type on Paradise, Islander and Beachcomber, with photos.', path='/deck-plans', extra_js=dp_js, rc=False)
+page('fleet.html', 'The Fleet', fl, desc='Meet the Margaritaville at Sea fleet: Paradise, Islander and Beachcomber ship details, photos, deck plans and every stateroom type.', path='/fleet', extra_js=fl_js, rc=False)
 
-# ======================= DECK PLANS (one ship, all rooms) =======================
+# ======================= FLEET (one ship: details, photos, deck plans, rooms) =======================
 ship = '''<div class="chips" id="shipChips" style="margin-top:4px"></div>
 <div id="shipHead"><div class="loading">Loading…</div></div>
 <div id="roomsAll"></div>
-<p class="room-fine">Stateroom details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Photos are representative.</p>'''
+<p class="room-fine">Ship and stateroom details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Photos and renderings are representative.</p>
+<div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div>'''
 ship_js = '''<script>
 const TIER_ORDER = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
 const TIER_EMOJI = { 'Interior': '🛏️', 'Ocean View': '🌊', 'Balcony': '🌅', 'Suite': '👑' };
+let LB = [], LBi = 0;
+function openLb(list, i) { LB = list; LBi = i; const lb = document.getElementById('lb'); lb.querySelector('img').src = LB[LBi]; lb.hidden = false; lb.classList.toggle('one', LB.length < 2); document.body.style.overflow = 'hidden'; }
+function stepLb(d) { LBi = (LBi + d + LB.length) % LB.length; document.querySelector('#lb img').src = LB[LBi]; }
+function closeLb() { document.getElementById('lb').hidden = true; document.body.style.overflow = ''; }
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
-function roomCard(r, s) {
+function roomCard(r) {
   const pics = roomPics(r), id = 'r-' + slugify(r.name);
-  const main = pics.length ? `<img src="${esc(pics[0])}" alt="${esc(r.name)} on Margaritaville at Sea ${esc(r.ship)}" loading="lazy">`
+  const main = pics.length ? `<img src="${esc(pics[0])}" alt="${esc(r.name)} on Margaritaville at Sea ${esc(r.ship)}" loading="lazy" data-zoom>`
     : `<div class="ph"><span>📸</span>Photo coming soon</div>`;
   const thumbs = pics.length > 1 ? `<div class="thumbs">${pics.map((p, i) => `<button type="button" class="${i ? '' : 'on'}" data-src="${esc(p)}" aria-label="Photo ${i + 1}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : '';
   const chips = [r.decks && '📍 ' + r.decks, r.occupancy && '👥 ' + r.occupancy].filter(Boolean).map(c => `<span>${esc(c)}</span>`).join('');
-  return `<article class="room-card" id="${id}">
+  return `<article class="room-card" id="${id}" data-pics='${esc(JSON.stringify(pics))}'>
     <div class="rc-pic">${main}<span class="tag tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span></div>${thumbs}
     <div class="rc-body"><h3>${esc(r.name)}</h3>${chips ? `<div class="rc-chips">${chips}</div>` : ''}
       <p>${esc(r.blurb || '')}</p>
@@ -306,42 +315,61 @@ function roomCard(r, s) {
   </article>`;
 }
 document.addEventListener('cc:ready', async () => {
-  const slug = location.pathname.replace(/^\\/deck-plans\\/?/, '').replace(/\\/$/, '') || new URLSearchParams(location.search).get('ship') || 'paradise';
+  const slug = location.pathname.replace(/^\\/(fleet|deck-plans)\\/?/, '').replace(/\\/$/, '') || new URLSearchParams(location.search).get('ship') || 'paradise';
   const name = shipBySlug(slug) || 'Paradise';
-  document.getElementById('shipChips').innerHTML = Object.keys(SHIPS).map(k => `<a class="chip ${k === name ? 'on' : ''}" href="/deck-plans/${SHIPS[k].slug}"><span class="dot d-${SHIPS[k].slug}"></span>${k}</a>`).join('') + `<a class="chip" href="/deck-plans">All ships</a>`;
+  document.getElementById('shipChips').innerHTML = Object.keys(SHIPS).map(k => `<a class="chip ${k === name ? 'on' : ''}" href="/fleet/${SHIPS[k].slug}"><span class="dot d-${SHIPS[k].slug}"></span>${k}</a>`).join('') + `<a class="chip" href="/fleet">All ships</a>`;
   const [{ data: s }, { data: rooms }] = await Promise.all([
     sb.from('ships').select('*').eq('name', name).maybeSingle(),
     sb.from('staterooms').select('*').eq('ship', name).eq('active', true).order('sort')]);
-  document.title = `${name} Deck Plans & Staterooms | The Chill Compass`;
+  document.title = `${name}: Ship Details, Deck Plans & Staterooms | The Chill Compass`;
   const sh = s || { name };
+  const list = (rooms || []).sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
+  const gal = (sh.photos || []).filter(Boolean), hi = (sh.highlights || []).filter(Boolean);
   const facts = [['Homeport', sh.homeport], ['Guests', sh.guests], ['Size', sh.tonnage], ['Built', sh.built && (sh.built + (sh.former_name ? ' (as ' + sh.former_name + ')' : ''))]].filter(f => f[1]);
+  const nav = [['about', '⭐ About the ship'], gal.length && ['photos', '📸 Photos'], ['deck-plans', '🗺️ Deck plans'], ['rooms', '🛏️ Staterooms & suites']].filter(Boolean);
   document.getElementById('shipHead').innerHTML = `
-    <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.1),rgba(11,57,84,.75)),url('${esc(sh.hero_url)}')` : ''}">
+    <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.05),rgba(11,57,84,.8)),url('${esc(sh.hero_url)}')` : ''}">
       <div class="eyebrow" style="color:var(--sun)">${esc(sh.tagline || 'Margaritaville at Sea')}</div>
-      <h1>Margaritaville at Sea ${esc(name)}</h1><p>${esc(sh.intro || '')}</p></div>
-    <div class="facts-row" style="margin-top:14px">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>
-    <div class="card deck-box"><div><h2>🗺️ ${esc(name)} deck plans</h2>
+      <h1>Margaritaville at Sea ${esc(name)}</h1></div>
+    <nav class="ship-nav" aria-label="${esc(name)} sections">${nav.map(n => `<a href="#${n[0]}">${n[1]}</a>`).join('')}</nav>
+    <section class="card ship-sec" id="about"><h2>⭐ About ${esc(name)}</h2>
+      ${sh.intro ? `<p class="ship-intro">${esc(sh.intro)}</p>` : ''}
+      ${facts.length ? `<div class="facts-row">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>` : ''}
+      ${hi.length ? `<h3>Onboard highlights</h3><ul class="feat">${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
+      <button class="btn btn-coral btn-sm" data-qship>🛳️ Get a quote on ${esc(name)}</button></section>
+    ${gal.length ? `<section class="ship-sec" id="photos"><div class="sec-h"><h2>📸 ${esc(name)} photos</h2><span class="fine" style="margin:0">Tap to enlarge</span></div>
+      <div class="ship-gal">${gal.map((p, i) => `<button type="button" data-g="${i}"><img src="${esc(p)}" alt="Margaritaville at Sea ${esc(name)} photo ${i + 1}" loading="lazy"></button>`).join('')}</div></section>` : ''}
+    <section class="card deck-box ship-sec" id="deck-plans"><div><h2>🗺️ ${esc(name)} deck plans</h2>
       <p>See where every stateroom, pool, bar and restaurant sits, deck by deck.</p></div>
       <div class="deck-acts">${sh.deck_plan_url ? `<a class="btn btn-navy" href="${esc(sh.deck_plan_url)}" target="_blank" rel="noopener">View deck plan</a>` : ''}
       ${sh.official_deck_plan_link ? `<a class="btn btn-ghost" href="${esc(sh.official_deck_plan_link)}" target="_blank" rel="noopener">Official deck plans ↗</a>` : ''}</div>
-      ${sh.deck_plan_url ? `<a href="${esc(sh.deck_plan_url)}" target="_blank" rel="noopener" class="deck-img"><img src="${esc(sh.deck_plan_url)}" alt="${esc(name)} deck plan" loading="lazy"></a>` : ''}</div>`;
-  const list = (rooms || []).sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
+      ${sh.deck_plan_url && !/\\.pdf(\\?|$)/i.test(sh.deck_plan_url) ? `<a href="${esc(sh.deck_plan_url)}" target="_blank" rel="noopener" class="deck-img"><img src="${esc(sh.deck_plan_url)}" alt="${esc(name)} deck plan" loading="lazy"></a>` : ''}</section>`;
   const jump = TIER_ORDER.filter(t => list.some(r => r.tier === t));
-  let html = `<div class="sec-h" style="margin-top:28px"><h2>🛏️ Staterooms &amp; suites on ${esc(name)}</h2><span class="fine" style="margin:0">${list.length} room types</span></div>
+  let html = `<div class="sec-h ship-sec" id="rooms" style="margin-top:28px"><h2>🛏️ Staterooms &amp; suites on ${esc(name)}</h2><span class="fine" style="margin:0">${list.length} room types</span></div>
     <div class="chips tier-jump">${jump.map(t => `<a class="chip" href="#tier-${slugify(t)}">${TIER_EMOJI[t]} ${t}</a>`).join('')}</div>`;
   jump.forEach(t => {
-    html += `<h3 class="tier-h" id="tier-${slugify(t)}">${TIER_EMOJI[t]} ${t === "Suite" ? "Suites" : t + " Staterooms"}</h3><div class="room-grid">${list.filter(r => r.tier === t).map(r => roomCard(r, sh)).join('')}</div>`;
+    html += `<h3 class="tier-h" id="tier-${slugify(t)}">${TIER_EMOJI[t]} ${t === "Suite" ? "Suites" : t + " Staterooms"}</h3><div class="room-grid">${list.filter(r => r.tier === t).map(roomCard).join('')}</div>`;
   });
-  document.getElementById('roomsAll').innerHTML = list.length ? html : emptyBox('Room details coming soon');
+  document.getElementById('roomsAll').innerHTML = list.length ? html : `<div id="rooms">${emptyBox('Room details coming soon')}</div>`;
+  document.querySelectorAll('[data-qship]').forEach(b => b.onclick = () => prefillQuote(name, ''));
   document.querySelectorAll('.room-card [data-q]').forEach(b => b.onclick = () => prefillQuote(name, b.dataset.q));
+  document.querySelectorAll('.ship-gal [data-g]').forEach(b => b.onclick = () => openLb(gal, +b.dataset.g));
+  document.querySelectorAll('.room-card').forEach(card => {
+    const pics = JSON.parse(card.dataset.pics || '[]'), img = card.querySelector('[data-zoom]');
+    if (img) img.onclick = () => openLb(pics, Math.max(0, pics.indexOf(img.getAttribute('src'))));
+  });
   document.querySelectorAll('.thumbs button').forEach(b => b.onclick = () => {
     const card = b.closest('.room-card'); card.querySelector('.rc-pic img').src = b.dataset.src;
     card.querySelectorAll('.thumbs button').forEach(x => x.classList.toggle('on', x === b));
   });
+  const lb = document.getElementById('lb');
+  lb.querySelector('.lb-x').onclick = closeLb; lb.querySelector('.lb-p').onclick = () => stepLb(-1); lb.querySelector('.lb-n').onclick = () => stepLb(1);
+  lb.onclick = e => { if (e.target === lb) closeLb(); };
+  document.addEventListener('keydown', e => { if (lb.hidden) return; if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowLeft') stepLb(-1); if (e.key === 'ArrowRight') stepLb(1); });
   if (location.hash) { const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
 });
 </script>'''
-page('deckplan.html', 'Deck Plans', ship, desc='Margaritaville at Sea deck plans and every stateroom and suite type, with photos.', path='/deck-plans', extra_js=ship_js, rc=False)
+page('ship.html', 'The Fleet', ship, desc='Margaritaville at Sea ship details, photos, deck plans and every stateroom and suite type.', path='/fleet', extra_js=ship_js, rc=False)
 
 # ======================= EXTRA PACKAGES =======================
 def tbl(rows, head=('Package', 'Price (from)', "What you get")):
@@ -490,7 +518,7 @@ FAQS = [
   ("Is there Wi-Fi?", "Yes. The \"Coconut Telegraph\" plans start around $19.99 per night, per device for messaging. See our <a href='/extra-packages#wifi'>Extra Packages</a> page."),
   ("Is the drink package worth it?", "If you'll have about five or more drinks a day, usually yes. Remember that every adult in the stateroom has to buy it if one does. Our <a href='/extra-packages#drinks'>Extra Packages</a> page has the details."),
   ("Where can I smoke?", "Only in designated outdoor areas: Deck 9 next to the License to Chill pool on Paradise, and Deck 10 overlooking the LandShark pool on Islander. Smoking anywhere else can mean fines of up to $500."),
-  ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/deck-plans'>Deck Plans</a> page."),
+  ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/fleet'>Fleet</a> page."),
  ]),
 ]
 faq_html = title_block('❓ FAQ', 'Frequently asked questions', 'Quick answers about sailing Margaritaville at Sea. Don\'t see your question? <a href="/contact">Ask us</a>!')
@@ -703,7 +731,7 @@ about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet 
   <h2>What you'll find here</h2>
   <ul>
     <li><b>⭐ Cruise Reviews:</b> the real deal on Paradise, Islander and Beachcomber</li>
-    <li><b>🗺️ Deck Plans:</b> every stateroom and suite type on each ship, with photos</li>
+    <li><b>🚢 Fleet:</b> each ship's details, photos, deck plans and every stateroom and suite type</li>
     <li><b>🍹 Extra Packages:</b> drink, dining and Wi-Fi packages decoded</li>
     <li><b>🏝️ Port Guides</b>, <b>💸 Deals</b> and <b>🎉 Events</b> worth planning around</li>
     <li><b>🙋 Roll Calls:</b> meet the people sailing on your ship and date</li>
@@ -819,13 +847,15 @@ nf = '''<div class="empty" style="padding:60px 20px"><div class="e">🧭</div><h
 page('404.html', 'Page Not Found', nf, path='/404')
 
 # ======================= Netlify config =======================
-open(os.path.join(SITE, '_redirects'), 'w').write('''/staterooms      /deck-plans          301!
-/staterooms/*    /deck-plans          301!
+open(os.path.join(SITE, '_redirects'), 'w').write('''/staterooms      /fleet               301!
+/staterooms/*    /fleet               301!
+/deck-plans      /fleet               301!
+/deck-plans/*    /fleet/:splat        301!
 /blog            /                    301!
 /post/*          /post.html           200
 /rollcall/*      /rollcall.html       200
-/deck-plans      /deck-plans.html     200
-/deck-plans/*    /deckplan.html       200
+/fleet           /fleet.html          200
+/fleet/*         /ship.html           200
 /cruise-reviews  /cruise-reviews.html 200
 /extra-packages  /extra-packages.html 200
 /port-guides     /port-guides.html    200
@@ -856,5 +886,5 @@ open(os.path.join(SITE, '_headers'), 'w').write('''/*
 ''')
 open(os.path.join(SITE, 'robots.txt'), 'w').write(f'User-agent: *\nDisallow: /admin\nDisallow: /account\nSitemap: {DOMAIN}/sitemap.xml\n')
 open(os.path.join(SITE, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/cruise-reviews', '/extra-packages', '/deck-plans', '/deck-plans/paradise', '/deck-plans/islander', '/deck-plans/beachcomber', '/port-guides', '/deals', '/newsletter', '/events', '/faq', '/rollcalls', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
+    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/cruise-reviews', '/extra-packages', '/fleet', '/fleet/paradise', '/fleet/islander', '/fleet/beachcomber', '/port-guides', '/deals', '/newsletter', '/events', '/faq', '/rollcalls', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
 print('built')

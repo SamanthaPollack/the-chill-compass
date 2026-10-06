@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Post | The Chill Compass</title>
-<meta name="description" content="Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!">
-<link rel="canonical" href="https://margaritavilleatseablog.com/">
+<title>The Fleet | The Chill Compass</title>
+<meta name="description" content="Meet the Margaritaville at Sea fleet: Paradise, Islander and Beachcomber ship details, photos, deck plans and every stateroom type.">
+<link rel="canonical" href="https://margaritavilleatseablog.com/fleet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Chill Compass">
-<meta property="og:title" content="Post | The Chill Compass">
-<meta property="og:description" content="Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!">
-<meta property="og:url" content="https://margaritavilleatseablog.com/">
+<meta property="og:title" content="The Fleet | The Chill Compass">
+<meta property="og:description" content="Meet the Margaritaville at Sea fleet: Paradise, Islander and Beachcomber ship details, photos, deck plans and every stateroom type.">
+<meta property="og:url" content="https://margaritavilleatseablog.com/fleet">
 <meta property="og:image" content="https://margaritavilleatseablog.com/assets/img/share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
@@ -42,9 +42,8 @@
   </ul></nav>
   <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
 </div></div>
-<div class="wrap"><div class="shell"><main><div id="post"><div class="loading" style="padding:120px 20px">Loading…</div></div>
-<div class="ad-slot" data-slot="post-bottom"></div>
-<section class="sec" id="related-wrap" style="display:none"><div class="sec-h"><h2>You might also like</h2></div><div class="rows" id="related"></div></section></main><aside class="side"><div class="widget" id="quote">
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🚢 The Fleet</div><h1>Meet the Margaritaville at Sea ships</h1><p>Pick a ship to explore it: ship details and highlights, photos, deck plans, and every stateroom and suite type on one page.</p></div>
+<div class="ship-cards" id="shipCards"><div class="loading">Loading ships…</div></div></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Tell us your dream sailing. A real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb">
     <form class="qf js-quote">
@@ -77,10 +76,6 @@
     <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
-</div><div class="widget navy">
-  <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
-  <div class="wb"><ul class="side-list" id="rcSide"><li style="opacity:.6">Loading…</li></ul>
-  <a href="/rollcalls" class="btn btn-navy btn-sm" style="width:100%;margin-top:10px">All Roll Calls</a></div>
 </div></aside></div></div>
 <footer class="site">
   <div class="wrap">
@@ -160,43 +155,21 @@ document.addEventListener('cc:ready', async () => {
     : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script>
-function setMeta(sel, attr, val) { let m = document.querySelector(sel); if (m) m.setAttribute(attr, val); }
 document.addEventListener('cc:ready', async () => {
-  const el = document.getElementById('post');
-  const slug = decodeURIComponent(location.pathname.replace(/^\/post\//, '').replace(/\/$/, '')) || new URLSearchParams(location.search).get('slug');
-  const { data: p } = await sb.from('posts').select('*').eq('slug', slug).maybeSingle();
-  if (!p) { el.innerHTML = emptyBox('Oops, we drifted off course!', 'That post isn\'t here. Try the <a href="/">home page</a> instead.'); return; }
-  const c = CATS[p.category] || CATS['Cruise Reviews'];
-  document.title = p.title + ' | The Chill Compass';
-  const d = p.excerpt || p.title;
-  setMeta('meta[name=description]', 'content', d); setMeta('meta[property="og:title"]', 'content', p.title);
-  setMeta('meta[property="og:description"]', 'content', d); setMeta('meta[property="og:url"]', 'content', location.origin + '/post/' + p.slug);
-  setMeta('link[rel=canonical]', 'href', location.origin + '/post/' + p.slug);
-  if (p.cover_url) setMeta('meta[property="og:image"]', 'content', p.cover_url);
-  const heroBg = p.cover_url ? `background-image:url('${esc(p.cover_url)}')` : `background:${c.grad}`;
-  const url = encodeURIComponent(location.href), t = encodeURIComponent(p.title);
-  el.innerHTML = `
-    <section class="article-hero" style="${heroBg}">
-      <a class="tag" href="/${c.slug}">${c.emoji} ${esc(p.category)}</a>
-      <h1>${esc(p.title)}</h1>
-      <div>${p.published ? fmtDate(p.published_at) : '<b>DRAFT (only you can see this)</b>'}</div>
-    </section>
-    <article class="article">
-      ${DOMPurify.sanitize(p.content || '', { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'] })}
-      <div class="share"><b>Share the chill:</b>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://pinterest.com/pin/create/button/?url=${url}&description=${t}" target="_blank" rel="noopener">Pinterest</a>
-        <a href="mailto:?subject=${t}&body=${url}">Email</a>
-        <button onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied! ✓'">Copy link</button>
-      </div>
-    </article>`;
-  const ld = document.createElement('script'); ld.type = 'application/ld+json';
-  ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: d, image: p.cover_url || undefined, datePublished: p.published_at, dateModified: p.updated_at, publisher: { '@type': 'Organization', name: 'The Chill Compass' } });
-  document.head.appendChild(ld);
-  const rel = await fetchPosts({ limit: 3, category: p.category, excludeId: p.id });
-  if (rel.length) { document.getElementById('related').innerHTML = rel.map(postRow).join(''); document.getElementById('related-wrap').style.display = 'block'; }
+  const [{ data: ships }, { data: rooms }] = await Promise.all([
+    sb.from('ships').select('*').order('sort'), sb.from('staterooms').select('ship').eq('active', true)]);
+  const count = s => (rooms || []).filter(r => r.ship === s).length;
+  document.getElementById('shipCards').innerHTML = (ships || []).map(s => {
+    const facts = [s.guests && '👥 ' + s.guests, s.tonnage && '⚓ ' + s.tonnage].filter(Boolean).map(f => `<span>${esc(f)}</span>`).join('');
+    return `<a class="ship-card" href="/fleet/${SHIPS[s.name].slug}">
+      <div class="sc-img ship-${SHIPS[s.name].slug}" style="${s.hero_url ? `background-image:url('${esc(s.hero_url)}')` : ''}">${s.hero_url ? '' : `<span class="wm">${SHIPS[s.name].emoji}</span>`}</div>
+      <div class="sc-body"><div class="eyebrow">${esc(s.tagline || '')}</div><h2>${esc(s.name)}</h2>
+        <p>📍 ${esc(s.homeport || '')}</p>${facts ? `<div class="rc-chips">${facts}</div>` : ''}
+        <p class="sc-what">Ship details · photos · deck plans · ${count(s.name)} room types</p>
+        <span class="btn btn-coral btn-sm">Explore ${esc(s.name)} →</span></div>
+    </a>`;
+  }).join('');
 });
 </script></body>
 </html>

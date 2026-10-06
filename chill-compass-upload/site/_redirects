@@ -1,10 +1,12 @@
-/staterooms      /deck-plans          301!
-/staterooms/*    /deck-plans          301!
+/staterooms      /fleet               301!
+/staterooms/*    /fleet               301!
+/deck-plans      /fleet               301!
+/deck-plans/*    /fleet/:splat        301!
 /blog            /                    301!
 /post/*          /post.html           200
 /rollcall/*      /rollcall.html       200
-/deck-plans      /deck-plans.html     200
-/deck-plans/*    /deckplan.html       200
+/fleet           /fleet.html          200
+/fleet/*         /ship.html           200
 /cruise-reviews  /cruise-reviews.html 200
 /extra-packages  /extra-packages.html 200
 /port-guides     /port-guides.html    200

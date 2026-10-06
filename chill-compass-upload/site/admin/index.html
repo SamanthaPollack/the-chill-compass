@@ -79,7 +79,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
       <button class="tab" data-p="quotes">🛳️ Quotes <span class="n" id="qN">0</span></button>
       <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
       <button class="tab" data-p="rc">🙋 Roll Calls</button>
-      <button class="tab" data-p="rooms">🛏️ Staterooms</button>
+      <button class="tab" data-p="rooms">🚢 Fleet &amp; Rooms</button>
       <button class="tab" data-p="events">🎉 Events</button>
       <button class="tab" data-p="acct">⚙️ Account</button>
     </div>
@@ -149,7 +149,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
 
     <!-- STATEROOMS -->
     <div class="panel" id="p-rooms">
-      <div class="bar"><h2>Staterooms</h2><div style="display:flex;gap:10px"><select id="rShip" style="font:inherit;padding:8px;border-radius:10px"><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select><button class="btn btn-coral" id="rNew">+ Add Room</button></div></div>
+      <div class="bar"><h2>Fleet &amp; Staterooms</h2><div style="display:flex;gap:10px"><select id="rShip" style="font:inherit;padding:8px;border-radius:10px"><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select><button class="btn btn-coral" id="rNew">+ Add Room</button></div></div>
       <p class="hint" style="margin-top:-6px">Use photos from the Margaritaville at Sea travel-advisor media library (or your own). Rooms without photos show "Photo coming soon."</p>
       <div class="card" style="padding:18px;margin-bottom:18px"><h3 style="margin-bottom:10px">🚢 <span id="sName">Ship</span> page settings</h3>
         <div class="grid2" style="grid-template-columns:1fr 1fr">
@@ -157,7 +157,10 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
           <div class="field"><label>Deck plan image or PDF</label><div class="cover" id="sDeck">Click to add</div><input type="file" id="sDeckF" accept="image/*,application/pdf" hidden><button type="button" class="link red" id="sDeckDel">Remove</button></div>
         </div>
         <div class="field"><label for="sTag">Tagline</label><input id="sTag" maxlength="80"></div>
-        <div class="field"><label for="sIntro">Intro</label><textarea id="sIntro" rows="3" maxlength="600"></textarea></div>
+        <div class="field"><label for="sIntro">About the ship (intro)</label><textarea id="sIntro" rows="3" maxlength="600"></textarea></div>
+        <div class="field"><label for="sHi">Onboard highlights (one per line)</label><textarea id="sHi" rows="5"></textarea></div>
+        <div class="field"><label>Ship photo gallery <span class="hint">(pool deck, bars, venues; first photo shows biggest)</span></label><div class="gal" id="sGal"></div>
+          <button type="button" class="btn btn-teal" id="sGalAdd" style="margin-top:8px;padding:8px 14px;font-size:14px">+ Add ship photos</button><input type="file" id="sGalF" accept="image/*" multiple hidden></div>
         <button class="btn btn-coral" id="sSave" type="button">💾 Save Ship Settings</button>
       </div>
       <div class="grid2">
@@ -504,7 +507,10 @@ $('rForm').onsubmit = async e => {
 $('rDel').onclick = async () => { if (!room || !confirm(`Delete "${room.name}"?`)) return; await sb.from('staterooms').delete().eq('id', room.id); toast('Deleted'); room = null; $('rForm').style.display = 'none'; $('rTitle').textContent = 'Pick a room to edit'; loadRooms(); };
 
 /* ---------- ship settings ---------- */
-let ships = {}, shipHero = null, shipDeck = null;
+let ships = {}, shipHero = null, shipDeck = null, shipPics = [];
+function drawShipGal() { $('sGal').innerHTML = shipPics.length ? shipPics.map((u, i) => `<div class="g"><img src="${esc(u)}" alt=""><div class="ga">${i ? `<button type="button" onclick="shipMain(${i})" title="Show first">★</button>` : '<b>First</b>'}<button type="button" onclick="shipDelPic(${i})" title="Remove">✕</button></div></div>`).join('') : '<div class="hint">No ship photos yet.</div>'; }
+function shipMain(i) { shipPics.unshift(shipPics.splice(i, 1)[0]); drawShipGal(); }
+function shipDelPic(i) { shipPics.splice(i, 1); drawShipGal(); }
 function setCoverBox(id, u) { const el = $(id); el.style.backgroundImage = u && !/\.pdf(\?|$)/i.test(u) ? `url('${u}')` : ''; el.textContent = u ? (/\.pdf(\?|$)/i.test(u) ? '📄 PDF uploaded' : '') : 'Click to add'; }
 async function loadShips() { const { data } = await sb.from('ships').select('*'); (data || []).forEach(x => ships[x.name] = x); drawShip(); }
 function drawShip() {
@@ -512,7 +518,10 @@ function drawShip() {
   shipHero = x.hero_url || null; shipDeck = x.deck_plan_url || null;
   setCoverBox('sHero', shipHero); setCoverBox('sDeck', shipDeck);
   $('sTag').value = x.tagline || ''; $('sIntro').value = x.intro || '';
+  $('sHi').value = (x.highlights || []).join('\n'); shipPics = [...(x.photos || [])]; drawShipGal();
 }
+$('sGalAdd').onclick = () => $('sGalF').click();
+$('sGalF').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; for (const f of fs) { toast('Uploading ' + f.name + '…'); const u = await uploadImage(f); if (u) { shipPics.push(u); drawShipGal(); } } toast('Photos added ✓ (remember to Save Ship Settings)'); };
 $('rShip').addEventListener('change', drawShip);
 $('sHero').onclick = () => $('sHeroF').click(); $('sDeck').onclick = () => $('sDeckF').click();
 $('sHeroF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('sHero').textContent = 'Uploading…'; shipHero = await uploadImage(f) || shipHero; setCoverBox('sHero', shipHero); e.target.value = ''; };
@@ -521,7 +530,7 @@ $('sHeroDel').onclick = () => { shipHero = null; setCoverBox('sHero', null); };
 $('sDeckDel').onclick = () => { shipDeck = null; setCoverBox('sDeck', null); };
 $('sSave').onclick = async () => {
   const n = $('rShip').value;
-  const { error } = await sb.from('ships').update({ hero_url: shipHero, deck_plan_url: shipDeck, tagline: $('sTag').value.trim() || null, intro: $('sIntro').value.trim() || null, updated_at: new Date().toISOString() }).eq('name', n);
+  const { error } = await sb.from('ships').update({ hero_url: shipHero, deck_plan_url: shipDeck, tagline: $('sTag').value.trim() || null, intro: $('sIntro').value.trim() || null, highlights: $('sHi').value.split('\n').map(x => x.trim()).filter(Boolean), photos: shipPics, updated_at: new Date().toISOString() }).eq('name', n);
   if (error) return toast('Save failed: ' + error.message); toast('Ship settings saved ✓'); loadShips();
 };
 async function uploadAny(file) {
