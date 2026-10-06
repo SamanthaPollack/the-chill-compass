@@ -440,3 +440,4 @@ footer.site a:hover{color:var(--sun)}
 .wed-sub{margin:4px 0 10px;font-weight:700;color:var(--ink-soft)}
 .band .btn{white-space:nowrap}
 .wed-grid .wed-card .feat{grid-template-columns:1fr!important}
+.article img{max-width:100%;display:block;margin:0 auto}

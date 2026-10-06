@@ -772,8 +772,7 @@ about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet 
     <li><b>🏝️ Port Guides</b>, <b>💸 Deals</b> and <b>🎉 Events</b> worth planning around</li>
     <li><b>🙋 Roll Calls:</b> meet the people sailing on your ship and date</li>
   </ul>
-  <h2>Want us to plan it for you?</h2>
-  <p>The Chill Compass is presented by <a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel, LLC</a>. Our advisors can find the best cabin, perks and pricing for your next sailing, at no extra cost to you.</p>
+  <p>The Chill Compass is presented by <a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel, LLC</a>.</p>
   <p style="font-size:14px;opacity:.7;margin-top:30px"><i>The Chill Compass is an independent blog and is not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. All trademarks belong to their respective owners.</i></p>
 </div>'''
 page('about.html', 'About Us', about, desc='Meet the travel advisors behind The Chill Compass, an independent cruise blog for Margaritaville at Sea fans.', path='/about')
@@ -873,7 +872,7 @@ privacy = title_block('Privacy', 'Privacy Policy', 'Last updated: October 2026')
   <h3>Children</h3>
   <p>This site is not directed to children under 13, and we do not knowingly collect their information. Roll Call accounts are for adults 18+.</p>
   <h3>Contact</h3>
-  <p>Questions? Email <a href="mailto:admin@margaritavilleatseablog.com">admin@margaritavilleatseablog.com</a> or write to Cruises Tours and Travel, LLC, 5006 Sanderling Ridge Dr, Lithia, FL 33547.</p>
+  <p>Questions? Email <a href="mailto:admin@margaritavilleatseablog.com">admin@margaritavilleatseablog.com</a>.</p>
 </div>'''
 page('privacy.html', 'Privacy Policy', privacy, desc='Privacy policy for The Chill Compass.', path='/privacy', rc=False)
 
