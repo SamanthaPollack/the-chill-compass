@@ -219,7 +219,6 @@ const ADS = {
   slots: { 'home-mid': '', 'blog-bottom': '', 'post-bottom': '' },
 };
 const HOUSE_ADS = [
-  { e: '🛳️', t: 'Ready to set sail?', s: 'Get a free, no-obligation quote from our travel advisors.', go: 'Free Quote', href: '#quote' },
   { e: '🗺️', t: 'Free Port Guides', s: 'Palm Beach, Tampa, Miami & Galveston guides for your inbox.', go: 'Send Them!', href: '/newsletter' },
   { e: '📣', t: 'Advertise on The Chill Compass', s: 'Reach cruisers planning their next getaway.', go: 'Get in Touch', href: 'mailto:admin@margaritavilleatseablog.com?subject=Advertising' },
 ];

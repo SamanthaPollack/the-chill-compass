@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=10">
+<link rel="stylesheet" href="/assets/style.css?v=11">
 
 </head>
 <body>
@@ -40,7 +40,6 @@
     <li><a href="/events">Events</a></li>
     <li><a href="/faq">FAQ</a></li>
   </ul></nav>
-  <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
 </div></div>
 <div class="wrap"><div class="shell"><main><p style="margin:0 0 12px"><a href="/rollcalls" style="font-weight:700;text-decoration:none">← All Roll Calls</a></p>
 <div id="rcWrap"><div class="loading">Loading roll call…</div></div></main><aside class="side"><div class="widget" id="quote">
@@ -96,7 +95,6 @@
         <li><a href="/rollcalls">Roll Calls</a></li>
         <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
-        <li><a href="#quote" data-quote>Free Quote</a></li>
         <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
@@ -112,7 +110,7 @@
     </div>
   </div>
 </footer>
-<a href="#quote" class="btn btn-coral fab" data-quote>🛳️ Free Quote</a>
+
 <div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
   <div class="box">
     <button class="x" aria-label="Close">×</button>
@@ -150,7 +148,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=10"></script>
+<script src="/assets/app.js?v=11"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;

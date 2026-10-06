@@ -5,7 +5,7 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '10'
+V = '11'
 
 def head(title, desc=DESC, path='/', extra=''):
     full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
@@ -54,7 +54,6 @@ def header(tall=False):
     <li><a href="/events">Events</a></li>
     <li><a href="/faq">FAQ</a></li>
   </ul></nav>
-  <a href="#quote" class="btn btn-coral btn-sm quote-btn" data-quote>Free Quote</a>
 </div></div>
 '''
 
@@ -140,7 +139,6 @@ FOOTER = '''<footer class="site">
         <li><a href="/rollcalls">Roll Calls</a></li>
         <li><a href="/faq">FAQ</a></li></ul></div>
       <div><h3>Connect</h3><ul>
-        <li><a href="#quote" data-quote>Free Quote</a></li>
         <li><a href="/port-guides#guides">Free Port Guides</a></li>
         <li><a href="/contact">Contact Us</a></li>
         <li><a href="/write-for-us">Write for Us</a></li></ul></div>
@@ -156,7 +154,7 @@ FOOTER = '''<footer class="site">
     </div>
   </div>
 </footer>
-<a href="#quote" class="btn btn-coral fab" data-quote>🛳️ Free Quote</a>
+
 <div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
   <div class="box">
     <button class="x" aria-label="Close">×</button>
@@ -310,8 +308,7 @@ function roomCard(r) {
     <div class="rc-pic">${main}<span class="tag tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span></div>${thumbs}
     <div class="rc-body"><h3>${esc(r.name)}</h3>${chips ? `<div class="rc-chips">${chips}</div>` : ''}
       <p>${esc(r.blurb || '')}</p>
-      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-      <button class="btn btn-coral btn-sm" data-q="${esc(r.tier)}">🛳️ Quote this room</button></div>
+      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}</div>
   </article>`;
 }
 document.addEventListener('cc:ready', async () => {
@@ -335,8 +332,7 @@ document.addEventListener('cc:ready', async () => {
     <section class="card ship-sec" id="about"><h2>⭐ About ${esc(name)}</h2>
       ${sh.intro ? `<p class="ship-intro">${esc(sh.intro)}</p>` : ''}
       ${facts.length ? `<div class="facts-row">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>` : ''}
-      ${hi.length ? `<h3>Onboard highlights</h3><ul class="feat">${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
-      <button class="btn btn-coral btn-sm" data-qship>🛳️ Get a quote on ${esc(name)}</button></section>
+      ${hi.length ? `<h3>Onboard highlights</h3><ul class="feat">${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}</section>
     ${gal.length ? `<section class="ship-sec" id="photos"><div class="sec-h"><h2>📸 ${esc(name)} photos</h2><span class="fine" style="margin:0">Tap to enlarge</span></div>
       <div class="ship-gal">${gal.map((p, i) => `<button type="button" data-g="${i}"><img src="${esc(p)}" alt="Margaritaville at Sea ${esc(name)} photo ${i + 1}" loading="lazy"></button>`).join('')}</div></section>` : ''}
     <section class="card deck-box ship-sec" id="deck-plans"><div><h2>🗺️ ${esc(name)} deck plans</h2>
@@ -351,8 +347,6 @@ document.addEventListener('cc:ready', async () => {
     html += `<h3 class="tier-h" id="tier-${slugify(t)}">${TIER_EMOJI[t]} ${t === "Suite" ? "Suites" : t + " Staterooms"}</h3><div class="room-grid">${list.filter(r => r.tier === t).map(roomCard).join('')}</div>`;
   });
   document.getElementById('roomsAll').innerHTML = list.length ? html : `<div id="rooms">${emptyBox('Room details coming soon')}</div>`;
-  document.querySelectorAll('[data-qship]').forEach(b => b.onclick = () => prefillQuote(name, ''));
-  document.querySelectorAll('.room-card [data-q]').forEach(b => b.onclick = () => prefillQuote(name, b.dataset.q));
   document.querySelectorAll('.ship-gal [data-g]').forEach(b => b.onclick = () => openLb(gal, +b.dataset.g));
   document.querySelectorAll('.room-card').forEach(card => {
     const pics = JSON.parse(card.dataset.pics || '[]'), img = card.querySelector('[data-zoom]');
@@ -378,7 +372,7 @@ def tbl(rows, head=('Package', 'Price (from)', "What you get")):
 
 pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, decoded',
     'Here\'s what you can add to your Margaritaville at Sea cruise, what it costs and when it\'s worth it.') + '''
-<div class="notice">Prices below are the cruise line's published "from" prices as of October 2026 and change often, especially with pre-cruise sales. Many packages are cheaper if you buy before you sail. <a href="#quote" data-quote>Ask us</a> for current pricing on your sailing.</div>
+<div class="notice">Prices below are the cruise line's published "from" prices as of October 2026 and change often, especially with pre-cruise sales. Many packages are cheaper if you buy before you sail.</div>
 
 <div class="toc chips"><a class="chip" href="#drinks">🍹 Drinks</a><a class="chip" href="#dining">🍤 Dining</a><a class="chip" href="#wifi">📶 Wi-Fi</a><a class="chip" href="#bundles">🎟️ Bundles</a><a class="chip" href="#more">🌴 More add-ons</a><a class="chip" href="#worth">🤔 Worth it?</a></div>
 
@@ -436,7 +430,7 @@ pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, dec
 <li><b>Wi-Fi:</b> one Connect plan for messaging is plenty for most people. Save Premium for streaming or work.</li>
 <li><b>Bundles:</b> great value if you'd buy the drinks <i>and</i> the specialty dining anyway.</li>
 </ul>
-<p style="margin-top:20px">Want us to price packages for your sailing? <a href="#quote" data-quote><b>Get a free quote</b></a> and we'll include the current package deals.</p>
+
 </div>'''
 page('extra-packages.html', 'Extra Packages', pk, desc='Margaritaville at Sea drink packages, specialty dining, Wi-Fi and add-ons explained, with prices and tips.', path='/extra-packages')
 
@@ -486,11 +480,9 @@ document.addEventListener('cc:ready', async () => {
         <h3>${esc(e.title)}</h3>
         <div class="ev-meta">${[e.ship && '🚢 ' + esc(e.ship), '📅 ' + fmtRange(e.start_date, e.end_date), e.location && '📍 ' + esc(e.location)].filter(Boolean).join(' &nbsp;·&nbsp; ')}</div>
         <p>${esc(e.description || '')}</p>
-        <div class="acts">${e.link ? `<a class="btn btn-navy btn-sm" href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.link_label || 'Learn more')} ↗</a>` : ''}
-          <button class="btn btn-coral btn-sm" data-ship="${esc((e.ship || '').split(' ')[0])}">Quote this sailing</button></div>
+        <div class="acts">${e.link ? `<a class="btn btn-navy btn-sm" href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.link_label || 'Learn more')} ↗</a>` : ''}</div>
       </div></article>`;
   }).join('') : emptyBox('New events coming soon', 'Join the newsletter and we\\'ll let you know.');
-  document.querySelectorAll('.ev [data-ship]').forEach(b => b.onclick = () => prefillQuote(SHIPS[b.dataset.ship] ? b.dataset.ship : ''));
 });
 </script>'''
 page('events.html', 'Events', ev, desc='Margaritaville at Sea themed cruises, holiday sailings, group cruises and ship debuts.', path='/events', extra_js=ev_js)
@@ -500,7 +492,7 @@ FAQS = [
  ('Booking & money', [
   ("What's included in my cruise fare?", "Your stateroom, meals in the main dining room and buffet, most casual eateries, entertainment, pools and the kids' clubs. Not included: alcohol and soda (unless you buy a package), specialty dining, Wi-Fi, gratuities, spa treatments and shore excursions."),
   ("How much are gratuities?", "They're added to your onboard account automatically: $22 per person, per night in staterooms and $25 per person, per night in suites. Many people prepay them so there are no surprises at the end."),
-  ("Does it cost more to book with a travel advisor?", "Nope! We're paid by the cruise line, so our help is free. We compare sailings and cabins, watch for price drops and promos, and help if anything goes sideways. <a href='#quote' data-quote>Get a free quote</a>."),
+  ("Does it cost more to book with a travel advisor?", "Nope! We're paid by the cruise line, so our help is free. We compare sailings and cabins, watch for price drops and promos, and help if anything goes sideways."),
   ("Should I buy travel insurance?", "We strongly recommend it, especially for hurricane-season sailings (June to November). It can cover cancellations, missed departures, medical care at sea and lost luggage. Ask us for options."),
  ]),
  ('Who can sail', [
@@ -737,13 +729,13 @@ about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet 
     <li><b>🙋 Roll Calls:</b> meet the people sailing on your ship and date</li>
   </ul>
   <h2>Want us to plan it for you?</h2>
-  <p>The Chill Compass is presented by <a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel, LLC</a>. Our advisors can find the best cabin, perks and pricing for your next sailing, at no extra cost to you. Just fill out the <a href="#quote" data-quote>free quote form</a>.</p>
+  <p>The Chill Compass is presented by <a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel, LLC</a>. Our advisors can find the best cabin, perks and pricing for your next sailing, at no extra cost to you.</p>
   <p style="font-size:14px;opacity:.7;margin-top:30px"><i>The Chill Compass is an independent blog and is not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. All trademarks belong to their respective owners.</i></p>
 </div>'''
 page('about.html', 'About Us', about, desc='Meet the travel advisors behind The Chill Compass, an independent cruise blog for Margaritaville at Sea fans.', path='/about')
 
 # ======================= CONTACT =======================
-contact = title_block('🐚 Contact', 'Drop us a line!', 'Questions, post ideas or advertising? We\'d love to hear from you. Ready to book? Use the <a href="#quote" data-quote>free quote form</a>.') + '''
+contact = title_block('🐚 Contact', 'Drop us a line!', 'Questions, post ideas or advertising? We\'d love to hear from you.') + '''
 <div class="card">
   <form id="contact">
     <div class="field"><label for="cn">Your name</label><input id="cn" name="name" required maxlength="150"></div>
