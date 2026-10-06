@@ -5,7 +5,7 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '14'
+V = '15'
 
 def head(title, desc=DESC, path='/', extra=''):
     full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
@@ -52,6 +52,7 @@ def header(tall=False):
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
     <li><a href="/newsletter">Newsletter</a></li>
+    <li><a href="/weddings">Weddings</a></li>
     <li><a href="/events">Events</a></li>
     <li><a href="/rollcalls">Roll Calls</a></li>
     <li><a href="/faq">FAQ</a></li>
@@ -368,6 +369,46 @@ document.addEventListener('cc:ready', async () => {
 </script>'''
 page('ship.html', 'The Fleet', ship, desc='Margaritaville at Sea ship details, photos, deck plans and every stateroom and suite type.', path='/fleet', extra_js=ship_js, rc=False)
 
+
+# ======================= WEDDINGS =======================
+WED_MAIL = 'mailto:admin@margaritavilleatseablog.com?subject=Wedding%20Inquiry&body=Names%3A%0AWedding%20date%20or%20sailing%20you%27re%20eyeing%3A%0AApprox.%20number%20of%20guests%3A%0APackage%20you%27re%20interested%20in%3A%0AAnything%20else%3A'
+WED_BTN = f'<a class="btn btn-coral" href="{WED_MAIL}">💌 Inquire About a Wedding</a>'
+wed_pk = [
+  ('Bliss', '$999', '🌺', 'Everything you need to say "I do" at sea.', [
+    'Personal wedding coordinator', 'Room rental', 'Officiant', 'Keepsake wedding certificate',
+    'Bridal bouquet (single-color roses) and matching boutonniere', 'Margarita toast for the couple',
+    'Priority check-in for the couple', 'Special in-room amenity', 'Dinner for the newlyweds at JWB Steakhouse',
+    'Sound system and basic room lighting', 'Wedding cake']),
+  ('Elation', '$1,699', '🥂', 'Everything in Bliss, plus:', [
+    'Upgraded venue with panoramic views', 'Upgraded ceremony decorations',
+    'Semi-private reception dinner in the Main Dining Room', 'In-house DJ (1 hour)',
+    'Photographer (ceremony only, 1 hour)', 'Breakfast for the couple at JWB Steakhouse']),
+  ('Paradise', '$2,699', '💍', 'Everything in Elation, plus:', [
+    '3-tier wedding cake', 'Premium ceremony decorations and room lighting',
+    'Live music reception (1 hour)', 'Photographer for the ceremony and reception']),
+]
+wed = title_block('💍 Weddings at Sea', 'Say "I do" in Margaritaville',
+  'Barefoot vows, a margarita toast and your favorite people on a ship that feels like a beach party. Here\'s how weddings work on Margaritaville at Sea.') + \
+  f'<p class="submit-cta">{WED_BTN}</p>' + '''
+<div class="notice">Wedding packages are currently available on <b>Paradise</b> (sailing from Palm Beach). Your group needs at least <b>8 staterooms (16 guests)</b>, including the couple.</div>
+<div class="sec-h" style="margin-top:22px"><h2>💒 Wedding packages</h2></div>
+<div class="wed-grid">''' + ''.join(f'''
+  <div class="card wed-card{' hot' if i == 1 else ''}"><div class="wed-e">{e}</div><h3>{n}</h3><div class="wed-price">{p}</div>
+    <p class="wed-sub">{sub}</p><ul class="feat">{''.join(f'<li>{x}</li>' for x in inc)}</ul></div>''' for i, (n, p, e, sub, inc) in enumerate(wed_pk)) + '''
+</div>
+<div class="sec-h" style="margin-top:28px"><h2>📝 Good to know</h2></div>
+<div class="card"><ul class="feat">
+  <li><b>Officiant included:</b> every package comes with a professional officiant and a wedding coordinator.</li>
+  <li><b>Minimum group:</b> 8 staterooms (16 guests), including the couple. More guests can be added for an extra fee.</li>
+  <li><b>Guests who aren't sailing</b> can still attend the ceremony on board. Additional fees may apply.</li>
+  <li><b>Make it a weekend:</b> welcome parties, cocktail celebrations, rehearsal dinners and other group events can be added.</li>
+  <li><b>Make it yours:</b> upgrades like custom cakes and décor requests are available.</li>
+</ul></div>
+<div class="band" style="margin-top:26px"><div class="e">💌</div><div><h3>Dreaming of a cruise wedding?</h3>
+  <p>Tell us your names, the sailing or month you have in mind and roughly how many guests, and we'll get back to you.</p></div>''' + WED_BTN + '''</div>
+<p class="room-fine">Package prices and inclusions are from Margaritaville at Sea's published wedding packages as of October 2026 and can change.</p>'''
+page('weddings.html', 'Weddings', wed, desc='Margaritaville at Sea wedding packages on Paradise: Bliss, Elation and Paradise packages, what\'s included and how to get married at sea.', path='/weddings')
+
 # ======================= EXTRA PACKAGES =======================
 def tbl(rows, head=('Package', 'Price (from)', "What you get")):
     return '<div class="tbl-wrap"><table class="tbl"><thead><tr>' + ''.join(f'<th>{h}</th>' for h in head) + '</tr></thead><tbody>' + \
@@ -393,7 +434,7 @@ pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, dec
 ''' + tbl([
     ['<b>JWB Prime Steakhouse dinner</b>', '$55 per person', 'The splurge-worthy steakhouse night.'],
     ['<b>Sparkling Brunch</b>', '$19.90 per person', 'Chef-made brunch with a mimosa, bellini or sparkling wine.'],
-    ['<b>Far Side Sampler</b> (Islander)', '$75 per person', 'A sampler from the Far Side sushi menu.'],
+    ['<b>Far Side Sampler</b> (Islander)', '$67.50 to $75 per person', 'A $25 dining credit to use at Far Side Sushi, Tiki Grill and Island Eats.'],
     ['<b>Prime Dining Package</b>', '$89 per person', 'JWB dinner, Sparkling Brunch and Far Side sushi, bundled for savings.'],
     ['<b>Ultimate Dining Chill</b> (Islander)', '$159 per person', 'The full specialty-dining lineup for big foodies.'],
 ]) + '''
@@ -858,6 +899,7 @@ open(os.path.join(SITE, '_redirects'), 'w').write('''/staterooms      /fleet    
 /tips            /blog.html           200
 /newsletter      /newsletter.html     200
 /events          /events.html         200
+/weddings        /weddings.html       200
 /faq             /faq.html            200
 /rollcalls       /rollcalls.html      200
 /account         /account.html        200
@@ -881,5 +923,5 @@ open(os.path.join(SITE, '_headers'), 'w').write('''/*
 ''')
 open(os.path.join(SITE, 'robots.txt'), 'w').write(f'User-agent: *\nDisallow: /admin\nDisallow: /account\nSitemap: {DOMAIN}/sitemap.xml\n')
 open(os.path.join(SITE, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/cruise-reviews', '/extra-packages', '/fleet', '/fleet/paradise', '/fleet/islander', '/fleet/beachcomber', '/port-guides', '/deals', '/newsletter', '/events', '/faq', '/rollcalls', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
+    ''.join(f'  <url><loc>{DOMAIN}{p}</loc></url>\n' for p in ['/', '/cruise-reviews', '/extra-packages', '/fleet', '/fleet/paradise', '/fleet/islander', '/fleet/beachcomber', '/port-guides', '/deals', '/newsletter', '/events', '/weddings', '/faq', '/rollcalls', '/about', '/contact', '/write-for-us']) + '</urlset>\n')
 print('built')
