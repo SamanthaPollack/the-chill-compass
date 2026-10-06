@@ -424,3 +424,7 @@ footer.site a:hover{color:var(--sun)}
 .lb .lb-p{left:16px;top:50%;transform:translateY(-50%)}
 .lb .lb-n{right:16px;top:50%;transform:translateY(-50%)}
 .lb.one .lb-p,.lb.one .lb-n{display:none}
+
+/* tagline strip under the banner */
+.tagbar{background:linear-gradient(90deg,#0B7F8A,#14B8C4,#0B7F8A);color:#fff;text-align:center;font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(15px,1.6vw,21px);letter-spacing:.04em;padding:6px 12px;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.submit-cta{margin:-6px 0 22px}

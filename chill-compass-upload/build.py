@@ -5,7 +5,7 @@ import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
 DOMAIN = 'https://margaritavilleatseablog.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
-V = '11'
+V = '14'
 
 def head(title, desc=DESC, path='/', extra=''):
     full = 'The Chill Compass | A Margaritaville at Sea Blog' if title == 'The Chill Compass' else f'{title} | The Chill Compass'
@@ -40,7 +40,8 @@ def header(tall=False):
   <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
-<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1><div class="tagline">A Margaritaville at Sea Blog</div></header>
+<header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
+<div class="tagbar">A Margaritaville at Sea Blog</div>
 <div class="dock"><div class="wrap">
   <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
   <nav aria-label="Main"><ul>
@@ -52,6 +53,7 @@ def header(tall=False):
     <li><a href="/deals">Deals</a></li>
     <li><a href="/newsletter">Newsletter</a></li>
     <li><a href="/events">Events</a></li>
+    <li><a href="/rollcalls">Roll Calls</a></li>
     <li><a href="/faq">FAQ</a></li>
   </ul></nav>
 </div></div>
@@ -201,7 +203,7 @@ CAT_INTRO = {
     '': ('📰 Fresh from the deck', 'The latest Margaritaville at Sea reviews, port guides, deals and tips from our deck chairs.'),
     'Cruise Reviews': ('⭐ Cruise Reviews', 'Honest, sail-by-sail reviews of Paradise, Islander and Beachcomber: cabins, food, drinks, shows and the real vibe onboard.'),
     'Port Guides': ('🏝️ Port Guides', 'What to do, eat and skip in every Margaritaville at Sea port, plus tips for the homeports.'),
-    'Deals': ('💸 Deals', 'Sales, promos and offers worth celebrating. Ask us to price any deal for your dates.'),
+    'Deals': ('💸 Deals', 'Sales, promos and offers worth celebrating.'),
     'Tips & News': ('🧭 Tips & News', 'Packing hacks, planning tips and the latest Margaritaville at Sea news.'),
 }
 
@@ -221,6 +223,7 @@ def blog_page(fname, cat, path, desc):
 </section>''') if cat == 'Port Guides' else ''
     body = (title_block(eyebrow, 'Where the cruise is chill &amp; the drinks come with umbrellas' if is_home else cat, sub) +
         guides_band +
+        ('<p class="submit-cta"><a href="/write-for-us" class="btn btn-coral">✍️ Submit Your Cruise Review</a></p>' if cat == 'Cruise Reviews' else '') +
         ('<section class="sec"><div id="lead"></div></section>' if is_home else '') +
         '<div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div>' +
         f'<div class="ad-slot" data-slot="{"home-mid" if is_home else "blog-bottom"}"></div>' +
