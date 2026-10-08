@@ -220,7 +220,7 @@ const ADS = {
 };
 const HOUSE_ADS = [
   { e: '🗺️', t: 'Free Port Guides', s: 'Palm Beach, Tampa, Miami & Galveston guides for your inbox.', go: 'Send Them!', href: '/newsletter' },
-  { e: '📣', t: 'Advertise on The Chill Compass', s: 'Reach cruisers planning their next getaway.', go: 'Get in Touch', href: 'mailto:admin@margaritavilleatseablog.com?subject=Advertising' },
+  { e: '📣', t: 'Advertise on The Chill Compass', s: 'Reach cruisers planning their next getaway.', go: 'Get in Touch', href: 'mailto:admin@thechillcompass.com?subject=Advertising' },
 ];
 function renderAds() {
   const slots = document.querySelectorAll('.ad-slot');

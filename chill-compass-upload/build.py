@@ -3,7 +3,7 @@
 Run:  python3 build.py   then drag the site/ folder onto Netlify."""
 import os
 SITE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'site')
-DOMAIN = 'https://margaritavilleatseablog.com'
+DOMAIN = 'https://thechillcompass.com'
 DESC = "Margaritaville at Sea cruise reviews, deck plans, packages, port guides and deals from travel advisors who love Margaritaville at Sea so much, we keep going back for more!"
 V = '15'
 
@@ -229,7 +229,7 @@ def blog_page(fname, cat, path, desc):
         '<div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div>' +
         f'<div class="ad-slot" data-slot="{"home-mid" if is_home else "blog-bottom"}"></div>' +
         ('''<section class="sec"><div class="band"><div class="e">📝</div><div><h3>Got a Margaritaville at Sea story?</h3>
-  <p>Send your trip report, tips or photos to <a href="mailto:admin@margaritavilleatseablog.com?subject=Blog%20Submission">admin@margaritavilleatseablog.com</a> and you could be featured.</p></div>
+  <p>Send your trip report, tips or photos to <a href="mailto:admin@thechillcompass.com?subject=Blog%20Submission">admin@thechillcompass.com</a> and you could be featured.</p></div>
   <a href="/write-for-us" class="btn btn-sun">How to Submit</a></div></section>''' if is_home else ''))
     js = '''<script>
 const PAGE_CAT = %s;
@@ -258,7 +258,7 @@ document.addEventListener('cc:ready', async () => {
 });
 </script>''' % ('null' if is_home else repr(cat))
     page(fname, 'The Chill Compass' if is_home else cat, body, desc=desc, path=path, extra_js=js, tall=is_home,
-         extra_head=('<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"The Chill Compass","url":"https://margaritavilleatseablog.com","description":"' + DESC + '","publisher":{"@type":"Organization","name":"Cruises Tours and Travel, LLC"}}</script>') if is_home else '')
+         extra_head=('<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"The Chill Compass","url":"https://thechillcompass.com","description":"' + DESC + '","publisher":{"@type":"Organization","name":"Cruises Tours and Travel, LLC"}}</script>') if is_home else '')
 
 blog_page('index.html', '', '/', DESC)
 blog_page('cruise-reviews.html', 'Cruise Reviews', '/cruise-reviews', 'Margaritaville at Sea cruise reviews: Paradise, Islander and Beachcomber, from travel advisors who sail them.')
@@ -371,7 +371,7 @@ page('ship.html', 'The Fleet', ship, desc='Margaritaville at Sea ship details, p
 
 
 # ======================= WEDDINGS =======================
-WED_MAIL = 'mailto:admin@margaritavilleatseablog.com?subject=Wedding%20Inquiry&body=Names%3A%0AWedding%20date%20or%20sailing%20you%27re%20eyeing%3A%0AApprox.%20number%20of%20guests%3A%0APackage%20you%27re%20interested%20in%3A%0AAnything%20else%3A'
+WED_MAIL = 'mailto:admin@thechillcompass.com?subject=Wedding%20Inquiry&body=Names%3A%0AWedding%20date%20or%20sailing%20you%27re%20eyeing%3A%0AApprox.%20number%20of%20guests%3A%0APackage%20you%27re%20interested%20in%3A%0AAnything%20else%3A'
 WED_BTN = f'<a class="btn btn-coral" href="{WED_MAIL}">💌 Inquire About a Wedding</a>'
 wed_pk = [
   ('Bliss', '$999', '🌺', 'Everything you need to say "I do" at sea.', [
@@ -695,7 +695,7 @@ async function delPost(id) { if (!confirm('Delete your post?')) return; await sb
 function drawComposer() {
   const c = document.getElementById('composer');
   if (!ME) { c.innerHTML = `<div class="composer" style="text-align:center"><p style="margin:0 0 10px"><b>Want to join the conversation?</b> A free account lets you post and check in.</p><button class="btn btn-coral" onclick="openAuth('up')">Join the Crew</button> <button class="btn btn-ghost" onclick="openAuth('in')">Sign in</button></div>`; return; }
-  if (ME.banned) { c.innerHTML = '<div class="notice">Your account can\\'t post right now. Questions? Email admin@margaritavilleatseablog.com.</div>'; return; }
+  if (ME.banned) { c.innerHTML = '<div class="notice">Your account can\\'t post right now. Questions? Email admin@thechillcompass.com.</div>'; return; }
   c.innerHTML = `<form class="composer" id="cmp"><label for="body" style="font-weight:800">Post as ${esc(ME.display_name)}</label>
     <textarea id="body" maxlength="4000" required placeholder="Say hi, share plans, ask questions… 🍹"></textarea>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap"><span class="fine" style="margin:0">Be kind · no personal info like cabin numbers or phone numbers</span><button class="btn btn-coral">Post Reply</button></div></form>`;
@@ -789,7 +789,7 @@ contact = title_block('🐚 Contact', 'Drop us a line!', 'Questions, post ideas 
   </form>
   <div id="cthx" style="display:none;text-align:center"><div style="font-size:54px">🎉</div><h2>Message received!</h2><p>Thanks for reaching out. We'll get back to you soon.</p></div>
 </div>
-<p style="margin-top:16px">Want to submit your own blog post? Email <a href="mailto:admin@margaritavilleatseablog.com?subject=Blog%20Submission"><b>admin@margaritavilleatseablog.com</b></a>.</p>'''
+<p style="margin-top:16px">Want to submit your own blog post? Email <a href="mailto:admin@thechillcompass.com?subject=Blog%20Submission"><b>admin@thechillcompass.com</b></a>.</p>'''
 contact_js = '''<script>
 document.getElementById('contact').addEventListener('submit', async e => {
   e.preventDefault();
@@ -819,11 +819,11 @@ wfu = title_block('📝 Write for Us', 'Share your Margaritaville at Sea story!'
     <li>Write your story (about 500–1,500 words is perfect, but we're flexible).</li>
     <li>Attach 3–10 of your own photos (please only send photos you took).</li>
     <li>Include your first name (or nickname) and the month/year you sailed.</li>
-    <li>Email it all to <a href="mailto:admin@margaritavilleatseablog.com?subject=Blog%20Submission">admin@margaritavilleatseablog.com</a> with the subject line <b>"Blog Submission"</b>.</li>
+    <li>Email it all to <a href="mailto:admin@thechillcompass.com?subject=Blog%20Submission">admin@thechillcompass.com</a> with the subject line <b>"Blog Submission"</b>.</li>
   </ol>
   <h2>The fine print</h2>
   <p>We read every submission and will reach out if your story is a fit. We may lightly edit for length and clarity, and we'll credit you by the name you provide. By submitting, you confirm the words and photos are your own and give us permission to publish them on The Chill Compass and our social pages.</p>
-  <p style="text-align:center;margin-top:28px"><a href="mailto:admin@margaritavilleatseablog.com?subject=Blog%20Submission" class="btn btn-coral">📧 Email Your Story</a></p>
+  <p style="text-align:center;margin-top:28px"><a href="mailto:admin@thechillcompass.com?subject=Blog%20Submission" class="btn btn-coral">📧 Email Your Story</a></p>
 </div>'''
 page('write-for-us.html', 'Write for Us', wfu, desc='Submit your own Margaritaville at Sea trip report, tips or photos to be featured on The Chill Compass.', path='/write-for-us')
 
@@ -858,7 +858,7 @@ page('account.html', 'My Account', acct, path='/account', extra_js=acct_js, rc=F
 # ======================= PRIVACY =======================
 privacy = title_block('Privacy', 'Privacy Policy', 'Last updated: October 2026') + '''
 <div class="article" style="margin-top:0;font-size:16px">
-  <p>The Chill Compass ("we," "us") is presented by Cruises Tours and Travel, LLC. This policy explains what information we collect on margaritavilleatseablog.com and how we use it.</p>
+  <p>The Chill Compass ("we," "us") is presented by Cruises Tours and Travel, LLC. This policy explains what information we collect on thechillcompass.com and how we use it.</p>
   <h3>Information you give us</h3>
   <p>When you sign up for our email list we collect your first name (optional) and email address. When you request a free quote we collect your name, email, and any phone number, state and trip details you provide, and our travel advisors use them to prepare and send your quote. When you use our contact form we collect your name, email address and message. You can unsubscribe from our emails at any time using the link in any email, or by contacting us.</p>
   <h3>Roll Call accounts</h3>
@@ -872,7 +872,7 @@ privacy = title_block('Privacy', 'Privacy Policy', 'Last updated: October 2026')
   <h3>Children</h3>
   <p>This site is not directed to children under 13, and we do not knowingly collect their information. Roll Call accounts are for adults 18+.</p>
   <h3>Contact</h3>
-  <p>Questions? Email <a href="mailto:admin@margaritavilleatseablog.com">admin@margaritavilleatseablog.com</a>.</p>
+  <p>Questions? Email <a href="mailto:admin@thechillcompass.com">admin@thechillcompass.com</a>.</p>
 </div>'''
 page('privacy.html', 'Privacy Policy', privacy, desc='Privacy policy for The Chill Compass.', path='/privacy', rc=False)
 
@@ -882,7 +882,13 @@ nf = '''<div class="empty" style="padding:60px 20px"><div class="e">🧭</div><h
 page('404.html', 'Page Not Found', nf, path='/404')
 
 # ======================= Netlify config =======================
-open(os.path.join(SITE, '_redirects'), 'w').write('''/staterooms      /fleet               301!
+open(os.path.join(SITE, '_redirects'), 'w').write('''# Old blog address and www -> thechillcompass.com
+https://margaritavilleatseablog.com/*      https://thechillcompass.com/:splat  301!
+http://margaritavilleatseablog.com/*       https://thechillcompass.com/:splat  301!
+https://www.margaritavilleatseablog.com/*  https://thechillcompass.com/:splat  301!
+http://www.margaritavilleatseablog.com/*   https://thechillcompass.com/:splat  301!
+https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  301!
+/staterooms      /fleet               301!
 /staterooms/*    /fleet               301!
 /deck-plans      /fleet               301!
 /deck-plans/*    /fleet/:splat        301!

@@ -1,3 +1,9 @@
+# Old blog address and www -> thechillcompass.com
+https://margaritavilleatseablog.com/*      https://thechillcompass.com/:splat  301!
+http://margaritavilleatseablog.com/*       https://thechillcompass.com/:splat  301!
+https://www.margaritavilleatseablog.com/*  https://thechillcompass.com/:splat  301!
+http://www.margaritavilleatseablog.com/*   https://thechillcompass.com/:splat  301!
+https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  301!
 /staterooms      /fleet               301!
 /staterooms/*    /fleet               301!
 /deck-plans      /fleet               301!
