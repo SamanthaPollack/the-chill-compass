@@ -108,17 +108,22 @@ function roomArt(tier, accent) {
 }
 
 /* ---------- member accounts (Roll Calls) ---------- */
+const USERNAME_RE = /^[A-Za-z0-9._]{3,20}$/;
 let ME = null; // { id, email, display_name, banned }
 async function loadMe() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { ME = null; return null; }
   const { data } = await sb.from('profiles').select('display_name,hometown,banned').eq('id', session.user.id).maybeSingle();
   ME = { id: session.user.id, email: session.user.email, ...(data || { display_name: session.user.email.split('@')[0] }) };
+  try { const { data: md } = await sb.from('member_details').select('first_name,last_name').eq('id', session.user.id).maybeSingle();
+    const um = session.user.user_metadata || {};
+    ME.first_name = md?.first_name ?? um.first_name ?? ''; ME.last_name = md?.last_name ?? um.last_name ?? ''; } catch (e) {}
+  try { const { data: adm } = await sb.rpc('is_admin'); ME.is_admin = !!adm; } catch (e) { ME.is_admin = false; }
   return ME;
 }
 function renderTopbarUser() {
   const el = document.getElementById('tbUser'); if (!el) return;
-  el.innerHTML = ME ? `<span class="me">⛱️ ${esc(ME.display_name)}</span><button id="tbOut">Sign out</button>`
+  el.innerHTML = ME ? (ME.is_admin ? `<a class="me" href="/admin/" title="Open your admin dashboard">⛱️ ${esc(ME.display_name)} · Dashboard</a>` : `<span class="me">⛱️ ${esc(ME.display_name)}</span>`) + `<button id="tbOut">Sign out</button>`
     : `<button data-auth="in">Sign in</button><button data-auth="up" style="color:var(--sun);font-weight:700">Join the crew</button>`;
   const out = document.getElementById('tbOut'); if (out) out.onclick = async () => { await sb.auth.signOut(); location.reload(); };
   el.querySelectorAll('[data-auth]').forEach(b => b.onclick = () => openAuth(b.dataset.auth));
@@ -154,9 +159,13 @@ function wireAuth() {
     b.disabled = true; document.getElementById('authErr').style.display = 'none';
     let res;
     if (mode === 'up') {
-      const display_name = document.getElementById('aName').value.trim(), hometown = document.getElementById('aTown').value.trim();
-      if (display_name.length < 2) { b.disabled = false; return showAuthErr('Please pick a screen name (at least 2 letters).'); }
-      res = await sb.auth.signUp({ email, password, options: { data: { display_name, hometown }, emailRedirectTo: location.origin + location.pathname } });
+      const first_name = document.getElementById('aFirst').value.trim(), last_name = document.getElementById('aLast').value.trim();
+      const display_name = document.getElementById('aName').value.trim();
+      if (!first_name || !last_name) { b.disabled = false; return showAuthErr('Please enter your first and last name.'); }
+      if (!USERNAME_RE.test(display_name)) { b.disabled = false; return showAuthErr('Usernames are 3–20 letters, numbers, periods or underscores, no spaces.'); }
+      try { const { data: free, error: ue } = await sb.rpc('username_available', { u: display_name });
+        if (!ue && free === false) { b.disabled = false; return showAuthErr('That username is taken. Try another.'); } } catch (x) {}
+      res = await sb.auth.signUp({ email, password, options: { data: { display_name, first_name, last_name }, emailRedirectTo: location.origin + location.pathname } });
       b.disabled = false;
       if (res.error) return showAuthErr(res.error.message);
       if (!res.data.session) {

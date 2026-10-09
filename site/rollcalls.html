@@ -18,12 +18,12 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=15">
+<link rel="stylesheet" href="/assets/style.css?v=17">
 
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -85,7 +85,7 @@
     </form>
     <div class="err"></div>
     <div class="qf-done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options and pricing. Cheers! 🍹</p></div>
-    <p class="qf-fine">Quotes by Cruises Tours and Travel, LLC · FL ST150140</p>
+    <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
   </div>
 </div><div class="widget teal" id="signup">
   <div class="wh"><h3>🗺️ Free Port Guides</h3><p>Palm Beach · Tampa · Miami · Galveston, plus our packing list.</p></div>
@@ -121,11 +121,10 @@
       <div><h3>About</h3><ul>
         <li><a href="/about">About Us</a></li>
         <li><a href="/account">My Account</a></li>
-        <li><a href="/privacy">Privacy Policy</a></li>
-        <li><a href="https://www.cruisestoursandtravel.com" target="_blank" rel="noopener">Cruises Tours and Travel</a></li></ul></div>
+        <li><a href="/privacy">Privacy Policy</a></li></ul></div>
     </div>
     <div class="disclaimer">
-      © <span id="yr">2026</span> The Chill Compass · Presented by Cruises Tours and Travel, LLC · FL Seller of Travel Reg. No. ST150140<br>
+      © <span id="yr">2026</span> The Chill Compass · Presented by Samantha Pollack, CTT and Associates, LLC<br>
       Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
     </div>
   </div>
@@ -155,8 +154,10 @@
     <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
     <div id="authMsg"></div>
     <form id="authForm">
-      <div class="field only-up" style="display:none"><label for="aName">Screen name</label><input id="aName" maxlength="40" placeholder="e.g. ParrotheadPam"></div>
-      <div class="field only-up" style="display:none"><label for="aTown">Hometown (optional)</label><input id="aTown" maxlength="60" placeholder="e.g. Tampa, FL"></div>
+      <div class="only-up" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label for="aFirst">First name</label><input id="aFirst" maxlength="50" autocomplete="given-name"></div>
+        <div class="field"><label for="aLast">Last name</label><input id="aLast" maxlength="50" autocomplete="family-name"></div></div></div>
+      <div class="field only-up" style="display:none"><label for="aName">Username</label><input id="aName" maxlength="20" placeholder="e.g. ParrotheadPam" autocomplete="username"><p class="fine" style="margin:4px 0 0">This is what other cruisers see on Roll Calls. Your first and last name stay private.</p></div>
       <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
       <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
       <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
@@ -168,7 +169,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=15"></script>
+<script src="/assets/app.js?v=17"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
