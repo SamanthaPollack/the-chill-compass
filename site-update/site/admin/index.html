@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin | The Chill Compass</title>
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=8">
+<style>
+body{background:#f4efe4}
+.top{background:var(--navy);color:#fff}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.top b{font-family:Fredoka;font-size:20px}
+.top a,.top button{color:#fff;background:none;border:0;font-family:Fredoka;font-size:15px;cursor:pointer;text-decoration:none}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 18px}
+.tab{font-family:Fredoka;font-weight:600;background:#fff;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;font-size:15px;color:var(--navy)}
+.tab.on{background:var(--teal);color:#fff}
+.tab .n{background:var(--coral);color:#fff;border-radius:999px;padding:0 8px;font-size:12px;margin-left:4px}
+.panel{display:none}.panel.on{display:block}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:18px;overflow:hidden}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #f0e8d8;font-size:15px;vertical-align:top}
+th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-family:Fredoka;font-weight:600}
+.pill.pub{background:#d8f5f7;color:var(--teal-d)}.pill.draft{background:#ffe6e2;color:#c0392b}
+.link{background:none;border:0;color:var(--teal-d);font-weight:700;cursor:pointer;font-family:Nunito;font-size:14px;padding:0 6px 0 0;text-decoration:underline}
+.link.red{color:#c0392b}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.bar h2{font-size:26px}
+.grid2{display:grid;grid-template-columns:2fr 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.hide-m{display:none}}
+#editor{min-height:420px;font-size:17px;font-family:Nunito}
+.ql-toolbar.ql-snow{border-radius:14px 14px 0 0;border-color:#e6dcc6;background:#fbf6ec;position:sticky;top:0;z-index:5}
+.ql-container.ql-snow{border-radius:0 0 14px 14px;border-color:#e6dcc6;background:#fff}
+.ql-editor img{max-width:100%;border-radius:12px}
+.cover{width:100%;aspect-ratio:16/9;border:2px dashed #d9ccb0;border-radius:16px;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;cursor:pointer;color:#8a7d64;font-family:Fredoka;text-align:center;padding:10px}
+.hint{font-size:13px;opacity:.65;margin-top:4px}
+.status{font-family:Fredoka;font-size:14px;margin-top:10px;min-height:20px}
+.side .btn{width:100%;margin-bottom:12px;text-align:center}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:999px;font-family:Fredoka;display:none;z-index:99}
+.login{max-width:420px;margin:70px auto}
+.gal{display:flex;flex-wrap:wrap;gap:8px}.gal .g{position:relative;width:96px;height:72px;border-radius:10px;overflow:hidden;border:2px solid #e6dcc6}.gal .g:first-child{border-color:var(--coral)}.gal img{width:100%;height:100%;object-fit:cover}.gal .ga{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;background:rgba(11,57,84,.75);color:#fff;font-size:11px;padding:2px 4px}.gal .ga button{background:none;border:0;color:#fff;cursor:pointer;font-size:12px;padding:0 2px}
+.amsg{background:#fff;border-radius:16px;padding:18px 20px;margin-bottom:14px}
+.amsg .h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:Fredoka}
+.amsg p{white-space:pre-wrap;margin:10px 0}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.stat-row div{background:#fff;border-radius:16px;padding:14px 20px;font-family:Fredoka}
+.stat-row b{font-size:26px;color:var(--teal-d);display:block}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginView" style="display:none">
+  <div class="login card">
+    <div style="text-align:center"><img src="/assets/img/logo.jpg" alt="The Chill Compass" style="height:110px"><h2 style="margin:10px 0 20px">Admin Login</h2></div>
+    <form id="loginForm">
+      <div class="field"><label for="le">Email</label><input id="le" type="email" required autocomplete="username"></div>
+      <div class="field"><label for="lp">Password</label><input id="lp" type="password" required autocomplete="current-password"></div>
+      <button class="btn btn-coral" style="width:100%" type="submit">Log In</button>
+      <p id="lerr" style="color:#c0392b;display:none;text-align:center"></p>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appView" style="display:none">
+  <div class="top"><div class="wrap">
+    <b>🧭 The Chill Compass · Admin</b>
+    <div style="display:flex;gap:18px"><a href="/" target="_blank">View Site ↗</a><button id="logout">Log Out</button></div>
+  </div></div>
+
+  <div class="wrap" style="padding-bottom:60px">
+    <div class="tabs">
+      <button class="tab on" data-p="posts">📝 Posts</button>
+      <button class="tab" data-p="subs">💌 Subscribers <span class="n" id="subN">0</span></button>
+      <button class="tab" data-p="quotes">🛳️ Quotes <span class="n" id="qN">0</span></button>
+      <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
+      <button class="tab" data-p="rc">🙋 Roll Calls</button>
+      <button class="tab" data-p="rooms">🚢 Fleet &amp; Rooms</button>
+      <button class="tab" data-p="events">🎉 Events</button>
+      <button class="tab" data-p="acct">⚙️ Account</button>
+    </div>
+
+    <!-- POSTS LIST -->
+    <div class="panel on" id="p-posts">
+      <div class="bar"><h2>Your Posts</h2><button class="btn btn-coral" id="newPost">+ New Post</button></div>
+      <table><thead><tr><th>Title</th><th class="hide-m">Category</th><th>Status</th><th class="hide-m">Date</th><th></th></tr></thead><tbody id="postRows"></tbody></table>
+    </div>
+
+    <!-- EDITOR -->
+    <div class="panel" id="p-edit">
+      <div class="bar"><h2 id="edTitle">New Post</h2><button class="link" id="backToList">← Back to all posts</button></div>
+      <div class="grid2">
+        <div>
+          <div class="field"><label for="fTitle">Title</label><input id="fTitle" maxlength="200" placeholder="e.g. 15 Things You'll Be So Glad You Packed"></div>
+          <div class="field"><label>Post content</label><div id="editor"></div>
+            <div class="hint">Tip: click the 🖼 picture button in the toolbar to add photos anywhere in your post. Paste a YouTube link with the ▶ video button.</div></div>
+        </div>
+        <div class="side">
+          <div class="card" style="padding:22px">
+            <div class="field"><label>Cover photo</label>
+              <div class="cover" id="coverBox">Click to add a cover photo<br>(wide/landscape works best)</div>
+              <input type="file" id="coverFile" accept="image/*" hidden>
+              <button class="link red" id="coverRemove" style="display:none;margin-top:6px">Remove cover photo</button>
+            </div>
+            <div class="field"><label for="fCat">Category</label>
+              <select id="fCat"><option>Cruise Reviews</option><option>Port Guides</option><option>Deals</option><option>Tips &amp; News</option></select></div>
+            <div class="field"><label for="fExcerpt">Short summary</label><textarea id="fExcerpt" rows="3" maxlength="300" placeholder="1–2 sentences shown on the post card and in Google results"></textarea></div>
+            <div class="field"><label for="fSlug">Web address</label><input id="fSlug" maxlength="120"><div class="hint" id="slugHint"></div></div>
+            <div class="status" id="edStatus"></div>
+            <button class="btn btn-coral" id="btnPublish">🚀 Publish</button>
+            <button class="btn btn-sun" id="btnDraft">💾 Save Draft</button>
+            <a class="btn btn-teal" id="btnView" target="_blank" style="display:none">👀 View Post</a>
+            <button class="link red" id="btnUnpub" style="display:none">Unpublish (move back to draft)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBERS -->
+    <div class="panel" id="p-subs">
+      <div class="bar"><h2>Subscribers</h2><button class="btn btn-teal" id="csv">⬇ Download CSV</button></div>
+      <div class="stat-row"><div><b id="sTotal">0</b>total</div><div><b id="s30">0</b>last 30 days</div></div>
+      <table><thead><tr><th>Name</th><th>Email</th><th class="hide-m">Signed up</th><th class="hide-m">From</th><th></th></tr></thead><tbody id="subRows"></tbody></table>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="panel" id="p-msgs"><div class="bar"><h2>Contact Messages</h2></div><div id="msgList"></div></div>
+
+
+    <!-- QUOTES -->
+    <div class="panel" id="p-quotes">
+      <div class="bar"><h2>Free Quote Requests</h2><div style="display:flex;gap:10px;align-items:center"><select id="qFilter" style="font:inherit;padding:8px;border-radius:10px"><option value="">All</option><option value="new" selected>New</option><option value="contacted">Contacted</option><option value="booked">Booked</option><option value="closed">Closed</option></select><button class="btn btn-teal" id="qCsv">⬇ CSV</button></div></div>
+      <div id="qList"></div>
+    </div>
+
+    <!-- ROLL CALLS -->
+    <div class="panel" id="p-rc">
+      <div class="bar"><h2>Roll Call Moderation</h2></div>
+      <div class="grid2">
+        <div><h3 style="margin-bottom:10px">Latest posts</h3><div id="rcPosts"></div></div>
+        <div><h3 style="margin-bottom:10px">Roll calls</h3><div id="rcRolls"></div>
+          <h3 style="margin:20px 0 10px">Members</h3><div id="rcMembers"></div></div>
+      </div>
+    </div>
+
+    <!-- STATEROOMS -->
+    <div class="panel" id="p-rooms">
+      <div class="bar"><h2>Fleet &amp; Staterooms</h2><div style="display:flex;gap:10px"><select id="rShip" style="font:inherit;padding:8px;border-radius:10px"><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select><button class="btn btn-coral" id="rNew">+ Add Room</button></div></div>
+      <p class="hint" style="margin-top:-6px">Use photos from the Margaritaville at Sea travel-advisor media library (or your own). Rooms without photos show "Photo coming soon."</p>
+      <div class="card" style="padding:18px;margin-bottom:18px"><h3 style="margin-bottom:10px">🚢 <span id="sName">Ship</span> page settings</h3>
+        <div class="grid2" style="grid-template-columns:1fr 1fr">
+          <div class="field"><label>Ship banner photo</label><div class="cover" id="sHero">Click to add</div><input type="file" id="sHeroF" accept="image/*" hidden><button type="button" class="link red" id="sHeroDel">Remove</button></div>
+          <div class="field"><label>Deck plan image or PDF</label><div class="cover" id="sDeck">Click to add</div><input type="file" id="sDeckF" accept="image/*,application/pdf" hidden><button type="button" class="link red" id="sDeckDel">Remove</button></div>
+        </div>
+        <div class="field"><label for="sTag">Tagline</label><input id="sTag" maxlength="80"></div>
+        <div class="field"><label for="sIntro">About the ship (intro)</label><textarea id="sIntro" rows="3" maxlength="600"></textarea></div>
+        <div class="field"><label for="sHi">Onboard highlights (one per line)</label><textarea id="sHi" rows="5"></textarea></div>
+        <div class="field"><label>Ship photo gallery <span class="hint">(pool deck, bars, venues; first photo shows biggest)</span></label><div class="gal" id="sGal"></div>
+          <button type="button" class="btn btn-teal" id="sGalAdd" style="margin-top:8px;padding:8px 14px;font-size:14px">+ Add ship photos</button><input type="file" id="sGalF" accept="image/*" multiple hidden></div>
+        <button class="btn btn-coral" id="sSave" type="button">💾 Save Ship Settings</button>
+      </div>
+      <div class="grid2">
+        <div><table><thead><tr><th>Room</th><th class="hide-m">Category</th><th>Photo</th><th></th></tr></thead><tbody id="rRows"></tbody></table></div>
+        <div class="card" style="padding:22px" id="rEdit">
+          <h3 id="rTitle" style="margin-bottom:12px">Pick a room to edit</h3>
+          <form id="rForm" style="display:none">
+            <div class="field"><label>Photos <span class="hint">(first photo is the main one)</span></label><div class="gal" id="rGal"></div>
+              <button type="button" class="btn btn-teal" id="rAdd" style="margin-top:8px;padding:8px 14px;font-size:14px">+ Add photos</button><input type="file" id="rFile" accept="image/*" multiple hidden></div>
+            <div class="field"><label for="rName">Room name</label><input id="rName" required maxlength="120"></div>
+            <div class="field"><label for="rTier">Category</label><select id="rTier"><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
+            <div class="field"><label for="rDecks">Where (decks)</label><input id="rDecks" maxlength="120"></div>
+            <div class="field"><label for="rOcc">Sleeps</label><input id="rOcc" maxlength="60" placeholder="e.g. Up to 4 guests"></div>
+            <div class="field"><label for="rBlurb">Description</label><textarea id="rBlurb" rows="3" maxlength="600"></textarea></div>
+            <div class="field"><label for="rFeat">Features (one per line)</label><textarea id="rFeat" rows="4"></textarea></div>
+            <div class="field"><label for="rSort">Order within its category (lower shows first)</label><input id="rSort" type="number"></div>
+            <div class="field"><label><input type="checkbox" id="rActive" style="width:auto"> Show on website</label></div>
+            <button class="btn btn-coral" type="submit" style="width:100%">💾 Save Room</button>
+            <button class="link red" type="button" id="rDel" style="margin-top:10px">Delete this room</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="panel" id="p-events">
+      <div class="bar"><h2>Events</h2><button class="btn btn-coral" id="eNew">+ Add Event</button></div>
+      <div class="grid2">
+        <div><table><thead><tr><th>Date</th><th>Event</th><th></th></tr></thead><tbody id="eRows"></tbody></table></div>
+        <div class="card" style="padding:22px"><h3 id="eTitle" style="margin-bottom:12px">Pick an event to edit</h3>
+          <form id="eForm" style="display:none">
+            <div class="field"><label for="eT">Title</label><input id="eT" required maxlength="140"></div>
+            <div class="field"><label for="eShip">Ship</label><input id="eShip" maxlength="60" placeholder="e.g. Paradise, or Paradise & Islander"></div>
+            <div class="grid2" style="grid-template-columns:1fr 1fr;gap:10px"><div class="field"><label for="eS">Start date</label><input id="eS" type="date" required></div><div class="field"><label for="eE">End date (optional)</label><input id="eE" type="date"></div></div>
+            <div class="field"><label for="eLoc">Location / port</label><input id="eLoc" maxlength="120"></div>
+            <div class="field"><label for="eD">Description</label><textarea id="eD" rows="4" maxlength="1500"></textarea></div>
+            <div class="grid2" style="grid-template-columns:1fr 1fr;gap:10px"><div class="field"><label for="eL">Link (optional)</label><input id="eL" type="url" placeholder="https://"></div><div class="field"><label for="eLL">Button text</label><input id="eLL" maxlength="40" placeholder="Learn more"></div></div>
+            <div class="field"><label>Photo (optional)</label><div class="cover" id="ePic">Click to add</div><input type="file" id="ePicF" accept="image/*" hidden><button type="button" class="link red" id="ePicDel">Remove</button></div>
+            <div class="field"><label><input type="checkbox" id="eA" style="width:auto"> Show on website</label></div>
+            <button class="btn btn-coral" type="submit" style="width:100%">💾 Save Event</button>
+            <button class="link red" type="button" id="eDel" style="margin-top:10px">Delete this event</button>
+          </form></div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="panel" id="p-acct">
+      <div class="card" style="max-width:480px">
+        <h2 style="margin-bottom:6px">Change Password</h2>
+        <p style="margin:0 0 16px;opacity:.75">Logged in as <b id="who"></b></p>
+        <form id="pwForm">
+          <div class="field"><label for="pw1">New password</label><input id="pw1" type="password" minlength="8" required autocomplete="new-password"></div>
+          <div class="field"><label for="pw2">Confirm new password</label><input id="pw2" type="password" minlength="8" required autocomplete="new-password"></div>
+          <button class="btn btn-coral" type="submit">Update Password</button>
+          <p id="pwMsg" style="margin-top:10px"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+<script src="/assets/app.js?v=8"></script>
+<script>
+const $ = id => document.getElementById(id);
+let posts = [], subs = [], current = null, coverUrl = null, slugTouched = false, quill;
+
+function toast(t) { const el = $('toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(el._t); el._t = setTimeout(() => el.style.display = 'none', 2600); }
+function slugify(s) { return s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 90); }
+function show(view) { $('loginView').style.display = view === 'login' ? 'block' : 'none'; $('appView').style.display = view === 'app' ? 'block' : 'none'; }
+function tab(p) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.p === p || (p === 'edit' && t.dataset.p === 'posts')));
+  document.querySelectorAll('.panel').forEach(x => x.classList.toggle('on', x.id === 'p-' + p));
+  window.scrollTo(0, 0);
+}
+
+/* ---------- auth ---------- */
+async function boot() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return show('login');
+  const { data: ok } = await sb.rpc('is_admin');
+  if (!ok) { await sb.auth.signOut(); $('lerr').textContent = 'This account does not have admin access.'; $('lerr').style.display = 'block'; return show('login'); }
+  $('who').textContent = session.user.email;
+  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
+}
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('lerr').style.display = 'none';
+  const b = e.target.querySelector('button'); b.disabled = true;
+  const { error } = await sb.auth.signInWithPassword({ email: $('le').value.trim(), password: $('lp').value });
+  b.disabled = false;
+  if (error) { $('lerr').textContent = 'Email or password is incorrect.'; $('lerr').style.display = 'block'; return; }
+  boot();
+});
+$('logout').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => tab(t.dataset.p));
+
+/* ---------- posts list ---------- */
+async function loadPosts() {
+  const { data, error } = await sb.from('posts').select('id,slug,title,category,published,published_at,updated_at').order('updated_at', { ascending: false });
+  if (error) return toast('Could not load posts');
+  posts = data;
+  $('postRows').innerHTML = posts.length ? posts.map(p => `<tr>
+    <td><b>${esc(p.title)}</b></td><td class="hide-m">${esc(p.category)}</td>
+    <td><span class="pill ${p.published ? 'pub' : 'draft'}">${p.published ? 'Published' : 'Draft'}</span></td>
+    <td class="hide-m">${fmtDate(p.published_at || p.updated_at)}</td>
+    <td style="white-space:nowrap"><button class="link" onclick="editPost('${p.id}')">Edit</button><a class="link" href="/post/${encodeURIComponent(p.slug)}" target="_blank">View</a><button class="link red" onclick="delPost('${p.id}')">Delete</button></td></tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;padding:40px">No posts yet. Click <b>+ New Post</b> to write your first one! 🌴</td></tr>`;
+}
+async function delPost(id) {
+  const p = posts.find(x => x.id === id);
+  if (!confirm(`Delete "${p.title}" forever? This can't be undone.`)) return;
+  const { error } = await sb.from('posts').delete().eq('id', id);
+  if (error) return toast('Delete failed');
+  toast('Post deleted'); loadPosts();
+}
+
+/* ---------- editor ---------- */
+function initEditor() {
+  if (quill) return;
+  quill = new Quill('#editor', {
+    theme: 'snow', placeholder: 'Start writing your post… 🌊',
+    modules: { toolbar: { container: [[{ header: [2, 3, false] }], ['bold', 'italic', 'underline'], [{ color: ['#0B3954', '#0B7F8A', '#14B8C4', '#FF6B5B', '#FFC93C', '#000000'] }], [{ list: 'ordered' }, { list: 'bullet' }], [{ align: [] }], ['blockquote', 'link', 'image', 'video'], ['clean']], handlers: { image: insertImage } } }
+  });
+}
+async function uploadImage(file) {
+  if (file.size > 10 * 1024 * 1024) { toast('Photo is too big (10 MB max)'); return null; }
+  const blob = await shrink(file);
+  const ext = blob.type === 'image/png' ? 'png' : blob.type === 'image/gif' ? 'gif' : 'jpg';
+  const path = `${new Date().toISOString().slice(0, 7)}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
+  const { error } = await sb.storage.from('post-images').upload(path, blob, { contentType: blob.type, cacheControl: '31536000' });
+  if (error) { toast('Upload failed: ' + error.message); return null; }
+  return sb.storage.from('post-images').getPublicUrl(path).data.publicUrl;
+}
+// resize big photos to max 1800px wide so pages stay fast
+function shrink(file) {
+  return new Promise(res => {
+    if (!/image\/(jpeg|png|webp)/.test(file.type)) return res(file);
+    const img = new Image(); img.onload = () => {
+      const max = 1800; if (img.width <= max && file.size < 900000) return res(file);
+      const s = Math.min(1, max / img.width), c = document.createElement('canvas');
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => res(b || file), file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85);
+    }; img.onerror = () => res(file); img.src = URL.createObjectURL(file);
+  });
+}
+function insertImage() {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return;
+    toast('Uploading photo…');
+    const url = await uploadImage(f); if (!url) return;
+    const r = quill.getSelection(true); quill.insertEmbed(r.index, 'image', url, 'user'); quill.setSelection(r.index + 1);
+    toast('Photo added ✓');
+  };
+  inp.click();
+}
+function setCover(url) {
+  coverUrl = url;
+  $('coverBox').style.backgroundImage = url ? `url('${url}')` : '';
+  $('coverBox').innerHTML = url ? '' : 'Click to add a cover photo<br>(wide/landscape works best)';
+  $('coverRemove').style.display = url ? 'inline' : 'none';
+}
+$('coverBox').onclick = () => $('coverFile').click();
+$('coverFile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('coverBox').textContent = 'Uploading…';
+  const url = await uploadImage(f); setCover(url || coverUrl); e.target.value = '';
+};
+$('coverRemove').onclick = () => setCover(null);
+$('fTitle').addEventListener('input', () => { if (!slugTouched) { $('fSlug').value = slugify($('fTitle').value); slugHint(); } });
+$('fSlug').addEventListener('input', () => { slugTouched = true; slugHint(); });
+function slugHint() { $('slugHint').textContent = location.origin + '/post/' + (slugify($('fSlug').value) || '…'); }
+
+function openEditor(p) {
+  current = p || null; slugTouched = !!p;
+  $('edTitle').textContent = p ? 'Edit Post' : 'New Post';
+  $('fTitle').value = p?.title || ''; $('fSlug').value = p?.slug || ''; $('fExcerpt').value = p?.excerpt || '';
+  $('fCat').value = p?.category || 'Cruise Reviews'; setCover(p?.cover_url || null);
+  quill.setContents([]); if (p?.content) quill.clipboard.dangerouslyPasteHTML(p.content);
+  $('edStatus').textContent = ''; slugHint(); refreshButtons(); tab('edit');
+}
+function refreshButtons() {
+  const pub = current?.published;
+  $('btnPublish').textContent = pub ? '🚀 Update Published Post' : '🚀 Publish';
+  $('btnDraft').style.display = pub ? 'none' : 'block';
+  $('btnUnpub').style.display = pub ? 'inline' : 'none';
+  $('btnView').style.display = current ? 'block' : 'none';
+  if (current) $('btnView').href = '/post/' + encodeURIComponent(current.slug);
+}
+$('newPost').onclick = () => openEditor(null);
+$('backToList').onclick = () => { loadPosts(); tab('posts'); };
+async function editPost(id) {
+  const { data, error } = await sb.from('posts').select('*').eq('id', id).single();
+  if (error) return toast('Could not open post');
+  openEditor(data);
+}
+async function save(publish) {
+  const title = $('fTitle').value.trim();
+  if (!title) { toast('Please add a title first'); $('fTitle').focus(); return; }
+  const slug = slugify($('fSlug').value || title) || ('post-' + Date.now());
+  const html = quill.getLength() > 1 ? quill.getSemanticHTML().replace(/&nbsp;/g, ' ') : '';
+  let excerpt = $('fExcerpt').value.trim();
+  if (!excerpt) excerpt = quill.getText().trim().replace(/\s+/g, ' ').slice(0, 160) + (quill.getText().trim().length > 160 ? '…' : '');
+  const row = { title, slug, category: $('fCat').value, excerpt, content: html, cover_url: coverUrl, published: publish };
+  if (!publish) row.published_at = null;
+  $('edStatus').textContent = 'Saving…';
+  const q = current ? sb.from('posts').update(row).eq('id', current.id) : sb.from('posts').insert(row);
+  const { data, error } = await q.select().single();
+  if (error) {
+    $('edStatus').textContent = error.code === '23505' ? '⚠️ Another post already uses that web address. Please change it.' : '⚠️ Save failed: ' + error.message;
+    return;
+  }
+  current = data; $('fSlug').value = data.slug; $('fExcerpt').value = data.excerpt || ''; slugTouched = true; slugHint();
+  $('edStatus').textContent = (publish ? '✅ Published! ' : '✅ Draft saved ') + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  toast(publish ? 'Your post is live! 🎉' : 'Draft saved'); refreshButtons();
+}
+$('btnPublish').onclick = () => save(true);
+$('btnDraft').onclick = () => save(false);
+$('btnUnpub').onclick = () => { if (confirm('Take this post off the site and move it back to drafts?')) save(false); };
+
+/* ---------- subscribers ---------- */
+async function loadSubs() {
+  const { data, error } = await sb.from('subscribers').select('*').order('created_at', { ascending: false });
+  if (error) return;
+  subs = data; $('subN').textContent = subs.length; $('sTotal').textContent = subs.length;
+  $('s30').textContent = subs.filter(s => Date.now() - new Date(s.created_at) < 30 * 864e5).length;
+  $('subRows').innerHTML = subs.length ? subs.map(s => `<tr><td>${esc(s.first_name || '')}</td><td>${esc(s.email)}</td><td class="hide-m">${fmtDate(s.created_at)}</td><td class="hide-m">${esc(s.source || '')}</td><td><button class="link red" onclick="delSub('${s.id}')">Remove</button></td></tr>`).join('')
+    : `<tr><td colspan="5" style="text-align:center;padding:40px">No subscribers yet. They'll show up here as people sign up! 💌</td></tr>`;
+}
+async function delSub(id) {
+  if (!confirm('Remove this subscriber?')) return;
+  const { error } = await sb.from('subscribers').delete().eq('id', id);
+  if (error) return toast('Remove failed'); toast('Removed'); loadSubs();
+}
+$('csv').onclick = () => {
+  const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const csv = 'First Name,Email,Signed Up,Source\n' + subs.map(s => [s.first_name, s.email, new Date(s.created_at).toLocaleDateString('en-US'), s.source].map(q).join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'chill-compass-subscribers.csv'; a.click();
+};
+
+/* ---------- messages ---------- */
+async function loadMsgs() {
+  const { data, error } = await sb.from('messages').select('*').order('created_at', { ascending: false });
+  if (error) return;
+  $('msgN').textContent = data.length;
+  $('msgList').innerHTML = data.length ? data.map(m => `<div class="amsg"><div class="h"><b>${esc(m.name)} · <a href="mailto:${esc(m.email)}?subject=${encodeURIComponent('Re: your message to The Chill Compass')}">${esc(m.email)}</a></b><span style="opacity:.6">${fmtDate(m.created_at)}</span></div><p>${esc(m.message)}</p><a class="link" href="mailto:${esc(m.email)}?subject=${encodeURIComponent('Re: your message to The Chill Compass')}">Reply</a><button class="link red" onclick="delMsg('${m.id}')">Delete</button></div>`).join('')
+    : '<div class="amsg" style="text-align:center">No messages yet. 🐚</div>';
+}
+async function delMsg(id) {
+  if (!confirm('Delete this message?')) return;
+  await sb.from('messages').delete().eq('id', id); loadMsgs();
+}
+
+/* ---------- account ---------- */
+$('pwForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if ($('pw1').value !== $('pw2').value) { $('pwMsg').textContent = '⚠️ Passwords don\'t match.'; return; }
+  const { error } = await sb.auth.updateUser({ password: $('pw1').value });
+  $('pwMsg').textContent = error ? '⚠️ ' + error.message : '✅ Password updated!';
+  if (!error) e.target.reset();
+});
+
+/* ---------- quotes ---------- */
+let quotes = [];
+async function loadQuotes() {
+  const { data, error } = await sb.from('quotes').select('*').order('created_at', { ascending: false });
+  if (error) return;
+  quotes = data; $('qN').textContent = quotes.filter(q => q.status === 'new').length; drawQuotes();
+}
+function drawQuotes() {
+  const f = $('qFilter').value, list = quotes.filter(q => !f || q.status === f);
+  const mail = q => `mailto:${esc(q.email)}?subject=${encodeURIComponent('Your Margaritaville at Sea quote' + (q.ship ? ' – ' + q.ship : ''))}`;
+  $('qList').innerHTML = list.length ? list.map(q => `<div class="amsg"><div class="h"><b>${esc(q.name)} · <a href="${mail(q)}">${esc(q.email)}</a>${q.phone ? ' · <a href="tel:' + esc(q.phone) + '">' + esc(q.phone) + '</a>' : ''}</b><span style="opacity:.6">${fmtDate(q.created_at)}</span></div>
+    <p><b>Ship:</b> ${esc(q.ship || 'Not sure')} · <b>Sail month:</b> ${esc(q.sail_date || 'Flexible')} · <b>Stateroom:</b> ${esc(q.stateroom || 'Not sure')} · <b>Guests:</b> ${q.adults} adults, ${q.children} kids · <b>State:</b> ${esc(q.state || '–')} · <b>Prefers:</b> ${esc(q.contact_pref || 'Email')}${q.notes ? '\n<b>Notes:</b> ' + esc(q.notes) : ''}</p>
+    <select onchange="setQ('${q.id}',this.value)" style="font:inherit;padding:6px;border-radius:8px">${['new', 'contacted', 'booked', 'closed'].map(s => `<option ${s === q.status ? 'selected' : ''}>${s}</option>`).join('')}</select>
+    <a class="link" href="${mail(q)}" style="margin-left:10px">Reply by email</a><button class="link red" onclick="delQ('${q.id}')" style="margin-left:10px">Delete</button></div>`).join('')
+    : '<div class="amsg" style="text-align:center">No quote requests here yet. 🛳️</div>';
+}
+$('qFilter').onchange = drawQuotes;
+async function setQ(id, status) { await sb.from('quotes').update({ status }).eq('id', id); toast('Updated'); loadQuotes(); }
+async function delQ(id) { if (!confirm('Delete this quote request?')) return; await sb.from('quotes').delete().eq('id', id); loadQuotes(); }
+$('qCsv').onclick = () => {
+  const c = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const csv = 'Date,Name,Email,Phone,State,Prefers,Ship,Sail Month,Stateroom,Adults,Kids,Notes,Status\n' + quotes.map(q => [new Date(q.created_at).toLocaleDateString('en-US'), q.name, q.email, q.phone, q.state, q.contact_pref, q.ship, q.sail_date, q.stateroom, q.adults, q.children, q.notes, q.status].map(c).join(',')).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'chill-compass-quotes.csv'; a.click();
+};
+
+/* ---------- roll call moderation ---------- */
+async function loadRc() {
+  const [p, r, m] = await Promise.all([
+    sb.from('roll_call_posts').select('id,body,created_at,user_id,roll_call_id,profiles(display_name),roll_calls(ship,sail_date)').order('created_at', { ascending: false }).limit(100),
+    sb.from('roll_calls').select('*').order('sail_date', { ascending: false }).limit(200),
+    sb.from('profiles').select('*').order('created_at', { ascending: false }).limit(200)]);
+  $('rcPosts').innerHTML = (p.data || []).length ? p.data.map(x => `<div class="amsg"><div class="h"><b>${esc(x.profiles?.display_name)} · <a href="/rollcall/${x.roll_call_id}" target="_blank">${esc(x.roll_calls?.ship)} ${esc(x.roll_calls?.sail_date)}</a></b><span style="opacity:.6">${fmtDate(x.created_at)}</span></div><p>${esc(x.body)}</p><button class="link red" onclick="delRcPost('${x.id}')">Delete post</button></div>`).join('') : '<div class="amsg">No posts yet.</div>';
+  $('rcRolls').innerHTML = (r.data || []).length ? '<table><tbody>' + r.data.map(x => `<tr><td><a href="/rollcall/${x.id}" target="_blank"><b>${esc(x.ship)}</b> ${esc(x.sail_date)}</a><br><small>${x.member_count} sailing · ${x.post_count} posts</small></td><td><button class="link red" onclick="delRoll('${x.id}')">Delete</button></td></tr>`).join('') + '</tbody></table>' : '<div class="amsg">No roll calls yet.</div>';
+  $('rcMembers').innerHTML = (m.data || []).length ? '<table><tbody>' + m.data.map(x => `<tr><td><b>${esc(x.display_name)}</b>${x.hometown ? '<br><small>' + esc(x.hometown) + '</small>' : ''}</td><td>${x.banned ? '<span class="pill draft">Blocked</span>' : ''}</td><td><button class="link ${x.banned ? '' : 'red'}" onclick="ban('${x.id}',${!x.banned})">${x.banned ? 'Unblock' : 'Block from posting'}</button></td></tr>`).join('') + '</tbody></table>' : '<div class="amsg">No members yet.</div>';
+}
+async function delRcPost(id) { if (!confirm('Delete this post?')) return; await sb.from('roll_call_posts').delete().eq('id', id); toast('Deleted'); loadRc(); }
+async function delRoll(id) { if (!confirm('Delete this whole roll call and all its posts?')) return; await sb.from('roll_calls').delete().eq('id', id); toast('Deleted'); loadRc(); }
+async function ban(id, b) { await sb.from('profiles').update({ banned: b }).eq('id', id); toast(b ? 'Member blocked' : 'Member unblocked'); loadRc(); }
+
+/* ---------- staterooms editor ---------- */
+let rooms = [], room = null, roomPics = [];
+async function loadRooms() {
+  const { data } = await sb.from('staterooms').select('*').order('sort');
+  rooms = data || []; drawRooms();
+}
+const TIERS = ['Interior', 'Ocean View', 'Balcony', 'Suite'];
+function drawRooms() {
+  const list = rooms.filter(r => r.ship === $('rShip').value).sort((a, b) => TIERS.indexOf(a.tier) - TIERS.indexOf(b.tier) || a.sort - b.sort);
+  $('rRows').innerHTML = list.map(r => `<tr><td><b>${esc(r.name)}</b>${r.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td class="hide-m">${esc(r.tier)}</td><td>${((r.photos||[]).length || (r.image_url?1:0)) || '–'}</td><td><button class="link" onclick="editRoom('${r.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="4">No rooms yet.</td></tr>';
+}
+$('rShip').onchange = drawRooms;
+function drawGal() {
+  $('rGal').innerHTML = roomPics.length ? roomPics.map((u, i) => `<div class="g"><img src="${esc(u)}" alt=""><div class="ga">${i ? `<button type="button" onclick="mainPic(${i})" title="Make main photo">★</button>` : '<b>Main</b>'}<button type="button" onclick="delPic(${i})" title="Remove">✕</button></div></div>`).join('') : '<div class="hint">No photos yet. Rooms without photos show "Photo coming soon" on the site.</div>';
+}
+function mainPic(i) { roomPics.unshift(roomPics.splice(i, 1)[0]); drawGal(); }
+function delPic(i) { roomPics.splice(i, 1); drawGal(); }
+function editRoom(id) {
+  room = rooms.find(r => r.id === id) || null;
+  $('rTitle').textContent = room ? 'Edit: ' + room.name : 'New ' + $('rShip').value + ' room';
+  $('rForm').style.display = 'block'; $('rDel').style.display = room ? 'inline' : 'none';
+  $('rName').value = room?.name || ''; $('rTier').value = room?.tier || 'Interior'; $('rDecks').value = room?.decks || '';
+  $('rOcc').value = room?.occupancy || ''; $('rBlurb').value = room?.blurb || ''; $('rFeat').value = (room?.features || []).join('\n');
+  $('rSort').value = room?.sort ?? 100; $('rActive').checked = room ? room.active : true; roomPics = [...(room?.photos || [])]; if (!roomPics.length && room?.image_url) roomPics.push(room.image_url); drawGal();
+  $('rEdit').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+$('rNew').onclick = () => editRoom(null);
+$('rAdd').onclick = () => $('rFile').click();
+$('rFile').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; for (const f of fs) { toast('Uploading ' + f.name + '…'); const u = await uploadImage(f); if (u) { roomPics.push(u); drawGal(); } } toast('Photos added ✓ (remember to Save Room)'); };
+$('rForm').onsubmit = async e => {
+  e.preventDefault();
+  const row = { ship: room?.ship || $('rShip').value, name: $('rName').value.trim(), tier: $('rTier').value, decks: $('rDecks').value.trim() || null, occupancy: $('rOcc').value.trim() || null,
+    blurb: $('rBlurb').value.trim() || null, features: $('rFeat').value.split('\n').map(x => x.trim()).filter(Boolean), sort: parseInt($('rSort').value || '100', 10), active: $('rActive').checked, photos: roomPics, image_url: roomPics[0] || null, updated_at: new Date().toISOString() };
+  const q = room ? sb.from('staterooms').update(row).eq('id', room.id) : sb.from('staterooms').insert(row);
+  const { data, error } = await q.select().single();
+  if (error) return toast('Save failed: ' + error.message);
+  toast('Room saved ✓'); await loadRooms(); editRoom(data.id);
+};
+$('rDel').onclick = async () => { if (!room || !confirm(`Delete "${room.name}"?`)) return; await sb.from('staterooms').delete().eq('id', room.id); toast('Deleted'); room = null; $('rForm').style.display = 'none'; $('rTitle').textContent = 'Pick a room to edit'; loadRooms(); };
+
+/* ---------- ship settings ---------- */
+let ships = {}, shipHero = null, shipDeck = null, shipPics = [];
+function drawShipGal() { $('sGal').innerHTML = shipPics.length ? shipPics.map((u, i) => `<div class="g"><img src="${esc(u)}" alt=""><div class="ga">${i ? `<button type="button" onclick="shipMain(${i})" title="Show first">★</button>` : '<b>First</b>'}<button type="button" onclick="shipDelPic(${i})" title="Remove">✕</button></div></div>`).join('') : '<div class="hint">No ship photos yet.</div>'; }
+function shipMain(i) { shipPics.unshift(shipPics.splice(i, 1)[0]); drawShipGal(); }
+function shipDelPic(i) { shipPics.splice(i, 1); drawShipGal(); }
+function setCoverBox(id, u) { const el = $(id); el.style.backgroundImage = u && !/\.pdf(\?|$)/i.test(u) ? `url('${u}')` : ''; el.textContent = u ? (/\.pdf(\?|$)/i.test(u) ? '📄 PDF uploaded' : '') : 'Click to add'; }
+async function loadShips() { const { data } = await sb.from('ships').select('*'); (data || []).forEach(x => ships[x.name] = x); drawShip(); }
+function drawShip() {
+  const n = $('rShip').value, x = ships[n] || {}; $('sName').textContent = n;
+  shipHero = x.hero_url || null; shipDeck = x.deck_plan_url || null;
+  setCoverBox('sHero', shipHero); setCoverBox('sDeck', shipDeck);
+  $('sTag').value = x.tagline || ''; $('sIntro').value = x.intro || '';
+  $('sHi').value = (x.highlights || []).join('\n'); shipPics = [...(x.photos || [])]; drawShipGal();
+}
+$('sGalAdd').onclick = () => $('sGalF').click();
+$('sGalF').onchange = async e => { const fs = [...e.target.files]; e.target.value = ''; for (const f of fs) { toast('Uploading ' + f.name + '…'); const u = await uploadImage(f); if (u) { shipPics.push(u); drawShipGal(); } } toast('Photos added ✓ (remember to Save Ship Settings)'); };
+$('rShip').addEventListener('change', drawShip);
+$('sHero').onclick = () => $('sHeroF').click(); $('sDeck').onclick = () => $('sDeckF').click();
+$('sHeroF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('sHero').textContent = 'Uploading…'; shipHero = await uploadImage(f) || shipHero; setCoverBox('sHero', shipHero); e.target.value = ''; };
+$('sDeckF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('sDeck').textContent = 'Uploading…'; shipDeck = await uploadAny(f) || shipDeck; setCoverBox('sDeck', shipDeck); e.target.value = ''; };
+$('sHeroDel').onclick = () => { shipHero = null; setCoverBox('sHero', null); };
+$('sDeckDel').onclick = () => { shipDeck = null; setCoverBox('sDeck', null); };
+$('sSave').onclick = async () => {
+  const n = $('rShip').value;
+  const { error } = await sb.from('ships').update({ hero_url: shipHero, deck_plan_url: shipDeck, tagline: $('sTag').value.trim() || null, intro: $('sIntro').value.trim() || null, highlights: $('sHi').value.split('\n').map(x => x.trim()).filter(Boolean), photos: shipPics, updated_at: new Date().toISOString() }).eq('name', n);
+  if (error) return toast('Save failed: ' + error.message); toast('Ship settings saved ✓'); loadShips();
+};
+async function uploadAny(file) {
+  if (file.type !== 'application/pdf') return uploadImage(file);
+  if (file.size > 20 * 1024 * 1024) { toast('PDF is too big (20 MB max)'); return null; }
+  const path = `deckplans/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.pdf`;
+  const { error } = await sb.storage.from('post-images').upload(path, file, { contentType: 'application/pdf', cacheControl: '31536000' });
+  if (error) { toast('Upload failed: ' + error.message); return null; }
+  return sb.storage.from('post-images').getPublicUrl(path).data.publicUrl;
+}
+
+/* ---------- events ---------- */
+let events = [], evt = null, evPic = null;
+async function loadEvents() {
+  const { data } = await sb.from('events').select('*').order('start_date', { ascending: false });
+  events = data || [];
+  const today = new Date().toISOString().slice(0, 10);
+  $('eRows').innerHTML = events.map(e => `<tr><td style="white-space:nowrap">${esc(e.start_date)}</td><td><b>${esc(e.title)}</b>${(e.end_date || e.start_date) < today ? ' <span class="pill draft">Past</span>' : ''}${e.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td><button class="link" onclick="editEvent('${e.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="3">No events yet.</td></tr>';
+}
+function editEvent(id) {
+  evt = events.find(e => e.id === id) || null;
+  $('eTitle').textContent = evt ? 'Edit event' : 'New event'; $('eForm').style.display = 'block'; $('eDel').style.display = evt ? 'inline' : 'none';
+  $('eT').value = evt?.title || ''; $('eShip').value = evt?.ship || ''; $('eS').value = evt?.start_date || ''; $('eE').value = evt?.end_date || '';
+  $('eLoc').value = evt?.location || ''; $('eD').value = evt?.description || ''; $('eL').value = evt?.link || ''; $('eLL').value = evt?.link_label || '';
+  $('eA').checked = evt ? evt.active : true; evPic = evt?.image_url || null; setCoverBox('ePic', evPic);
+}
+$('eNew').onclick = () => editEvent(null);
+$('ePic').onclick = () => $('ePicF').click();
+$('ePicF').onchange = async e => { const f = e.target.files[0]; if (!f) return; $('ePic').textContent = 'Uploading…'; evPic = await uploadImage(f) || evPic; setCoverBox('ePic', evPic); e.target.value = ''; };
+$('ePicDel').onclick = () => { evPic = null; setCoverBox('ePic', null); };
+$('eForm').onsubmit = async e => {
+  e.preventDefault();
+  const row = { title: $('eT').value.trim(), ship: $('eShip').value.trim() || null, start_date: $('eS').value, end_date: $('eE').value || null, location: $('eLoc').value.trim() || null,
+    description: $('eD').value.trim() || null, link: $('eL').value.trim() || null, link_label: $('eLL').value.trim() || null, image_url: evPic, active: $('eA').checked };
+  const q = evt ? sb.from('events').update(row).eq('id', evt.id) : sb.from('events').insert(row);
+  const { data, error } = await q.select().single();
+  if (error) return toast('Save failed: ' + error.message);
+  toast('Event saved ✓'); await loadEvents(); editEvent(data.id);
+};
+$('eDel').onclick = async () => { if (!evt || !confirm(`Delete "${evt.title}"?`)) return; await sb.from('events').delete().eq('id', evt.id); toast('Deleted'); evt = null; $('eForm').style.display = 'none'; $('eTitle').textContent = 'Pick an event to edit'; loadEvents(); };
+
+boot();
+</script>
+</body>
+</html>
