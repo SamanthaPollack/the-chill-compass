@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=17">
+<link rel="stylesheet" href="/assets/style.css?v=19">
 <style>
 .sf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px}
 @media(max-width:760px){.sf-grid{grid-template-columns:1fr 1fr}}
@@ -54,7 +54,7 @@
     <li><a href="/faq">FAQ</a></li>
   </ul></nav>
 </div></div>
-<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🗓️ Sailings</div><h1>Find a Margaritaville at Sea sailing</h1><p>Browse upcoming Paradise, Islander and Beachcomber sailings. Spot one you like? Tap "Ask about this sailing" and we'll fill in the quote form for you.</p></div>
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🗓️ Get a Free Quote</div><h1>Find your Margaritaville at Sea sailing</h1><p>Browse upcoming Paradise, Islander and Beachcomber sailings. Spot one you like? Tap "Ask about this sailing" to see the details and request your free quote.</p></div>
 <form class="card sf" id="sf">
   <div class="sf-grid">
     <div class="field"><label for="s_ship">Ship</label><select id="s_ship"><option value="">All ships</option></select></div>
@@ -69,24 +69,9 @@
 <p style="text-align:center;margin-top:18px"><button class="btn btn-ghost" id="s_more" style="display:none">Show more sailings</button></p>
 <p class="fine" style="margin-top:22px">Sailing dates and prices come from a live cruise data feed and can change at any time. Prices shown are "from" fares per person and may not include taxes, fees and port expenses.</p>
 </main><aside class="side"><div class="widget" id="quote">
-  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Tell us your dream sailing. A real travel advisor will reply, with no cost and no obligation.</p></div>
-  <div class="wb">
-    <form class="qf js-quote">
-      <div class="full"><label for="q_name">Your name</label><input id="q_name" name="name" required maxlength="140" autocomplete="name"></div>
-      <div class="full"><label for="q_email">Email</label><input id="q_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
-      <div><label for="q_phone">Phone</label><input id="q_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
-      <div><label for="q_state">State</label><select id="q_state" name="state"><option value="">Choose</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option></select></div>
-      <div><label for="q_ship">Ship</label><select id="q_ship" name="ship"><option value="">Not sure yet</option><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select></div>
-      <div><label for="q_date">Sail month</label><input id="q_date" name="sail_date" type="month"></div>
-      <div class="full"><label for="q_room">Stateroom</label><select id="q_room" name="stateroom"><option value="">Not sure yet</option><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
-      <div><label for="q_ad">Adults</label><select id="q_ad" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
-      <div><label for="q_ch">Kids</label><select id="q_ch" name="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
-      <div class="full"><label for="q_pref">Best way to reach you</label><select id="q_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
-      <div class="full"><label for="q_notes">Anything else?</label><textarea id="q_notes" name="notes" rows="2" maxlength="2000" placeholder="Celebrating something? Flexible dates?"></textarea></div>
-      <div class="full"><button class="btn btn-coral" type="submit">Get My Free Quote</button></div>
-    </form>
-    <div class="err"></div>
-    <div class="qf-done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options and pricing. Cheers! 🍹</p></div>
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb" style="text-align:center">
+    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
     <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
   </div>
 </div><div class="widget teal" id="signup">
@@ -175,7 +160,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=17"></script>
+<script src="/assets/app.js?v=19"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
@@ -191,11 +176,13 @@ document.addEventListener('cc:ready', async () => {
   const $ = id => document.getElementById(id);
   const fmt = s => { if (!s) return ''; const d = new Date(s.length > 10 ? s : s + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
   const short = n => String(n || '').replace(/margaritaville at sea\s*/i, '').trim() || n;
-  const money = c => { const v = c.price_from ?? c.lowest_price ?? c.min_price ?? c.price ?? c.starting_price; if (v == null || v === '') return ''; const n = Number(v); return isNaN(n) ? esc(v) : n.toLocaleString('en-US', { style: 'currency', currency: c.currency || 'USD', maximumFractionDigits: 0 }); };
+  const money = c => { const v = c.price_amount ?? c.price_from ?? c.lowest_price ?? c.min_price ?? c.price; if (v == null || v === '') return ''; const n = Number(v); return isNaN(n) ? esc(v) : n.toLocaleString('en-US', { style: 'currency', currency: c.price_currency || c.currency || 'USD', maximumFractionDigits: 0 }); };
   // ships + months
   fetch(FN + '?resource=meta').then(r => r.ok ? r.json() : null).then(d => {
     const ships = (d && d.ships && d.ships.length) ? d.ships : ['Margaritaville at Sea Paradise', 'Margaritaville at Sea Islander', 'Margaritaville at Sea Beachcomber'];
     ships.forEach(n => $('s_ship').add(new Option(short(n), n)));
+    const want = new URLSearchParams(location.search).get('ship');
+    if (want) { const o = [...$('s_ship').options].find(o => o.value && short(o.value).toLowerCase() === want.toLowerCase()); if (o) { $('s_ship').value = o.value; run(true); } }
   }).catch(() => {});
   const now = new Date();
   for (let i = 0; i < 24; i++) { const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
@@ -216,15 +203,16 @@ document.addEventListener('cc:ready', async () => {
     const pr = money(c), cls = (ship || '').toLowerCase().split(' ')[0];
     return `<div class="sl ${esc(cls)}"><div><h3>${esc(title)}</h3>
       <div class="m">🛳️ <b>${esc(ship || 'Margaritaville at Sea')}</b>${n ? ' · ' + esc(n) + ' nights' : ''}<br>📅 ${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}${ports ? '<br>📍 ' + ports : ''}</div></div>
-      <div class="pr">${pr ? `<small>From</small><b>${pr}</b><small>per person</small><br>` : ''}<button class="btn btn-sm btn-teal" data-i="${i}" style="margin-top:8px">Ask about this sailing</button></div></div>`;
+      <div class="pr">${pr ? `<small>From</small><b>${pr}</b><small>per person</small><br>` : ''}<a class="btn btn-sm btn-teal" href="${detail(c)}" style="margin-top:8px">Ask about this sailing</a></div></div>`;
   }
+  const detail = c => '/sailing?' + new URLSearchParams({ ship: c.ship_name || '', date: String(c.departure_date || '').slice(0, 10), id: c.sailing_id || c.id || '' });
   let rows = [];
   function ask(c) {
     const ship = short(c.ship_name);
     prefillQuote(['Paradise', 'Islander', 'Beachcomber'].find(s => (ship || '').includes(s)) || '');
     const f = document.querySelector('form.js-quote'); if (!f) return;
     if (c.departure_date && f.elements.sail_date) f.elements.sail_date.value = String(c.departure_date).slice(0, 7);
-    if (f.elements.notes) f.elements.notes.value = 'Interested in: ' + (c.title || 'sailing') + ' on ' + (ship || 'Margaritaville at Sea') + ', departing ' + fmt(c.departure_date) + (c.embark_port ? ' from ' + c.embark_port : '') + '.';
+    if (window.ccSetSailing) window.ccSetSailing(c);
   }
   function run(fresh) {
     if (fresh) { offset = 0; shown = 0; rows = []; last = params(); $('s_list').innerHTML = '<div class="loading">Searching sailings…</div>'; }

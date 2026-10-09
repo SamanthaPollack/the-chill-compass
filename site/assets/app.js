@@ -195,6 +195,8 @@ function wireQuote() {
       const row = { name: g('name'), email: g('email'), phone: g('phone') || null, state: g('state') || null, contact_pref: g('contact_pref') || null,
         ship: g('ship') || null, sail_date: g('sail_date') || null, stateroom: g('stateroom') || null,
         adults: parseInt(g('adults') || '2', 10), children: parseInt(g('children') || '0', 10), notes: g('notes') || null, source: location.pathname };
+      const sailSel = f.elements.sailing, sailTxt = sailSel && sailSel.value ? sailSel.options[sailSel.selectedIndex].text : '';
+      if (sailTxt) row.notes = 'Sailing: ' + sailTxt + (row.notes ? '\n' + row.notes : '');
       const { error } = await sb.from('quotes').insert(row);
       b.disabled = false;
       if (error) { err.textContent = 'Sorry, that didn\'t go through. Please check your email address and try again.'; err.style.display = 'block'; return; }
@@ -202,9 +204,54 @@ function wireQuote() {
     });
   });
   document.querySelectorAll('[data-quote]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); prefillQuote(); }));
+  wireSailingPicker();
+}
+
+/* ---------- Live sailings in the quote form (CruiseFeed, Margaritaville at Sea only) ---------- */
+const SAIL_FN = '/.netlify/functions/cruisefeed';
+const sailDate = s => { if (!s) return ''; const d = new Date(String(s).slice(0, 10) + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); };
+const sailShip = n => String(n || '').replace(/margaritaville at sea\s*/i, '').trim();
+function sailLabel(c) {
+  const price = c.price_amount != null ? ' · from $' + Math.round(Number(c.price_amount)).toLocaleString('en-US') : '';
+  return sailDate(c.departure_date) + ' · ' + (c.title || ((c.nights || '') + '-Night Cruise')) + ' · ' + sailShip(c.ship_name) + price;
+}
+function wireSailingPicker() {
+  const f = document.querySelector('form.js-quote'); if (!f || !f.elements.sailing) return;
+  const sel = f.elements.sailing, ship = f.elements.ship, month = f.elements.sail_date;
+  let want = null, seq = 0;
+  async function load() {
+    const sh = ship.value, mo = month.value, my = ++seq;
+    if (!sh && !mo) { sel.innerHTML = '<option value="">Pick a ship or month to see sailings</option>'; sel.disabled = true; return; }
+    sel.innerHTML = '<option value="">Loading sailings…</option>'; sel.disabled = true;
+    const p = new URLSearchParams({ sort: 'departure_date', limit: '24' });
+    if (sh) p.set('ship_name', 'Margaritaville at Sea ' + sh);
+    if (mo) { const [y, m] = mo.split('-').map(Number); const iso = d => d.toISOString().slice(0, 10);
+      p.set('departure_from', iso(new Date(Date.UTC(y, m - 1, 1)))); p.set('departure_to', iso(new Date(Date.UTC(y, m, 0)))); }
+    try {
+      const r = await fetch(SAIL_FN + '?' + p); const d = await r.json(); if (my !== seq) return;
+      const items = r.ok ? (d.items || []) : [];
+      sel.innerHTML = '<option value="">' + (items.length ? 'Not sure yet / any sailing' : 'No sailings found, try another month') + '</option>';
+      items.forEach(c => sel.add(new Option(sailLabel(c), c.sailing_id || c.id || c.departure_date)));
+      sel.disabled = false;
+      if (want) { const v = want.sailing_id || want.id || want.departure_date;
+        if (![...sel.options].some(o => o.value === String(v))) sel.add(new Option(sailLabel(want), v), 1);
+        sel.value = String(v); want = null; }
+    } catch (e) { if (my === seq) { sel.innerHTML = '<option value="">Sailings unavailable right now</option>'; sel.disabled = true; } }
+  }
+  ship.addEventListener('change', load); month.addEventListener('change', load);
+  sel.addEventListener('change', () => {
+    const t = sel.value ? sel.options[sel.selectedIndex].text : '';
+    const m = /([A-Z][a-z]{2} \d{1,2}, \d{4})/.exec(t); if (m) { const d = new Date(m[1]); if (!isNaN(d)) month.value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+  });
+  window.ccSetSailing = c => {
+    want = c;
+    const s = ['Paradise', 'Islander', 'Beachcomber'].find(x => sailShip(c.ship_name).includes(x)); if (s) ship.value = s;
+    if (c.departure_date) month.value = String(c.departure_date).slice(0, 7);
+    load();
+  };
 }
 function prefillQuote(ship, room) {
-  const f = document.querySelector('form.js-quote'); if (!f) return location.href = '/#quote';
+  const f = document.querySelector('form.js-quote'); if (!f) return location.href = '/sailings' + (ship ? '?ship=' + encodeURIComponent(ship) : '');
   if (ship) f.elements.ship.value = ship;
   if (room) {
     const sel = f.elements.stateroom;

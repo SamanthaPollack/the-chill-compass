@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=17">
+<link rel="stylesheet" href="/assets/style.css?v=19">
 
 </head>
 <body>
@@ -46,24 +46,9 @@
   </ul></nav>
 </div></div>
 <div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🧭 Tips & News</div><h1>Tips & News</h1><p>Packing hacks, planning tips and the latest Margaritaville at Sea news.</p></div><div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div><div class="ad-slot" data-slot="blog-bottom"></div></main><aside class="side"><div class="widget" id="quote">
-  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Tell us your dream sailing. A real travel advisor will reply, with no cost and no obligation.</p></div>
-  <div class="wb">
-    <form class="qf js-quote">
-      <div class="full"><label for="q_name">Your name</label><input id="q_name" name="name" required maxlength="140" autocomplete="name"></div>
-      <div class="full"><label for="q_email">Email</label><input id="q_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
-      <div><label for="q_phone">Phone</label><input id="q_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
-      <div><label for="q_state">State</label><select id="q_state" name="state"><option value="">Choose</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option></select></div>
-      <div><label for="q_ship">Ship</label><select id="q_ship" name="ship"><option value="">Not sure yet</option><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select></div>
-      <div><label for="q_date">Sail month</label><input id="q_date" name="sail_date" type="month"></div>
-      <div class="full"><label for="q_room">Stateroom</label><select id="q_room" name="stateroom"><option value="">Not sure yet</option><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
-      <div><label for="q_ad">Adults</label><select id="q_ad" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
-      <div><label for="q_ch">Kids</label><select id="q_ch" name="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
-      <div class="full"><label for="q_pref">Best way to reach you</label><select id="q_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
-      <div class="full"><label for="q_notes">Anything else?</label><textarea id="q_notes" name="notes" rows="2" maxlength="2000" placeholder="Celebrating something? Flexible dates?"></textarea></div>
-      <div class="full"><button class="btn btn-coral" type="submit">Get My Free Quote</button></div>
-    </form>
-    <div class="err"></div>
-    <div class="qf-done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options and pricing. Cheers! 🍹</p></div>
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb" style="text-align:center">
+    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
     <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
   </div>
 </div><div class="widget teal" id="signup">
@@ -152,7 +137,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=17"></script>
+<script src="/assets/app.js?v=19"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;

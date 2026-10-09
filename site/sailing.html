@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sailing Details | The Chill Compass</title>
+<meta name="description" content="Margaritaville at Sea sailing details, itinerary and stateroom fares, plus a free quote from a real travel advisor.">
+<link rel="canonical" href="https://thechillcompass.com/sailing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Chill Compass">
+<meta property="og:title" content="Sailing Details | The Chill Compass">
+<meta property="og:description" content="Margaritaville at Sea sailing details, itinerary and stateroom fares, plus a free quote from a real travel advisor.">
+<meta property="og:url" content="https://thechillcompass.com/sailing">
+<meta property="og:image" content="https://thechillcompass.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<meta name="theme-color" content="#0B3954">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=19">
+<style>
+.sd-hero{background:linear-gradient(135deg,var(--navy),#14607d);color:#fff;border-radius:var(--r);padding:26px 26px 22px}
+.sd-hero h1{color:#fff;margin:6px 0 8px;font-size:30px;line-height:1.15}.sd-hero .eyebrow{color:var(--sun)}
+.sd-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.sd-facts span{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.sd-sec{margin-top:22px}.sd-sec h2{margin:0 0 10px;font-size:22px}
+.itin{list-style:none;margin:0;padding:0;border-left:3px solid var(--teal);margin-left:10px}
+.itin li{position:relative;padding:8px 0 10px 22px}.itin li:before{content:'';position:absolute;left:-9px;top:14px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.itin li.sea:before{border-color:var(--sun)}.itin b{font-family:Fredoka;font-size:17px}.itin small{display:block;color:var(--ink-soft)}
+.fares{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}.fares th,.fares td{padding:10px 12px;text-align:left;border-bottom:1px solid #f1e6d1}
+.fares th{background:var(--sand);font-family:Fredoka}.fares td.na{color:#9aa9b4}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="r" id="tbUser"></div>
+</div></div>
+<header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
+<div class="tagbar">A Margaritaville at Sea Blog</div>
+<div class="dock"><div class="wrap">
+  <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
+  <nav aria-label="Main"><ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+    <li><a href="/extra-packages">Extra Packages</a></li>
+    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/sailings">Sailings</a></li>
+    <li><a href="/port-guides">Port Guides</a></li>
+    <li><a href="/deals">Deals</a></li>
+    <li><a href="/newsletter">Newsletter</a></li>
+    <li><a href="/weddings">Weddings</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/rollcalls">Roll Calls</a></li>
+    <li><a href="/faq">FAQ</a></li>
+  </ul></nav>
+</div></div>
+<div class="wrap"><div class="shell"><main><p style="margin:0 0 10px"><a href="/sailings" class="link">← Back to all sailings</a></p>
+<div id="sd"><div class="loading">Loading this sailing…</div></div>
+<div class="card" id="sq" style="display:none;margin-top:22px">
+  <h2 style="margin:0 0 6px">🛳️ Get a Free Quote on This Sailing</h2>
+  <p style="margin:0 0 16px;color:var(--ink-soft)">We've filled in the cruise for you. Just tell us who's coming and how to reach you. A real travel advisor will reply, with no cost and no obligation.</p>
+  <div class="notice" id="sq_pick" style="margin-bottom:16px"></div>
+  <form class="qf" id="sq_form">
+    <div class="full"><label for="d_name">Your name</label><input id="d_name" name="name" required maxlength="140" autocomplete="name"></div>
+    <div class="full"><label for="d_email">Email</label><input id="d_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
+    <div><label for="d_phone">Phone</label><input id="d_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
+    <div><label for="d_state">State</label><select id="d_state" name="state"><option value="">Choose</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option></select></div>
+    <div class="full"><label for="d_room">Stateroom</label><select id="d_room" name="stateroom"><option value="">Not sure yet</option><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
+    <div><label for="d_ad">Adults</label><select id="d_ad" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+    <div><label for="d_ch">Kids</label><select id="d_ch" name="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+    <div class="full"><label for="d_pref">Best way to reach you</label><select id="d_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
+    <div class="full"><label for="d_notes">Anything else?</label><textarea id="d_notes" name="notes" rows="3" maxlength="2000" placeholder="Celebrating something? Traveling with friends? Flexible dates?"></textarea></div>
+    <div class="full"><button class="btn btn-coral" type="submit" style="width:100%">Get My Free Quote</button></div>
+  </form>
+  <div class="err" id="sq_err"></div>
+  <div class="qf-done" id="sq_done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options and pricing for this sailing. Cheers! 🍹</p><p><a class="btn btn-ghost" href="/sailings">Browse more sailings</a></p></div>
+  <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
+</div>
+<p class="fine" style="margin-top:18px">Sailing details and fares come from a live cruise data feed and can change at any time. Fares are per person, based on double occupancy, and may not include taxes, fees and port expenses.</p>
+</main><aside class="side"><div class="widget" id="quote">
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb" style="text-align:center">
+    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
+    <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
+  </div>
+</div><div class="widget teal" id="signup">
+  <div class="wh"><h3>🗺️ Free Port Guides</h3><p>Palm Beach · Tampa · Miami · Galveston, plus our packing list.</p></div>
+  <div class="wb">
+    <form class="mini-form js-signup" data-source="sidebar">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit">Send Me the Guides</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div><div class="widget navy">
+  <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
+  <div class="wb"><ul class="side-list" id="rcSide"><li style="opacity:.6">Loading…</li></ul>
+  <a href="/rollcalls" class="btn btn-navy btn-sm" style="width:100%;margin-top:10px">All Roll Calls</a></div>
+</div></aside></div></div>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>The Chill Compass</h3>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise reviews, deck plans and roll calls from travel advisors who keep going back for more. 🍹</p>
+      </div>
+      <div><h3>Explore</h3><ul>
+        <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/rollcalls">Roll Calls</a></li>
+        <li><a href="/faq">FAQ</a></li></ul></div>
+      <div><h3>Connect</h3><ul>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/write-for-us">Write for Us</a></li></ul></div>
+      <div><h3>About</h3><ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/account">My Account</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="disclaimer">
+      © <span id="yr">2026</span> The Chill Compass · Presented by Samantha Pollack, CTT and Associates, LLC<br>
+      Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
+    </div>
+  </div>
+</footer>
+
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <div style="font-size:46px">🗺️🧳</div>
+    <h2>Free Port Guides!</h2>
+    <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
+    <form class="form js-signup" data-source="popup">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're in! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <h2>⛱️ Join the Crew</h2>
+    <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
+    <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
+    <div id="authMsg"></div>
+    <form id="authForm">
+      <div class="only-up" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label for="aFirst">First name</label><input id="aFirst" maxlength="50" autocomplete="given-name"></div>
+        <div class="field"><label for="aLast">Last name</label><input id="aLast" maxlength="50" autocomplete="family-name"></div></div></div>
+      <div class="field only-up" style="display:none"><label for="aName">Username</label><input id="aName" maxlength="20" placeholder="e.g. ParrotheadPam" autocomplete="username"><p class="fine" style="margin:4px 0 0">This is what other cruisers see on Roll Calls. Your first and last name stay private.</p></div>
+      <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
+      <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
+      <p class="err" id="authErr"></p>
+      <p class="fine" style="text-align:center"><button type="button" class="link" id="authForget">Forgot password?</button></p>
+      <p class="fine only-up" style="display:none">By joining you agree to be kind. Posts are public. No spam, selling or personal info, please; we may remove posts or accounts that break the rules.</p>
+    </form>
+  </div>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/app.js?v=19"></script>
+<script>
+document.addEventListener('cc:ready', async () => {
+  const el = document.getElementById('rcSide'); if (!el) return;
+  const { data } = await sb.from('roll_calls').select('id,ship,sail_date,post_count,last_post_at').gte('sail_date', new Date().toISOString().slice(0,10)).order('last_post_at', { ascending: false, nullsFirst: false }).limit(5);
+  el.innerHTML = (data && data.length) ? data.map(r => `<li><a href="/rollcall/${r.id}"><span class="dot d-${SHIPS[r.ship].slug}"></span>${esc(r.ship)} · ${dateOnly(r.sail_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</a><small>${r.post_count} posts${r.last_post_at ? ' · ' + timeAgo(r.last_post_at) : ''}</small></li>`).join('')
+    : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
+});
+</script>
+<script>
+(function(){
+  const FN = '/.netlify/functions/cruisefeed', q = new URLSearchParams(location.search), $ = id => document.getElementById(id);
+  const fmt = (s, o) => { if (!s) return ''; const d = new Date(String(s).slice(0, 10) + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-US', o || { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); };
+  const short = n => String(n || '').replace(/margaritaville at sea\s*/i, '').trim();
+  const money = (v, cur) => v == null || v === '' ? '' : Number(v).toLocaleString('en-US', { style: 'currency', currency: cur || 'USD', maximumFractionDigits: 0 });
+  const roomType = t => { t = String(t || '').toLowerCase(); return /suite/.test(t) ? 'Suite' : /balcon|veranda/.test(t) ? 'Balcony' : /ocean|outside|view|window/.test(t) ? 'Ocean View' : /inside|interior/.test(t) ? 'Interior' : ''; };
+  let C = null;
+  function fail(msg) { $('sd').innerHTML = `<div class="empty">${msg}<br><br><a class="btn btn-coral" href="/sailings">See all sailings</a></div>`; }
+  const date = (q.get('date') || '').slice(0, 10), ship = q.get('ship') || '', id = q.get('id') || '';
+  if (!date) return fail('🏝️ We couldn\'t find that sailing.');
+  const p = new URLSearchParams({ departure_from: date, departure_to: date, limit: '24' }); if (ship) p.set('ship_name', ship);
+  fetch(FN + '?' + p).then(r => r.json()).then(d => {
+    const items = d.items || [];
+    C = items.find(c => id && String(c.sailing_id || c.id) === id) || items[0];
+    if (!C) return fail('🏝️ That sailing isn\'t available anymore. It may have sold out or departed.');
+    render(C);
+  }).catch(() => fail('Sailing details are taking a nap. Please try again in a moment.'));
+
+  function blurb(c) {
+    const sh = short(c.ship_name), n = c.nights, it = (c.itinerary || []);
+    const stops = [...new Set(it.filter(x => !x.is_sea_day && !x.is_embark && !x.is_disembark && x.port).map(x => x.port))];
+    const sea = it.filter(x => x.is_sea_day).length || c.sea_days || 0;
+    const from = c.embark_port ? (c.round_trip || c.embark_port === c.disembark_port ? `sails round trip from ${esc(c.embark_port)}` : `sails from ${esc(c.embark_port)} to ${esc(c.disembark_port)}`) : 'sets sail';
+    const list = stops.length > 1 ? stops.slice(0, -1).map(esc).join(', ') + ' and ' + esc(stops[stops.length - 1]) : stops.map(esc).join('');
+    return `This ${n ? n + '-night ' : ''}getaway on <b>Margaritaville at Sea ${esc(sh)}</b> ${from}${list ? `, with stops in ${list}` : ''}${sea ? ` and ${sea} relaxing day${sea > 1 ? 's' : ''} at sea` : ''}. Expect island tunes, frozen concoctions and that "changes in latitude" feeling from the moment you board. 🍹`;
+  }
+  function render(c) {
+    const sh = short(c.ship_name), title = c.title || ((c.nights || '') + '-Night Cruise');
+    document.title = title + ' on ' + (sh || 'Margaritaville at Sea') + ' | The Chill Compass';
+    const it = (c.itinerary || []).slice().sort((a, b) => (a.day_number || a.seq || 0) - (b.day_number || b.seq || 0));
+    const fares = (c.fares || []).filter(f => f.cabin_class || f.cabin_category);
+    const best = fares.filter(f => f.available !== false && f.price_amount != null).sort((a, b) => a.price_amount - b.price_amount)[0];
+    const from = [c.price_amount, best && best.price_amount].filter(v => v != null).map(Number).sort((a, b) => a - b)[0];
+    $('sd').innerHTML = `<div class="sd-hero"><div class="eyebrow">🛳️ ${esc(sh || 'Margaritaville at Sea')}${c.nights ? ' · ' + esc(c.nights) + ' nights' : ''}</div>
+      <h1>${esc(title)}</h1><div>${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}</div>
+      <div class="sd-facts">${c.embark_port ? `<span>📍 ${esc(c.embark_port)}${c.disembark_port && c.disembark_port !== c.embark_port ? ' → ' + esc(c.disembark_port) : ' round trip'}</span>` : ''}
+      ${from != null ? `<span>💲 From ${money(from, c.price_currency)} per person</span>` : ''}${c.taxes_and_fees ? `<span>Taxes & fees about ${money(c.taxes_and_fees, c.taxes_currency)}</span>` : ''}${c.obc_amount ? `<span>🎁 ${money(c.obc_amount, c.price_currency)} onboard credit</span>` : ''}${c.sold_out ? '<span>⚠️ Currently sold out</span>' : ''}</div></div>
+      <div class="sd-sec card"><h2>About this cruise</h2><p style="margin:0">${blurb(c)}</p>${sh ? `<p style="margin:12px 0 0"><a class="link" href="/fleet/${esc(sh.toLowerCase())}">Explore the ${esc(sh)}: deck plans, rooms and more →</a></p>` : ''}</div>
+      ${it.length ? `<div class="sd-sec card"><h2>Day-by-day itinerary</h2><ul class="itin">${it.map(x => `<li class="${x.is_sea_day ? 'sea' : ''}"><b>Day ${esc(x.day_number || x.seq || '')}: ${esc(x.is_sea_day ? 'Fun day at sea' : (x.port || ''))}${x.country && !x.is_sea_day ? ', ' + esc(x.country) : ''}</b><small>${esc(fmt(x.date, { weekday: 'short', month: 'short', day: 'numeric' }))}${x.arrive ? ' · Arrive ' + esc(x.arrive) : ''}${x.depart ? ' · Depart ' + esc(x.depart) : ''}${x.tender ? ' · Tender port' : ''}${x.overnight ? ' · Overnight' : ''}</small></li>`).join('')}</ul></div>` : ''}
+      ${fares.length ? `<div class="sd-sec card"><h2>Stateroom fares</h2><div class="tbl-wrap"><table class="fares"><tr><th>Stateroom</th><th>From (per person)</th></tr>${fares.map(f => `<tr><td>${esc(f.cabin_category || f.cabin_class)}${f.cabin_category && f.cabin_class && f.cabin_class !== f.cabin_category ? ' <small style="color:var(--ink-soft)">(' + esc(f.cabin_class) + ')</small>' : ''}</td><td class="${f.available === false || f.price_amount == null ? 'na' : ''}">${f.available === false ? 'Not available' : f.price_amount == null ? 'Ask us' : money(f.price_amount, f.price_currency)}</td></tr>`).join('')}</table></div></div>` : ''}`;
+    // quote form
+    const label = (c.title || 'Cruise') + ' · ' + (sh || 'Margaritaville at Sea') + ' · ' + fmt(c.departure_date, { month: 'short', day: 'numeric', year: 'numeric' }) + (c.embark_port ? ' from ' + c.embark_port : '');
+    $('sq_pick').innerHTML = '✅ <b>Your sailing:</b> ' + esc(label);
+    const room = $('d_room'), types = [...new Set(fares.map(f => roomType(f.cabin_class || f.cabin_category)).filter(Boolean))];
+    if (types.length) { room.innerHTML = '<option value="">Not sure yet</option>' + ['Interior', 'Ocean View', 'Balcony', 'Suite'].filter(t => types.includes(t)).map(t => `<option>${t}</option>`).join(''); }
+    $('sq').style.display = '';
+    $('sq_form').onsubmit = async e => {
+      e.preventDefault(); const f = e.target, g = n => (f.elements[n].value || '').trim(), b = f.querySelector('button'), err = $('sq_err');
+      err.style.display = 'none'; b.disabled = true;
+      const notes = 'Sailing: ' + label + (g('notes') ? '\n' + g('notes') : '');
+      const { error } = await sb.from('quotes').insert({ name: g('name'), email: g('email'), phone: g('phone') || null, state: g('state') || null, contact_pref: g('contact_pref') || null,
+        ship: sh || null, sail_date: String(c.departure_date || '').slice(0, 10) || null, stateroom: g('stateroom') || null,
+        adults: parseInt(g('adults') || '2', 10), children: parseInt(g('children') || '0', 10), notes: notes.slice(0, 2900), source: location.pathname + location.search });
+      b.disabled = false;
+      if (error) { err.textContent = 'Sorry, that didn\'t go through. Please check your email address and try again.'; err.style.display = 'block'; return; }
+      f.style.display = 'none'; $('sq_pick').style.display = 'none'; $('sq_done').style.display = 'block';
+    };
+  }
+})();
+</script></body>
+</html>
