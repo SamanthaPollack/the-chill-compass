@@ -307,12 +307,19 @@ function wireSignups() {
       e.preventDefault();
       const btn = form.querySelector('button');
       const email = form.querySelector('[name=email]').value.trim();
-      const first = (form.querySelector('[name=first_name]') || {}).value?.trim() || null;
+      const val = n => (form.querySelector('[name=' + n + ']') || {}).value?.trim() || null;
+      const first = val('first_name'), last = val('last_name'), username = val('username');
       const err = form.parentElement.querySelector('.err');
+      const say = t => { if (err) { err.textContent = t; err.style.display = 'block'; } };
       if (err) err.style.display = 'none';
+      if (form.querySelector('[name=last_name]') && (!first || !last)) return say('Please enter your first and last name.');
+      if (form.querySelector('[name=username]') && !USERNAME_RE.test(username || '')) return say('Usernames are 3–20 letters, numbers, periods or underscores, no spaces.');
       btn.disabled = true;
-      const { error } = await sb.from('subscribers').insert({ email, first_name: first, source: form.dataset.source || location.pathname });
+      let { error } = await sb.from('subscribers').insert({ email, first_name: first, last_name: last, username, source: form.dataset.source || location.pathname });
+      if (error && /last_name|username/.test(error.message || '') && error.code !== '23505')  // database not updated yet: save the basics
+        ({ error } = await sb.from('subscribers').insert({ email, first_name: [first, last].filter(Boolean).join(' ') || null, source: form.dataset.source || location.pathname }));
       btn.disabled = false;
+      if (error && error.code === '23505' && /username/i.test(error.message + ' ' + (error.details || ''))) return say('That username is taken. Try another.');
       if (error && error.code !== '23505') {
         if (err) { err.textContent = 'Hmm, something went wrong. Please check your email and try again.'; err.style.display = 'block'; }
         return;

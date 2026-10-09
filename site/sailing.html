@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=19">
+<link rel="stylesheet" href="/assets/style.css?v=20">
 <style>
 .sd-hero{background:linear-gradient(135deg,var(--navy),#14607d);color:#fff;border-radius:var(--r);padding:26px 26px 22px}
 .sd-hero h1{color:#fff;margin:6px 0 8px;font-size:30px;line-height:1.15}.sd-hero .eyebrow{color:var(--sun)}
@@ -88,7 +88,7 @@
   <div class="wh"><h3>🗺️ Free Port Guides</h3><p>Palm Beach · Tampa · Miami · Galveston, plus our packing list.</p></div>
   <div class="wb">
     <form class="mini-form js-signup" data-source="sidebar">
-      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
       <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
       <button class="btn btn-sun" type="submit">Send Me the Guides</button>
     </form>
@@ -138,7 +138,7 @@
     <h2>Free Port Guides!</h2>
     <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
     <form class="form js-signup" data-source="popup">
-      <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
       <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
       <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
     </form>
@@ -170,7 +170,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=19"></script>
+<script src="/assets/app.js?v=20"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
