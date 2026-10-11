@@ -109,6 +109,8 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
             <div class="field"><label for="fCat">Category</label>
               <select id="fCat"><option>Cruise Reviews</option><option>Port Guides</option><option>Deals</option><option>Tips &amp; News</option></select></div>
             <div class="field"><label for="fExcerpt">Short summary</label><textarea id="fExcerpt" rows="3" maxlength="300" placeholder="1–2 sentences shown on the post card and in Google results"></textarea></div>
+            <div class="field"><label for="fBtnUrl">Button link (optional)</label><input id="fBtnUrl" type="url" placeholder="https://"><div class="hint">Adds a big button at the end of the post. Great for Deals.</div></div>
+            <div class="field"><label for="fBtnLbl">Button text</label><input id="fBtnLbl" maxlength="40" placeholder="Get a Free Quote"></div>
             <div class="field"><label for="fSlug">Web address</label><input id="fSlug" maxlength="120"><div class="hint" id="slugHint"></div></div>
             <div class="status" id="edStatus"></div>
             <button class="btn btn-coral" id="btnPublish">🚀 Publish</button>
@@ -340,7 +342,7 @@ function slugHint() { $('slugHint').textContent = location.origin + '/post/' + (
 function openEditor(p) {
   current = p || null; slugTouched = !!p;
   $('edTitle').textContent = p ? 'Edit Post' : 'New Post';
-  $('fTitle').value = p?.title || ''; $('fSlug').value = p?.slug || ''; $('fExcerpt').value = p?.excerpt || '';
+  $('fTitle').value = p?.title || ''; $('fSlug').value = p?.slug || ''; $('fExcerpt').value = p?.excerpt || ''; $('fBtnUrl').value = p?.button_url || ''; $('fBtnLbl').value = p?.button_label || '';
   $('fCat').value = p?.category || 'Cruise Reviews'; setCover(p?.cover_url || null);
   quill.setContents([]); if (p?.content) quill.clipboard.dangerouslyPasteHTML(p.content);
   $('edStatus').textContent = ''; slugHint(); refreshButtons(); tab('edit');
@@ -367,7 +369,7 @@ async function save(publish) {
   const html = quill.getLength() > 1 ? quill.getSemanticHTML().replace(/&nbsp;/g, ' ') : '';
   let excerpt = $('fExcerpt').value.trim();
   if (!excerpt) excerpt = quill.getText().trim().replace(/\s+/g, ' ').slice(0, 160) + (quill.getText().trim().length > 160 ? '…' : '');
-  const row = { title, slug, category: $('fCat').value, excerpt, content: html, cover_url: coverUrl, published: publish };
+  const row = { title, slug, category: $('fCat').value, excerpt, content: html, cover_url: coverUrl, button_url: $('fBtnUrl').value.trim() || null, button_label: $('fBtnLbl').value.trim() || null, published: publish };
   if (!publish) row.published_at = null;
   $('edStatus').textContent = 'Saving…';
   const q = current ? sb.from('posts').update(row).eq('id', current.id) : sb.from('posts').insert(row);
@@ -545,7 +547,7 @@ async function uploadAny(file) {
 /* ---------- events ---------- */
 let events = [], evt = null, evPic = null;
 async function loadEvents() {
-  const { data } = await sb.from('events').select('*').order('start_date', { ascending: false });
+  const { data } = await sb.from('events').select('*').order('start_date', { ascending: true });
   events = data || [];
   const today = new Date().toISOString().slice(0, 10);
   $('eRows').innerHTML = events.map(e => `<tr><td style="white-space:nowrap">${esc(e.start_date)}</td><td><b>${esc(e.title)}</b>${(e.end_date || e.start_date) < today ? ' <span class="pill draft">Past</span>' : ''}${e.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td><button class="link" onclick="editEvent('${e.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="3">No events yet.</td></tr>';
