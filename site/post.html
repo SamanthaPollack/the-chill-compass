@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=20">
+<link rel="stylesheet" href="/assets/style.css?v=21">
 
 </head>
 <body>
@@ -46,6 +46,8 @@
   </ul></nav>
 </div></div>
 <div class="wrap"><div class="shell"><main><div id="post"><div class="loading" style="padding:120px 20px">Loading…</div></div>
+<section class="sec" id="pc-wrap" style="display:none"><div class="sec-h"><h2>💬 Responses <span id="pc-n" style="color:var(--ink-soft);font-size:.7em"></span></h2></div><div class="thread" id="pc-list"></div><div id="pc-form" style="margin-top:14px"></div></section>
+<div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div>
 <div class="ad-slot" data-slot="post-bottom"></div>
 <section class="sec" id="related-wrap" style="display:none"><div class="sec-h"><h2>You might also like</h2></div><div class="rows" id="related"></div></section></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
@@ -139,7 +141,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=20"></script>
+<script src="/assets/app.js?v=21"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
@@ -150,6 +152,51 @@ document.addEventListener('cc:ready', async () => {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <script>
+let POST = null, LB = [], LBi = 0, LIKED = false;
+function openLb(list, i) { LB = list; LBi = i; const lb = document.getElementById('lb'); lb.querySelector('img').src = LB[LBi]; lb.hidden = false; lb.classList.toggle('one', LB.length < 2); document.body.style.overflow = 'hidden'; }
+function stepLb(d) { LBi = (LBi + d + LB.length) % LB.length; document.querySelector('#lb img').src = LB[LBi]; }
+function closeLb() { document.getElementById('lb').hidden = true; document.body.style.overflow = ''; }
+async function loadLikes() {
+  const { count } = await sb.from('post_likes').select('post_id', { count: 'exact', head: true }).eq('post_id', POST.id);
+  LIKED = false;
+  if (ME) { const { data } = await sb.from('post_likes').select('post_id').eq('post_id', POST.id).eq('user_id', ME.id).maybeSingle(); LIKED = !!data; }
+  const b = document.getElementById('likeBtn'); b.textContent = LIKED ? '❤️ Liked' : '🤍 Like'; b.classList.toggle('btn-coral', LIKED); b.classList.toggle('btn-ghost', !LIKED);
+  document.getElementById('likeN').textContent = count ? count + (count === 1 ? ' like' : ' likes') : '';
+}
+async function toggleLike() {
+  if (!ME) return openAuth('in', 'Sign in or join the crew (it\'s free) to like posts. 🍹');
+  const b = document.getElementById('likeBtn'); b.disabled = true;
+  if (LIKED) await sb.from('post_likes').delete().eq('post_id', POST.id).eq('user_id', ME.id);
+  else await sb.from('post_likes').insert({ post_id: POST.id, user_id: ME.id });
+  b.disabled = false; loadLikes();
+}
+async function loadComments() {
+  const { data } = await sb.from('post_comments').select('id,body,created_at,user_id,profiles(display_name,hometown)').eq('post_id', POST.id).order('created_at');
+  const list = data || [];
+  document.getElementById('pc-n').textContent = list.length ? '(' + list.length + ')' : '';
+  document.getElementById('pc-list').innerHTML = list.length ? list.map(c => `<div class="msg">${avatar(c.profiles?.display_name)}<div>
+      <div class="who">${esc(c.profiles?.display_name || 'Cruiser')}<small>${c.profiles?.hometown ? esc(c.profiles.hometown) + ' · ' : ''}${timeAgo(c.created_at)}</small>
+      ${ME && (ME.id === c.user_id || ME.is_admin) ? `<button class="link red" style="float:right" onclick="delComment('${c.id}')">Delete</button>` : ''}</div>
+      <div class="txt">${esc(c.body)}</div></div></div>`).join('')
+    : '<p style="color:var(--ink-soft);margin:0 0 6px">No responses yet. Be the first to chime in! 🦜</p>';
+}
+async function delComment(id) { if (!confirm('Delete this response?')) return; await sb.from('post_comments').delete().eq('id', id); loadComments(); }
+function drawCommentForm() {
+  const c = document.getElementById('pc-form');
+  if (!ME) { c.innerHTML = `<div class="composer" style="text-align:center"><p style="margin:0 0 10px"><b>Want to leave a response?</b> A free account lets you comment and like posts.</p><button class="btn btn-coral" onclick="openAuth('up')">Join the Crew</button> <button class="btn btn-ghost" onclick="openAuth('in')">Sign in</button></div>`; return; }
+  if (ME.banned) { c.innerHTML = '<div class="notice">Your account can\'t post right now. Questions? Email admin@thechillcompass.com.</div>'; return; }
+  c.innerHTML = `<form class="composer" id="pcf"><label for="pcb" style="font-weight:800">Respond as ${esc(ME.display_name)}</label>
+    <textarea id="pcb" maxlength="2000" required placeholder="Share your thoughts, tips or questions… 🍹"></textarea>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap"><span class="fine" style="margin:0">Be kind · no personal info like cabin or phone numbers</span><button class="btn btn-coral">Post Response</button></div></form>`;
+  document.getElementById('pcf').onsubmit = async e => {
+    e.preventDefault(); const b = e.target.querySelector('button'); b.disabled = true;
+    const { error } = await sb.from('post_comments').insert({ post_id: POST.id, user_id: ME.id, body: document.getElementById('pcb').value.trim() });
+    b.disabled = false;
+    if (error) return alert('Sorry, your response didn\'t go through. Please try again.');
+    document.getElementById('pcb').value = ''; loadComments();
+  };
+}
+document.addEventListener('cc:auth', () => { if (POST && POST.published) { loadLikes(); loadComments(); drawCommentForm(); } });
 function setMeta(sel, attr, val) { let m = document.querySelector(sel); if (m) m.setAttribute(attr, val); }
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('post');
@@ -163,6 +210,7 @@ document.addEventListener('cc:ready', async () => {
   setMeta('meta[property="og:description"]', 'content', d); setMeta('meta[property="og:url"]', 'content', location.origin + '/post/' + p.slug);
   setMeta('link[rel=canonical]', 'href', location.origin + '/post/' + p.slug);
   if (p.cover_url) setMeta('meta[property="og:image"]', 'content', p.cover_url);
+  const gal = (Array.isArray(p.gallery) ? p.gallery : []).filter(u => /^https?:\/\/|^\//.test(u || '')).slice(0, 4);
   const heroBg = p.cover_url ? `background-image:url('${esc(p.cover_url)}')` : `background:${c.grad}`;
   const url = encodeURIComponent(location.href), t = encodeURIComponent(p.title);
   el.innerHTML = `
@@ -174,6 +222,8 @@ document.addEventListener('cc:ready', async () => {
     <article class="article">
       ${DOMPurify.sanitize(p.content || '', { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'] })}
       ${/^(https?:\/\/|\/)/i.test(p.button_url || '') ? `<p style="text-align:center;margin:28px 0 8px"><a class="btn btn-coral" style="font-size:18px;padding:14px 28px" href="${esc(p.button_url)}"${/^https?:/i.test(p.button_url) && !p.button_url.includes(location.host) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.button_label || 'Learn more')} →</a></p>` : ''}
+      ${gal.length ? `<div class="ship-gal post-gal" style="margin:26px 0">${gal.map((u, i) => `<button type="button" data-g="${i}" aria-label="Open photo ${i + 1}"><img src="${esc(u)}" alt="${esc(p.title)} photo ${i + 1}" loading="lazy"></button>`).join('')}</div>` : ''}
+      <div style="display:flex;align-items:center;gap:12px;margin:22px 0 6px"><button type="button" class="btn btn-ghost" id="likeBtn" style="font-size:17px">🤍 Like</button><span id="likeN" style="font-weight:700;color:var(--ink-soft)"></span></div>
       <div class="share"><b>Share the chill:</b>
         <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener">Facebook</a>
         <a href="https://pinterest.com/pin/create/button/?url=${url}&description=${t}" target="_blank" rel="noopener">Pinterest</a>
@@ -184,6 +234,16 @@ document.addEventListener('cc:ready', async () => {
   const ld = document.createElement('script'); ld.type = 'application/ld+json';
   ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: d, image: p.cover_url || undefined, datePublished: p.published_at, dateModified: p.updated_at, publisher: { '@type': 'Organization', name: 'The Chill Compass' } });
   document.head.appendChild(ld);
+  POST = p;
+  // photo gallery lightbox
+  const lb = document.getElementById('lb');
+  document.querySelectorAll('.post-gal [data-g]').forEach(b => b.onclick = () => openLb(gal, +b.dataset.g));
+  lb.querySelector('.lb-x').onclick = closeLb; lb.querySelector('.lb-p').onclick = () => stepLb(-1); lb.querySelector('.lb-n').onclick = () => stepLb(1);
+  lb.onclick = e => { if (e.target === lb) closeLb(); };
+  document.addEventListener('keydown', e => { if (lb.hidden) return; if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowLeft') stepLb(-1); if (e.key === 'ArrowRight') stepLb(1); });
+  document.getElementById('likeBtn').onclick = toggleLike;
+  if (p.published) { document.getElementById('pc-wrap').style.display = 'block'; loadLikes(); loadComments(); drawCommentForm(); }
+  else document.getElementById('likeBtn').parentElement.style.display = 'none';
   const rel = await fetchPosts({ limit: 3, category: p.category, excludeId: p.id });
   if (rel.length) { document.getElementById('related').innerHTML = rel.map(postRow).join(''); document.getElementById('related-wrap').style.display = 'block'; }
 });
