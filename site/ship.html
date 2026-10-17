@@ -153,6 +153,7 @@ let LB = [], LBi = 0;
 function openLb(list, i) { LB = list; LBi = i; const lb = document.getElementById('lb'); lb.querySelector('img').src = LB[LBi]; lb.hidden = false; lb.classList.toggle('one', LB.length < 2); document.body.style.overflow = 'hidden'; }
 function stepLb(d) { LBi = (LBi + d + LB.length) % LB.length; document.querySelector('#lb img').src = LB[LBi]; }
 function closeLb() { document.getElementById('lb').hidden = true; document.body.style.overflow = ''; }
+const SHIP_HERO_POS = { Paradise: 'center 72%' };
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
 function roomCard(r) {
   const pics = roomPics(r), id = 'r-' + slugify(r.name);
@@ -181,7 +182,7 @@ document.addEventListener('cc:ready', async () => {
   const facts = [['Homeport', sh.homeport], ['Guests', sh.guests], ['Size', sh.tonnage], ['Built', sh.built && (sh.built + (sh.former_name ? ' (as ' + sh.former_name + ')' : ''))]].filter(f => f[1]);
   const nav = [['about', '⭐ About the ship'], gal.length && ['photos', '📸 Photos'], ['deck-plans', '🗺️ Deck plans'], ['rooms', '🛏️ Staterooms & suites']].filter(Boolean);
   document.getElementById('shipHead').innerHTML = `
-    <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.05),rgba(11,57,84,.8)),url('${esc(sh.hero_url)}')` : ''}">
+    <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.05),rgba(11,57,84,.8)),url('${esc(sh.hero_url)}');background-position:${SHIP_HERO_POS[name] || 'center'}` : ''}">
       <div class="eyebrow" style="color:var(--sun)">${esc(sh.tagline || 'Margaritaville at Sea')}</div>
       <h1>Margaritaville at Sea ${esc(name)}</h1></div>
     <nav class="ship-nav" aria-label="${esc(name)} sections">${nav.map(n => `<a href="#${n[0]}">${n[1]}</a>`).join('')}</nav>
