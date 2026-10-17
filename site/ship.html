@@ -157,6 +157,16 @@ const SHIP_HERO_POS = { Paradise: 'center 72%' };
 function tourSrc(u) {
   try { const x = new URL(u); if (!/(^|\.)matterport\.com$/.test(x.hostname)) return ''; const m = x.searchParams.get('m'); return m && /^[A-Za-z0-9]+$/.test(m) ? `https://my.matterport.com/show/?m=${m}&play=1&qs=1&mls=1&brand=0&help=0` : ''; } catch (e) { return ''; }
 }
+function roomTours(r) {
+  const list = (Array.isArray(r.tours) ? r.tours : []).map(t => ({ label: t && t.label || '', src: tourSrc(t && t.url) })).filter(t => t.src);
+  if (!list.length && tourSrc(r.tour_url)) list.push({ label: '', src: tourSrc(r.tour_url) });
+  return list;
+}
+function tourButtons(r) {
+  const list = roomTours(r); if (!list.length) return '';
+  if (list.length === 1) return `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(list[0].src)}" data-name="${esc(r.name + (list[0].label ? ' (' + list[0].label + ')' : ''))}" style="width:100%;margin-top:12px">🎥 Take the 3D Virtual Tour${list[0].label ? ' · ' + esc(list[0].label) : ''}</button>`;
+  return `<div style="margin-top:12px"><div style="font-weight:800;color:var(--navy);margin-bottom:6px">🎥 3D Virtual Tours</div><div style="display:flex;flex-wrap:wrap;gap:8px">${list.map((t, i) => `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(t.src)}" data-name="${esc(r.name + (t.label ? ' (' + t.label + ')' : ''))}" style="flex:1 1 140px">${esc(t.label || 'Tour ' + (i + 1))}</button>`).join('')}</div></div>`;
+}
 function openTour(src, name) { const t = document.getElementById('tourModal'); t.querySelector('.tour-title').textContent = name + ' · 3D Virtual Tour'; t.querySelector('.tour-frame').innerHTML = `<iframe src="${src}" title="${esc(name)} 3D virtual tour" allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>`; t.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function closeTour() { const t = document.getElementById('tourModal'); t.style.display = 'none'; t.querySelector('.tour-frame').innerHTML = ''; document.body.style.overflow = ''; }
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
@@ -171,7 +181,7 @@ function roomCard(r) {
     <div class="rc-body"><h3>${esc(r.name)}</h3>${chips ? `<div class="rc-chips">${chips}</div>` : ''}
       <p>${esc(r.blurb || '')}</p>
       ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
-      ${tourSrc(r.tour_url) ? `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(tourSrc(r.tour_url))}" data-name="${esc(r.name)}" style="width:100%;margin-top:12px">🎥 Take the 3D Virtual Tour</button>` : ''}</div>
+      ${tourButtons(r)}</div>
   </article>`;
 }
 document.addEventListener('cc:ready', async () => {
