@@ -2,3 +2,7 @@
   publish = "site"
   command = ""
   functions = "netlify/functions"
+
+# Refresh the saved Margaritaville at Sea sailings once a month (about 350 CruiseFeed results each time).
+[functions."sync-sailings"]
+  schedule = "@monthly"

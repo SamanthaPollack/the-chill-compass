@@ -1,57 +1,47 @@
-// The Chill Compass: server-side proxy for the CruiseFeed API (https://cruisefeed.io),
-// LOCKED to Margaritaville at Sea. Keeps CRUISEFEED_API_KEY out of the browser.
+// The Chill Compass: sailing search for the Sailings page, sailing details and the quote form.
+// Reads the SAVED copy of Margaritaville at Sea sailings in Supabase (refreshed monthly by
+// sync-sailings), so visitors never use CruiseFeed credit.
 //   /.netlify/functions/cruisefeed?resource=meta          -> { line, ships: [...] }
-//   /.netlify/functions/cruisefeed?resource=cruises&...   -> Margaritaville at Sea sailings only
+//   /.netlify/functions/cruisefeed?ship_name=&departure_from=&departure_to=&min_nights=&max_nights=
+//        &embark_port=&has_price=true&sort=departure_date|price&limit=&offset=   -> { items, total }
 
-const API_BASE = 'https://api.cruisefeed.io/v1';
-const LINE_MATCH = /margaritaville/i;
-const ALLOWED = ['ship_name', 'embark_port', 'departure_from', 'departure_to',
-  'min_nights', 'max_nights', 'has_price', 'sort', 'limit', 'offset', 'currency'];
+const SUPABASE_URL = 'https://wekrxtehnrzebkvksfzk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_40y1c-dZeptAiD2YLtx9lQ_CAMMrKGb';
+const LINE = 'Margaritaville at Sea Cruises';
+const SHIPS = ['Margaritaville at Sea Paradise', 'Margaritaville at Sea Islander', 'Margaritaville at Sea Beachcomber'];
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-let cache = { at: 0, line: null, ships: [] };
-
-async function api(path, params, key) {
-  const url = new URL(API_BASE + path);
-  Object.entries(params || {}).forEach(([k, v]) => { if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v); });
-  const res = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + key } });
-  const text = await res.text();
-  let data = null; try { data = JSON.parse(text); } catch (e) {}
-  return { ok: res.ok, status: res.status, data, text };
-}
-const list = d => (d && (d.items || d.lines || d.data || (Array.isArray(d) ? d : []))) || [];
-const nameOf = x => typeof x === 'string' ? x : (x && (x.name || x.cruise_line || x.line || x.ship_name)) || '';
-
-async function meta(key) {
-  if (cache.line && Date.now() - cache.at < 6 * 3600 * 1000) return cache;
-  const lines = await api('/cruise-lines', {}, key);
-  const line = list(lines.data).map(nameOf).find(n => LINE_MATCH.test(n)) || 'Margaritaville at Sea';
-  let ships = [];
-  try {
-    const s = await api('/ships', { operator: line, limit: 50 }, key);
-    ships = Array.from(new Set(list(s.data).map(nameOf).filter(Boolean))).sort();
-  } catch (e) {}
-  cache = { at: Date.now(), line, ships };
-  return cache;
-}
-
-const json = (code, body) => ({ statusCode: code, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=900' }, body: typeof body === 'string' ? body : JSON.stringify(body) });
+const json = (code, body) => ({ statusCode: code, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600' }, body: JSON.stringify(body) });
 
 exports.handler = async function (event) {
-  const key = process.env.CRUISEFEED_API_KEY;
-  if (!key) return json(500, { error: 'Sailing search is not configured yet.' });
   const qs = event.queryStringParameters || {};
+  if (qs.resource === 'meta') return json(200, { line: LINE, ships: SHIPS });
+
+  const today = new Date().toISOString().slice(0, 10);
+  const u = new URL(SUPABASE_URL + '/rest/v1/sailings');
+  u.searchParams.set('select', 'data');
+  const from = DATE.test(qs.departure_from || '') ? qs.departure_from : today;
+  u.searchParams.append('departure_date', 'gte.' + (from < today && !qs.departure_to ? today : from));
+  if (DATE.test(qs.departure_to || '')) u.searchParams.append('departure_date', 'lte.' + qs.departure_to);
+  if (qs.ship_name) u.searchParams.set('ship_name', 'eq.' + String(qs.ship_name).slice(0, 80));
+  if (qs.embark_port) u.searchParams.set('embark_port', 'eq.' + String(qs.embark_port).slice(0, 80));
+  const minN = parseInt(qs.min_nights, 10), maxN = parseInt(qs.max_nights, 10);
+  if (minN > 0) u.searchParams.append('nights', 'gte.' + minN);
+  if (maxN > 0) u.searchParams.append('nights', 'lte.' + maxN);
+  if (qs.has_price === 'true') u.searchParams.set('price_amount', 'not.is.null');
+  u.searchParams.set('order', qs.sort === 'price' ? 'price_amount.asc.nullslast,departure_date.asc' : 'departure_date.asc,ship_name.asc');
+  let limit = parseInt(qs.limit, 10); if (!limit || limit < 1 || limit > 24) limit = 12;
+  const offset = Math.max(0, parseInt(qs.offset, 10) || 0);
+  u.searchParams.set('limit', String(limit));
+  u.searchParams.set('offset', String(offset));
+
   try {
-    const m = await meta(key);
-    if (qs.resource === 'meta') return json(200, { line: m.line, ships: m.ships });
-    const params = { cruise_line: m.line };
-    ALLOWED.forEach(k => { if (qs[k] !== undefined && qs[k] !== '') params[k] = qs[k]; });
-    let limit = parseInt(qs.limit, 10); if (!limit || limit < 1 || limit > 24) limit = 12; params.limit = limit;
-    const r = await api('/cruises', params, key);
-    if (!r.ok) return json(r.status, r.text);
-    // Belt and braces: drop anything that isn't Margaritaville at Sea.
-    const d = r.data || {};
-    const items = list(d).filter(c => LINE_MATCH.test(c.cruise_line || '') || LINE_MATCH.test(c.ship_name || ''));
-    return json(200, { items, total: typeof d.total === 'number' ? d.total : null });
+    const res = await fetch(u.toString(), { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY, Prefer: 'count=exact' } });
+    if (!res.ok) return json(502, { error: 'Could not load sailings right now.' });
+    const rows = await res.json();
+    const range = res.headers.get('content-range') || '';
+    const total = parseInt(range.split('/')[1], 10);
+    return json(200, { items: rows.map(r => r.data), total: isNaN(total) ? null : total });
   } catch (e) {
     return json(502, { error: 'Could not load sailings right now.' });
   }

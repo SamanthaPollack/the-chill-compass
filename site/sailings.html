@@ -203,8 +203,9 @@ document.addEventListener('cc:ready', async () => {
     const pr = money(c), cls = (ship || '').toLowerCase().split(' ')[0];
     return `<div class="sl ${esc(cls)}"><div><h3>${esc(title)}</h3>
       <div class="m">🛳️ <b>${esc(ship || 'Margaritaville at Sea')}</b>${n ? ' · ' + esc(n) + ' nights' : ''}<br>📅 ${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}${ports ? '<br>📍 ' + ports : ''}</div></div>
-      <div class="pr">${pr ? `<small>From</small><b>${pr}</b><small>per person</small><br>` : ''}<a class="btn btn-sm btn-teal" href="${detail(c)}" style="margin-top:8px">Ask about this sailing</a></div></div>`;
+      <div class="pr">${pr ? `<small>From</small><b>${pr}</b><small>per person</small><br>` : ''}<a class="btn btn-sm btn-teal" href="${detail(c)}" style="margin-top:8px">Ask about this sailing</a><br><a class="link" href="${guideUrl(c)}" style="display:inline-block;margin-top:8px;font-size:14px">📖 Cruise Guide</a></div></div>`;
   }
+  const guideUrl = c => '/guide/' + String(c.ship_name || '').replace(/margaritaville at sea\s*/i, '').trim().toLowerCase().split(/\s+/)[0] + '-' + String(c.departure_date || '').slice(0, 10);
   const detail = c => '/sailing?' + new URLSearchParams({ ship: c.ship_name || '', date: String(c.departure_date || '').slice(0, 10), id: c.sailing_id || c.id || '' });
   let rows = [];
   function ask(c) {

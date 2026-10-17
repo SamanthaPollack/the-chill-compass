@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cruise Guide | The Chill Compass</title>
+<meta name="description" content="Free Margaritaville at Sea cruise guides: day-by-day route, port tips and ship highlights for every sailing.">
+<link rel="canonical" href="https://thechillcompass.com/guide">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Chill Compass">
+<meta property="og:title" content="Cruise Guide | The Chill Compass">
+<meta property="og:description" content="Free Margaritaville at Sea cruise guides: day-by-day route, port tips and ship highlights for every sailing.">
+<meta property="og:url" content="https://thechillcompass.com/guide">
+<meta property="og:image" content="https://thechillcompass.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<meta name="theme-color" content="#0B3954">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=21">
+<style>
+.sd-hero{background:linear-gradient(135deg,var(--navy),#14607d);color:#fff;border-radius:var(--r);padding:26px 26px 22px}
+.sd-hero h1{color:#fff;margin:6px 0 8px;font-size:30px;line-height:1.15}.sd-hero .eyebrow{color:var(--sun)}
+.sd-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.sd-facts span{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.sd-sec{margin-top:22px}.sd-sec h2{margin:0 0 10px;font-size:22px}
+.itin{list-style:none;margin:0;padding:0;border-left:3px solid var(--teal);margin-left:10px}
+.itin li{position:relative;padding:8px 0 10px 22px}.itin li:before{content:'';position:absolute;left:-9px;top:14px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.itin li.sea:before{border-color:var(--sun)}.itin b{font-family:Fredoka;font-size:17px}.itin small{display:block;color:var(--ink-soft)}
+.fares{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}.fares th,.fares td{padding:10px 12px;text-align:left;border-bottom:1px solid #f1e6d1}
+.fares th{background:var(--sand);font-family:Fredoka}.fares td.na{color:#9aa9b4}
+.g-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:0 0 14px}
+.g-bar .acts{display:flex;gap:8px;flex-wrap:wrap}
+.g-hero{background:#0B3954;color:#fff;border-radius:22px 22px 0 0;padding:30px 28px 24px}
+.g-hero .eyebrow{color:var(--sun);letter-spacing:.12em;text-transform:uppercase;font-size:12px;font-weight:800}
+.g-hero h1{color:#fff;font-size:clamp(30px,5vw,46px);margin:8px 0 10px;line-height:1.05}
+.g-hero p{margin:0;opacity:.92;font-size:16px}
+.g-facts{background:var(--sun);border-radius:0 0 22px 22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:16px 22px;margin-bottom:18px}
+.g-facts div{color:#0B3954}.g-facts b{display:block;font-size:24px;line-height:1.1}.g-facts span{font-size:12.5px;font-weight:700;opacity:.8}
+.g-cols{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;margin-bottom:18px}
+.g-card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 0 var(--line),0 8px 22px rgba(11,57,84,.07)}
+.g-card h2{font-size:20px;margin:0 0 12px}
+.g-route{list-style:none;margin:0;padding:0}
+.g-route li{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.g-route li:last-child{border:0}
+.g-route .n{flex:none;width:30px;height:30px;border-radius:50%;background:#0B3954;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.g-route li.sea .n{background:#e8f7f8;color:#0B3954}
+.g-route b{display:block}.g-route small{color:var(--ink-soft)}
+.g-ship ul{margin:8px 0 0;padding-left:18px}.g-ship li{margin:4px 0}
+.g-ports{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.g-port h3{margin:0 0 2px;font-size:18px}.g-port .tl{margin:0 0 8px;color:var(--ink-soft);font-style:italic}
+.g-port ul{margin:0 0 8px;padding-left:18px}.g-port li{margin:3px 0}
+.g-port .gtk{background:#fff7df;border-radius:10px;padding:8px 10px;font-size:14px}
+.g-port .when{font-size:13px;font-weight:700;color:#0B3954;margin:0 0 6px}
+.g-cta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.g-cta a{display:block;text-decoration:none;color:#0B3954;background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px}
+.g-cta a b{display:block;font-size:16px;margin-bottom:2px}.g-cta a span{font-size:13.5px;color:var(--ink-soft)}
+.g-cta a:hover{border-color:var(--sun)}
+.g-count{font-weight:800;color:var(--coral,#f26b5b)}
+.g-foot{font-size:12.5px;color:var(--ink-soft);margin:6px 0 0}
+@media(max-width:760px){.g-cols,.g-ports,.g-cta{grid-template-columns:1fr}.g-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{
+  header,nav,aside,footer,.g-noprint,.top,.topbar,.masthead,.pop,.modal,#pop,#authModal{display:none!important}
+  body{background:#fff!important}.wrap,.shell,main{display:block!important;max-width:none!important;width:auto!important;padding:0!important;margin:0!important}
+  .g-card,.g-cta a{box-shadow:none!important;border:1px solid #ddd}
+  .g-port,.g-card{break-inside:avoid}
+  .g-hero,.g-facts{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="r" id="tbUser"></div>
+</div></div>
+<header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
+<div class="tagbar">A Margaritaville at Sea Blog</div>
+<div class="dock"><div class="wrap">
+  <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
+  <nav aria-label="Main"><ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+    <li><a href="/extra-packages">Extra Packages</a></li>
+    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/sailings">Sailings</a></li>
+    <li><a href="/port-guides">Port Guides</a></li>
+    <li><a href="/deals">Deals</a></li>
+    <li><a href="/newsletter">Newsletter</a></li>
+    <li><a href="/weddings">Weddings</a></li>
+    <li><a href="/events">Events</a></li>
+    <li><a href="/rollcalls">Roll Calls</a></li>
+    <li><a href="/faq">FAQ</a></li>
+  </ul></nav>
+</div></div>
+<div class="wrap"><div class="shell"><main><p class="g-noprint" style="margin:0 0 10px"><a href="/sailings" class="link">← All sailings</a></p>
+<div id="gd"><div class="loading">Building your cruise guide…</div></div>
+</main>
+<aside class="side"><div class="widget" id="quote">
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb" style="text-align:center">
+    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
+    <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
+  </div>
+</div><div class="widget teal" id="signup">
+  <div class="wh"><h3>⛱️ Join the Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
+  <div class="wb">
+    <form class="mini-form js-signup" data-source="sidebar">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit">Join the Crew</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div><div class="widget navy">
+  <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
+  <div class="wb"><ul class="side-list" id="rcSide"><li style="opacity:.6">Loading…</li></ul>
+  <a href="/rollcalls" class="btn btn-navy btn-sm" style="width:100%;margin-top:10px">All Roll Calls</a></div>
+</div></aside></div></div>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>The Chill Compass</h3>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise reviews, deck plans and roll calls from travel advisors who keep going back for more. 🍹</p>
+      </div>
+      <div><h3>Explore</h3><ul>
+        <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/rollcalls">Roll Calls</a></li>
+        <li><a href="/faq">FAQ</a></li></ul></div>
+      <div><h3>Connect</h3><ul>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/write-for-us">Write for Us</a></li></ul></div>
+      <div><h3>About</h3><ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/account">My Account</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="disclaimer">
+      © <span id="yr">2026</span> The Chill Compass · Presented by Samantha Pollack, CTT and Associates, LLC<br>
+      Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
+    </div>
+  </div>
+</footer>
+
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <div style="font-size:46px">🗺️🧳</div>
+    <h2>Free Port Guides!</h2>
+    <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
+    <form class="form js-signup" data-source="popup">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're in! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <h2>⛱️ Join the Crew</h2>
+    <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
+    <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
+    <div id="authMsg"></div>
+    <form id="authForm">
+      <div class="only-up" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label for="aFirst">First name</label><input id="aFirst" maxlength="50" autocomplete="given-name"></div>
+        <div class="field"><label for="aLast">Last name</label><input id="aLast" maxlength="50" autocomplete="family-name"></div></div></div>
+      <div class="field only-up" style="display:none"><label for="aName">Username</label><input id="aName" maxlength="20" placeholder="e.g. ParrotheadPam" autocomplete="username"><p class="fine" style="margin:4px 0 0">This is what other cruisers see on Roll Calls. Your first and last name stay private.</p></div>
+      <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
+      <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
+      <p class="err" id="authErr"></p>
+      <p class="fine" style="text-align:center"><button type="button" class="link" id="authForget">Forgot password?</button></p>
+      <p class="fine only-up" style="display:none">By joining you agree to be kind. Posts are public. No spam, selling or personal info, please; we may remove posts or accounts that break the rules.</p>
+    </form>
+  </div>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/app.js?v=21"></script>
+<script>
+document.addEventListener('cc:ready', async () => {
+  const el = document.getElementById('rcSide'); if (!el) return;
+  const { data } = await sb.from('roll_calls').select('id,ship,sail_date,post_count,last_post_at').gte('sail_date', new Date().toISOString().slice(0,10)).order('last_post_at', { ascending: false, nullsFirst: false }).limit(5);
+  el.innerHTML = (data && data.length) ? data.map(r => `<li><a href="/rollcall/${r.id}"><span class="dot d-${SHIPS[r.ship].slug}"></span>${esc(r.ship)} · ${dateOnly(r.sail_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</a><small>${r.post_count} posts${r.last_post_at ? ' · ' + timeAgo(r.last_post_at) : ''}</small></li>`).join('')
+    : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
+});
+</script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const fmt = (s, o) => { if (!s) return ''; const d = new Date(String(s).slice(0, 10) + 'T00:00:00'); return isNaN(d) ? s : d.toLocaleDateString('en-US', o || { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); };
+  const short = n => String(n || '').replace(/margaritaville at sea\s*/i, '').trim();
+  const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const fail = msg => { $('gd').innerHTML = `<div class="empty">${msg}<br><br><a class="btn btn-coral" href="/sailings">Browse all sailings</a></div>`; };
+  const m = location.pathname.match(/^\/guide\/([a-z]+)-(\d{4}-\d{2}-\d{2})\/?$/i);
+  let started = false;
+  async function go() {
+    if (started) return; started = true;
+    if (!m) return fail('🧭 We couldn\'t find that cruise guide.');
+    const slug = m[1].toLowerCase(), date = m[2];
+    const [{ data: sail }, { data: ports }] = await Promise.all([
+      sb.from('sailings').select('data').ilike('ship_name', '%' + slug + '%').eq('departure_date', date).limit(1),
+      sb.from('ports').select('*')]);
+    const c = sail && sail[0] && sail[0].data;
+    if (!c) return fail('🏝️ That sailing isn\'t on our list. It may have departed or changed dates.');
+    const ship = short(c.ship_name);
+    const [{ data: sh }, { data: rc }] = await Promise.all([
+      sb.from('ships').select('*').eq('name', ship).maybeSingle(),
+      sb.from('roll_calls').select('id,member_count,post_count').eq('ship', ship).eq('sail_date', date).maybeSingle()]);
+    render(c, ship, sh || {}, rc, ports || []);
+  }
+  function findPort(ports, name) {
+    const n = norm(name); if (!n) return null;
+    return ports.find(p => [p.name, p.slug.replace(/-/g, ' '), ...(p.aliases || [])].some(a => { const x = norm(a); return x && (x === n || n.startsWith(x) || x.startsWith(n)); })) || null;
+  }
+  function render(c, ship, sh, rc, ports) {
+    const title = String(c.title || ((c.nights || '') + '-Night Cruise')).split('|')[0].trim();
+    const theme = String(c.title || '').split('|')[1];
+    const it = (c.itinerary || []).slice().sort((a, b) => (a.day_number || a.seq || 0) - (b.day_number || b.seq || 0));
+    const stops = it.filter(x => !x.is_sea_day && x.port && !x.is_embark && !x.is_disembark);
+    const seaDays = it.filter(x => x.is_sea_day).length || c.sea_days || 0;
+    const uniqStops = [...new Set(stops.map(x => x.port))];
+    const home = findPort(ports, c.embark_port);
+    const days = Math.ceil((new Date(c.departure_date + 'T00:00:00') - new Date(new Date().toDateString())) / 864e5);
+    document.title = `${title} on ${ship}, ${fmt(c.departure_date, { month: 'short', day: 'numeric', year: 'numeric' })} | Cruise Guide | The Chill Compass`;
+    const cn = document.querySelector('link[rel=canonical]'); if (cn) cn.href = location.origin + location.pathname;
+    const md = document.querySelector('meta[name=description]'); if (md) md.content = `Your free cruise guide for the ${title} on Margaritaville at Sea ${ship}: day-by-day route, port tips, ship highlights and more.`;
+    const route = it.map((x, i) => {
+      const lbl = x.is_sea_day ? 'Day at sea' : (x.port || '') + (x.country && !/united states/i.test(x.country) ? ', ' + x.country : '');
+      const t = x.is_embark ? (x.depart ? 'Sails ' + x.depart : 'Embarkation day') : x.is_disembark ? (x.arrive ? 'Back by ' + x.arrive : 'Debarkation day') : x.is_sea_day ? 'Pool, music and frozen concoctions' : [x.arrive && 'Arrive ' + x.arrive, x.depart && 'depart ' + x.depart].filter(Boolean).join(', ') || '';
+      const n = x.is_embark || x.is_disembark ? (x.port_code || '⚓').slice(0, 3) : x.is_sea_day ? '🌊' : String(stops.indexOf(x) + 1);
+      return `<li class="${x.is_sea_day ? 'sea' : ''}"><span class="n">${esc(n)}</span><div><b>${esc(lbl)}</b><small>${esc(fmt(x.date, { weekday: 'short', month: 'short', day: 'numeric' }))}${t ? ' · ' + esc(t) : ''}${x.tender ? ' · tender port' : ''}</small></div></li>`;
+    }).join('');
+    const hi = (sh.highlights || []).filter(Boolean).slice(0, 5);
+    const portCards = uniqStops.map((name, i) => {
+      const p = findPort(ports, name), day = stops.find(x => x.port === name);
+      const when = day ? fmt(day.date, { weekday: 'long', month: 'short', day: 'numeric' }) + (day.arrive || day.depart ? ' · ' + [day.arrive, day.depart].filter(Boolean).join(' – ') : '') : '';
+      if (!p) return `<div class="g-card g-port"><h3>${i + 1}. ${esc(name)}</h3>${when ? `<p class="when">${esc(when)}</p>` : ''}<p class="tl">Port guide coming soon.</p></div>`;
+      return `<div class="g-card g-port"><h3>${i + 1}. ${esc(p.name)}</h3>${when ? `<p class="when">📅 ${esc(when)}</p>` : ''}${p.tagline ? `<p class="tl">${esc(p.tagline)}</p>` : ''}
+        ${(p.highlights || []).length ? `<ul>${p.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${p.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(p.good_to_know)}</div>` : ''}</div>`;
+    }).join('');
+    const homeCard = home ? `<div class="g-card g-port"><h3>⚓ Sailing from ${esc(home.name)}</h3>${home.tagline ? `<p class="tl">${esc(home.tagline)}</p>` : ''}${(home.highlights || []).length ? `<ul>${home.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${home.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(home.good_to_know)}</div>` : ''}</div>` : '';
+    const quoteUrl = '/sailing?' + new URLSearchParams({ ship: c.ship_name || '', date: c.departure_date, id: c.sailing_id || c.id || '' });
+    const rcLink = rc ? `/rollcall/${rc.id}` : '/rollcalls';
+    const rcText = rc ? `${rc.member_count || 0} shipmate${rc.member_count === 1 ? '' : 's'} so far. Say hi before you sail!` : 'Be the first to start the Roll Call for this sailing.';
+    $('gd').innerHTML = `
+      <div class="g-bar g-noprint"><span>${days > 0 ? `<span class="g-count">⏳ ${days} day${days === 1 ? '' : 's'} to go!</span>` : days === 0 ? '<span class="g-count">🎉 Sailing today!</span>' : ''}</span>
+        <div class="acts"><button type="button" class="btn btn-navy" id="gPdf">⬇️ Save as PDF</button><button type="button" class="btn btn-ghost" id="gCopy">🔗 Copy link</button></div></div>
+      <div class="g-hero"><div class="eyebrow">Margaritaville at Sea ${esc(ship)}${c.embark_port ? ' · From ' + esc(c.embark_port) : ''}</div>
+        <h1>${esc(title.replace(/^\d+-Night\s*/i, ''))}</h1>
+        <p>${esc(c.nights ? c.nights + ' nights' : '')}${c.round_trip ? ' round trip' : ''} · ${esc(fmt(c.departure_date))}${c.return_date ? ' to ' + esc(fmt(c.return_date)) : ''}${theme ? ' · ' + esc(theme.trim()) : ''}</p></div>
+      <div class="g-facts"><div><b>${esc(c.nights || '–')}</b><span>nights</span></div><div><b>${uniqStops.length}</b><span>port${uniqStops.length === 1 ? '' : 's'} of call</span></div><div><b>${seaDays}</b><span>sea day${seaDays === 1 ? '' : 's'}</span></div><div><b>${esc(c.embark_port || '')}</b><span>home port</span></div></div>
+      <div class="g-cols"><div class="g-card"><h2>🗺️ Your route</h2><ul class="g-route">${route}</ul></div>
+        <div class="g-card g-ship"><h2>🛳️ ${esc(ship)} at a glance</h2>${sh.tagline ? `<p style="margin:0 0 6px"><b>${esc(sh.tagline)}</b></p>` : ''}${sh.intro ? `<p style="margin:0">${esc(sh.intro)}</p>` : ''}
+          ${hi.length ? `<ul>${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}<p class="g-noprint" style="margin:12px 0 0"><a class="link" href="/fleet/${esc(ship.toLowerCase())}">Rooms, 3D tours &amp; deck plans →</a></p></div></div>
+      <div class="g-cta g-noprint">
+        <a href="${esc(rcLink)}"><b>🙋 Join the Roll Call</b><span>${esc(rcText)}</span></a>
+        <a href="${esc(quoteUrl)}"><b>💬 Get a free quote</b><span>A real travel advisor will reply. No cost, no obligation.</span></a>
+        <a href="/fleet/${esc(ship.toLowerCase())}#onboard"><b>📋 Today on board</b><span>Once you sail, the daily Cruise News &amp; Schedule lives here.</span></a></div>
+      <h2 style="margin:6px 0 12px">🏝️ Your ports</h2>
+      <div class="g-ports">${homeCard}${portCards}</div>
+      <p class="g-foot">Times and ports can change; your cruise line's documents are the final word. Guide by The Chill Compass, an independent blog not affiliated with Margaritaville at Sea. Book with a real advisor: thechillcompass.com</p>`;
+    $('gPdf').onclick = () => window.print();
+    $('gCopy').onclick = async () => { const b = $('gCopy'); try { await navigator.clipboard.writeText(location.origin + location.pathname); b.textContent = '✅ Link copied'; } catch (e) { prompt('Copy this link:', location.origin + location.pathname); } setTimeout(() => b.textContent = '🔗 Copy link', 2500); };
+  }
+  document.addEventListener('cc:ready', go);
+  window.addEventListener('load', () => setTimeout(() => { if (typeof sb !== 'undefined') go(); }, 50));
+})();
+</script></body>
+</html>

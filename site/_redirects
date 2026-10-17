@@ -24,6 +24,7 @@ https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  3
 /faq             /faq.html            200
 /sailings        /sailings.html       200
 /sailing         /sailing.html        200
+/guide/*         /guide.html          200
 /rollcalls       /rollcalls.html      200
 /account         /account.html        200
 /about           /about.html          200
