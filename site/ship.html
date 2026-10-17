@@ -49,7 +49,7 @@
 <div id="shipHead"><div class="loading">Loading…</div></div>
 <div id="roomsAll"></div>
 <p class="room-fine">Ship and stateroom details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Photos and renderings are representative.</p>
-<div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div></main><aside class="side"><div class="widget" id="quote">
+<div id="tourModal" style="position:fixed;inset:0;z-index:1000;background:rgba(11,57,84,.88);display:none;align-items:center;justify-content:center;padding:16px"><div style="width:min(1100px,100%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#0B3954;color:#fff"><strong class="tour-title" style="font-size:16px"></strong><button type="button" class="tour-x" aria-label="Close tour" style="background:none;border:0;color:#fff;font-size:30px;line-height:1;cursor:pointer">×</button></div><div class="tour-frame" style="aspect-ratio:16/9;max-height:78vh;background:#000"></div></div></div><div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb" style="text-align:center">
     <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
@@ -154,6 +154,11 @@ function openLb(list, i) { LB = list; LBi = i; const lb = document.getElementByI
 function stepLb(d) { LBi = (LBi + d + LB.length) % LB.length; document.querySelector('#lb img').src = LB[LBi]; }
 function closeLb() { document.getElementById('lb').hidden = true; document.body.style.overflow = ''; }
 const SHIP_HERO_POS = { Paradise: 'center 72%' };
+function tourSrc(u) {
+  try { const x = new URL(u); if (!/(^|\.)matterport\.com$/.test(x.hostname)) return ''; const m = x.searchParams.get('m'); return m && /^[A-Za-z0-9]+$/.test(m) ? `https://my.matterport.com/show/?m=${m}&play=1&qs=1&mls=1&brand=0&help=0` : ''; } catch (e) { return ''; }
+}
+function openTour(src, name) { const t = document.getElementById('tourModal'); t.querySelector('.tour-title').textContent = name + ' · 3D Virtual Tour'; t.querySelector('.tour-frame').innerHTML = `<iframe src="${src}" title="${esc(name)} 3D virtual tour" allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>`; t.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+function closeTour() { const t = document.getElementById('tourModal'); t.style.display = 'none'; t.querySelector('.tour-frame').innerHTML = ''; document.body.style.overflow = ''; }
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
 function roomCard(r) {
   const pics = roomPics(r), id = 'r-' + slugify(r.name);
@@ -165,7 +170,8 @@ function roomCard(r) {
     <div class="rc-pic">${main}<span class="tag tier-${r.tier.split(' ')[0]}">${esc(r.tier)}</span></div>${thumbs}
     <div class="rc-body"><h3>${esc(r.name)}</h3>${chips ? `<div class="rc-chips">${chips}</div>` : ''}
       <p>${esc(r.blurb || '')}</p>
-      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}</div>
+      ${r.features && r.features.length ? `<ul class="feat">${r.features.map(f => `<li>${esc(f)}</li>`).join('')}</ul>` : ''}
+      ${tourSrc(r.tour_url) ? `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(tourSrc(r.tour_url))}" data-name="${esc(r.name)}" style="width:100%;margin-top:12px">🎥 Take the 3D Virtual Tour</button>` : ''}</div>
   </article>`;
 }
 document.addEventListener('cc:ready', async () => {
@@ -213,6 +219,9 @@ document.addEventListener('cc:ready', async () => {
     const card = b.closest('.room-card'); card.querySelector('.rc-pic img').src = b.dataset.src;
     card.querySelectorAll('.thumbs button').forEach(x => x.classList.toggle('on', x === b));
   });
+  document.querySelectorAll('.tour-btn').forEach(b => b.onclick = () => openTour(b.dataset.tour, b.dataset.name));
+  const tm = document.getElementById('tourModal'); tm.querySelector('.tour-x').onclick = closeTour; tm.onclick = e => { if (e.target === tm) closeTour(); };
+  document.addEventListener('keydown', e => { if (tm.style.display === 'flex' && e.key === 'Escape') closeTour(); });
   const lb = document.getElementById('lb');
   lb.querySelector('.lb-x').onclick = closeLb; lb.querySelector('.lb-p').onclick = () => stepLb(-1); lb.querySelector('.lb-n').onclick = () => stepLb(1);
   lb.onclick = e => { if (e.target === lb) closeLb(); };
