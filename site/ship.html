@@ -175,6 +175,18 @@ function openTour(list, name) {
   show(0); t.style.display = 'flex'; document.body.style.overflow = 'hidden';
 }
 function closeTour() { const t = document.getElementById('tourModal'); t.style.display = 'none'; t.querySelector('.tour-frame').innerHTML = ''; document.body.style.overflow = ''; }
+const OB_ICON = { kids: '🧒', excursions: '🏝️', spa: '💆', map: '🗺️', dining: '🍽️', other: '📄' };
+async function loadOnboard(name) {
+  const box = document.getElementById('onboardBody'); if (!box) return;
+  let d = null;
+  try { d = await fetch('/.netlify/functions/onboard?ship=' + encodeURIComponent(name.toLowerCase())).then(r => r.json()); } catch (e) {}
+  if (!d || (!d.schedule && !(d.items || []).length)) {
+    box.innerHTML = `<p class="fine" style="margin:0">The daily schedule for ${esc(name)} will show here once the ship is sailing. Check back on your cruise!</p>`; return;
+  }
+  const main = d.schedule ? `<a class="btn btn-coral" href="${esc(d.schedule.url)}" target="_blank" rel="noopener" style="width:100%;font-size:17px;padding:14px">📋 Today's Cruise News &amp; Schedule · ${esc(d.schedule.label)}</a>` : '';
+  const more = (d.items || []).map(i => `<a href="${esc(i.url)}" target="_blank" rel="noopener" style="display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none;color:var(--navy)"><span style="font-size:22px">${OB_ICON[i.kind] || '📄'}</span><span><b style="display:block">${esc(i.title)}</b>${i.detail ? `<span class="fine" style="margin:0">${esc(i.detail)}</span>` : ''}</span></a>`).join('');
+  box.innerHTML = main + (more ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:12px">${more}</div>` : '') + `<p class="fine" style="margin:10px 0 0">Schedules are published by Margaritaville at Sea and open as PDFs.</p>`;
+}
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
 function roomCard(r) {
   const pics = roomPics(r), id = 'r-' + slugify(r.name);
@@ -202,12 +214,15 @@ document.addEventListener('cc:ready', async () => {
   const list = (rooms || []).sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier) || a.sort - b.sort);
   const gal = (sh.photos || []).filter(Boolean), hi = (sh.highlights || []).filter(Boolean);
   const facts = [['Homeport', sh.homeport], ['Guests', sh.guests], ['Size', sh.tonnage], ['Built', sh.built && (sh.built + (sh.former_name ? ' (as ' + sh.former_name + ')' : ''))]].filter(f => f[1]);
-  const nav = [['about', '⭐ About the ship'], gal.length && ['photos', '📸 Photos'], ['deck-plans', '🗺️ Deck plans'], ['rooms', '🛏️ Staterooms & suites']].filter(Boolean);
+  const nav = [['onboard', '📋 Today on board'], ['about', '⭐ About the ship'], gal.length && ['photos', '📸 Photos'], ['deck-plans', '🗺️ Deck plans'], ['rooms', '🛏️ Staterooms & suites']].filter(Boolean);
   document.getElementById('shipHead').innerHTML = `
     <div class="ship-hero ship-${SHIPS[name].slug}" style="${sh.hero_url ? `background-image:linear-gradient(180deg,rgba(11,57,84,.05),rgba(11,57,84,.8)),url('${esc(sh.hero_url)}');background-position:${SHIP_HERO_POS[name] || 'center'}` : ''}">
       <div class="eyebrow" style="color:var(--sun)">${esc(sh.tagline || 'Margaritaville at Sea')}</div>
       <h1>Margaritaville at Sea ${esc(name)}</h1></div>
     <nav class="ship-nav" aria-label="${esc(name)} sections">${nav.map(n => `<a href="#${n[0]}">${n[1]}</a>`).join('')}</nav>
+    <section class="card ship-sec" id="onboard" style="border:2px solid var(--sun)"><h2>📋 Sailing on ${esc(name)} now?</h2>
+      <p style="margin:4px 0 12px">Today's Cruise News &amp; Schedule, straight from the ship. Tip: save or screenshot it so you can check it anytime without Wi-Fi.</p>
+      <div id="onboardBody"><div class="loading">Checking today's schedule…</div></div></section>
     <section class="card ship-sec" id="about"><h2>⭐ About ${esc(name)}</h2>
       ${sh.intro ? `<p class="ship-intro">${esc(sh.intro)}</p>` : ''}
       ${facts.length ? `<div class="facts-row">${facts.map(f => `<div><b>${f[0]}</b>${esc(f[1])}</div>`).join('')}</div>` : ''}
@@ -222,10 +237,17 @@ document.addEventListener('cc:ready', async () => {
   const jump = TIER_ORDER.filter(t => list.some(r => r.tier === t));
   let html = `<div class="sec-h ship-sec" id="rooms" style="margin-top:28px"><h2>🛏️ Staterooms &amp; suites on ${esc(name)}</h2><span class="fine" style="margin:0">${list.length} room types</span></div>
     <div class="chips tier-jump">${jump.map(t => `<a class="chip" href="#tier-${slugify(t)}">${TIER_EMOJI[t]} ${t}</a>`).join('')}</div>`;
-  jump.forEach(t => {
-    html += `<h3 class="tier-h" id="tier-${slugify(t)}">${TIER_EMOJI[t]} ${t === "Suite" ? "Suites" : t + " Staterooms"}</h3><div class="room-grid">${list.filter(r => r.tier === t).map(roomCard).join('')}</div>`;
+  // When each non-suite tier has just one room type, show them side by side under one "Staterooms" heading.
+  const nonSuite = jump.filter(t => t !== 'Suite');
+  const mergeRooms = nonSuite.length > 1 && nonSuite.every(t => list.filter(r => r.tier === t).length === 1);
+  const groups = mergeRooms ? [{ tiers: nonSuite, title: '🛏️ Staterooms' }].concat(jump.includes('Suite') ? [{ tiers: ['Suite'], title: '👑 Suites' }] : [])
+    : jump.map(t => ({ tiers: [t], title: `${TIER_EMOJI[t]} ${t === 'Suite' ? 'Suites' : t + ' Staterooms'}` }));
+  groups.forEach(g => {
+    const anchors = g.tiers.slice(1).map(t => `<span id="tier-${slugify(t)}"></span>`).join('');
+    html += `<h3 class="tier-h" id="tier-${slugify(g.tiers[0])}">${anchors}${g.title}</h3><div class="room-grid">${list.filter(r => g.tiers.includes(r.tier)).map(roomCard).join('')}</div>`;
   });
   document.getElementById('roomsAll').innerHTML = list.length ? html : `<div id="rooms">${emptyBox('Room details coming soon')}</div>`;
+  loadOnboard(name);
   document.querySelectorAll('.ship-gal [data-g]').forEach(b => b.onclick = () => openLb(gal, +b.dataset.g));
   document.querySelectorAll('.room-card').forEach(card => {
     const pics = JSON.parse(card.dataset.pics || '[]'), img = card.querySelector('[data-zoom]');
