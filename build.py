@@ -85,15 +85,15 @@ QUOTE = '''<div class="widget" id="quote">
 </div>'''
 
 GUIDES_W = '''<div class="widget teal" id="signup">
-  <div class="wh"><h3>🗺️ Free Port Guides</h3><p>Palm Beach · Tampa · Miami · Galveston, plus our packing list.</p></div>
+  <div class="wh"><h3>⛱️ Join the Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
   <div class="wb">
     <form class="mini-form js-signup" data-source="sidebar">
       <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
       <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
-      <button class="btn btn-sun" type="submit">Send Me the Guides</button>
+      <button class="btn btn-sun" type="submit">Join the Crew</button>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 You're on the list! <a href="/port-guides#guides">Open your free port guides →</a></div>
+    <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
     <div class="fine">No spam, ever. Unsubscribe anytime.</div>
   </div>
 </div>'''
