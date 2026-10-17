@@ -49,7 +49,7 @@
 <div id="shipHead"><div class="loading">Loading…</div></div>
 <div id="roomsAll"></div>
 <p class="room-fine">Ship and stateroom details are summarized from Margaritaville at Sea's public ship information and can change. Exact size, beds and layout vary by stateroom, so ask us before you book. Photos and renderings are representative.</p>
-<div id="tourModal" style="position:fixed;inset:0;z-index:1000;background:rgba(11,57,84,.88);display:none;align-items:center;justify-content:center;padding:16px"><div style="width:min(1100px,100%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#0B3954;color:#fff"><strong class="tour-title" style="font-size:16px"></strong><button type="button" class="tour-x" aria-label="Close tour" style="background:none;border:0;color:#fff;font-size:30px;line-height:1;cursor:pointer">×</button></div><div class="tour-frame" style="aspect-ratio:16/9;max-height:78vh;background:#000"></div></div></div><div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div></main><aside class="side"><div class="widget" id="quote">
+<div id="tourModal" style="position:fixed;inset:0;z-index:1000;background:rgba(11,57,84,.88);display:none;align-items:center;justify-content:center;padding:16px"><div style="width:min(1100px,100%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#0B3954;color:#fff"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><strong class="tour-title" style="font-size:16px"></strong><span class="tour-sw" style="display:flex;gap:6px;flex-wrap:wrap"></span></div><button type="button" class="tour-x" aria-label="Close tour" style="background:none;border:0;color:#fff;font-size:30px;line-height:1;cursor:pointer">×</button></div><div class="tour-frame" style="aspect-ratio:16/9;max-height:78vh;background:#000"></div></div></div><div class="lb" id="lb" hidden><button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="Previous photo">‹</button><img alt=""><button type="button" class="lb-n" aria-label="Next photo">›</button></div></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb" style="text-align:center">
     <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
@@ -164,10 +164,16 @@ function roomTours(r) {
 }
 function tourButtons(r) {
   const list = roomTours(r); if (!list.length) return '';
-  if (list.length === 1) return `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(list[0].src)}" data-name="${esc(r.name + (list[0].label ? ' (' + list[0].label + ')' : ''))}" style="width:100%;margin-top:12px">🎥 Take the 3D Virtual Tour${list[0].label ? ' · ' + esc(list[0].label) : ''}</button>`;
-  return `<div style="margin-top:12px"><div style="font-weight:800;color:var(--navy);margin-bottom:6px">🎥 3D Virtual Tours</div><div style="display:flex;flex-wrap:wrap;gap:8px">${list.map((t, i) => `<button type="button" class="btn btn-coral tour-btn" data-tour="${esc(t.src)}" data-name="${esc(r.name + (t.label ? ' (' + t.label + ')' : ''))}" style="flex:1 1 140px">${esc(t.label || 'Tour ' + (i + 1))}</button>`).join('')}</div></div>`;
+  return `<button type="button" class="btn btn-coral tour-btn" data-tours='${esc(JSON.stringify(list))}' data-name="${esc(r.name)}" style="width:100%;margin-top:12px">🎥 Take the 3D Virtual Tour</button>`;
 }
-function openTour(src, name) { const t = document.getElementById('tourModal'); t.querySelector('.tour-title').textContent = name + ' · 3D Virtual Tour'; t.querySelector('.tour-frame').innerHTML = `<iframe src="${src}" title="${esc(name)} 3D virtual tour" allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>`; t.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+function openTour(list, name) {
+  const t = document.getElementById('tourModal'), frame = t.querySelector('.tour-frame'), sw = t.querySelector('.tour-sw');
+  const show = i => { frame.innerHTML = `<iframe src="${list[i].src}" title="${esc(name)} 3D virtual tour" allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer" allowfullscreen style="width:100%;height:100%;border:0;display:block"></iframe>`; sw.querySelectorAll('button').forEach((x, j) => { x.style.background = j === i ? '#FFC93C' : 'transparent'; x.style.color = j === i ? '#0B3954' : '#fff'; }); };
+  t.querySelector('.tour-title').textContent = name + ' · 3D Virtual Tour';
+  sw.innerHTML = list.length > 1 ? list.map((x, i) => `<button type="button" data-i="${i}" style="border:2px solid #FFC93C;border-radius:999px;padding:4px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer">${esc(x.label || 'View ' + (i + 1))}</button>`).join('') : '';
+  sw.querySelectorAll('button').forEach(x => x.onclick = () => show(+x.dataset.i));
+  show(0); t.style.display = 'flex'; document.body.style.overflow = 'hidden';
+}
 function closeTour() { const t = document.getElementById('tourModal'); t.style.display = 'none'; t.querySelector('.tour-frame').innerHTML = ''; document.body.style.overflow = ''; }
 function roomPics(r) { const p = (r.photos || []).filter(Boolean); if (!p.length && r.image_url) p.push(r.image_url); return p; }
 function roomCard(r) {
@@ -229,7 +235,7 @@ document.addEventListener('cc:ready', async () => {
     const card = b.closest('.room-card'); card.querySelector('.rc-pic img').src = b.dataset.src;
     card.querySelectorAll('.thumbs button').forEach(x => x.classList.toggle('on', x === b));
   });
-  document.querySelectorAll('.tour-btn').forEach(b => b.onclick = () => openTour(b.dataset.tour, b.dataset.name));
+  document.querySelectorAll('.tour-btn').forEach(b => b.onclick = () => openTour(JSON.parse(b.dataset.tours), b.dataset.name));
   const tm = document.getElementById('tourModal'); tm.querySelector('.tour-x').onclick = closeTour; tm.onclick = e => { if (e.target === tm) closeTour(); };
   document.addEventListener('keydown', e => { if (tm.style.display === 'flex' && e.key === 'Escape') closeTour(); });
   const lb = document.getElementById('lb');
