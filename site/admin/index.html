@@ -80,7 +80,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
       <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
       <button class="tab" data-p="rc">🙋 Roll Calls</button>
       <button class="tab" data-p="rooms">🚢 Fleet &amp; Rooms</button>
-      <button class="tab" data-p="events">🎉 Events</button>
+      <button class="tab" data-p="events">🎉 Events &amp; Deals</button>
       <button class="tab" data-p="acct">⚙️ Account</button>
     </div>
 
@@ -194,11 +194,13 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
 
     <!-- EVENTS -->
     <div class="panel" id="p-events">
-      <div class="bar"><h2>Events</h2><button class="btn btn-coral" id="eNew">+ Add Event</button></div>
+      <div class="bar"><h2>Events &amp; Deals</h2><button class="btn btn-coral" id="eNew">+ Add Event or Deal</button></div>
+      <p style="margin:-6px 0 14px;opacity:.75">Everything here with a date shows on the public <a href="/calendar" target="_blank">Deals &amp; Events calendar</a>. Pick 💰 Deal or 🎉 Event so it gets the right color.</p>
       <div class="grid2">
         <div><table><thead><tr><th>Date</th><th>Event</th><th></th></tr></thead><tbody id="eRows"></tbody></table></div>
         <div class="card" style="padding:22px"><h3 id="eTitle" style="margin-bottom:12px">Pick an event to edit</h3>
           <form id="eForm" style="display:none">
+            <div class="field"><label for="eK">Type</label><select id="eK"><option value="event">🎉 Event</option><option value="deal">💰 Deal</option></select></div>
             <div class="field"><label for="eT">Title</label><input id="eT" required maxlength="140"></div>
             <div class="field"><label for="eShip">Ship</label><input id="eShip" maxlength="60" placeholder="e.g. Paradise, or Paradise & Islander"></div>
             <div class="grid2" style="grid-template-columns:1fr 1fr;gap:10px"><div class="field"><label for="eS">Start date</label><input id="eS" type="date" required></div><div class="field"><label for="eE">End date (optional)</label><input id="eE" type="date"></div></div>
@@ -567,12 +569,12 @@ async function loadEvents() {
   const { data } = await sb.from('events').select('*').order('start_date', { ascending: true });
   events = data || [];
   const today = new Date().toISOString().slice(0, 10);
-  $('eRows').innerHTML = events.map(e => `<tr><td style="white-space:nowrap">${esc(e.start_date)}</td><td><b>${esc(e.title)}</b>${(e.end_date || e.start_date) < today ? ' <span class="pill draft">Past</span>' : ''}${e.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td><button class="link" onclick="editEvent('${e.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="3">No events yet.</td></tr>';
+  $('eRows').innerHTML = events.map(e => `<tr><td style="white-space:nowrap">${esc(e.start_date)}</td><td>${e.kind === 'deal' ? '💰 ' : '🎉 '}<b>${esc(e.title)}</b>${(e.end_date || e.start_date) < today ? ' <span class="pill draft">Past</span>' : ''}${e.active ? '' : ' <span class="pill draft">Hidden</span>'}</td><td><button class="link" onclick="editEvent('${e.id}')">Edit</button></td></tr>`).join('') || '<tr><td colspan="3">No events yet.</td></tr>';
 }
 function editEvent(id) {
   evt = events.find(e => e.id === id) || null;
   $('eTitle').textContent = evt ? 'Edit event' : 'New event'; $('eForm').style.display = 'block'; $('eDel').style.display = evt ? 'inline' : 'none';
-  $('eT').value = evt?.title || ''; $('eShip').value = evt?.ship || ''; $('eS').value = evt?.start_date || ''; $('eE').value = evt?.end_date || '';
+  $('eK').value = evt?.kind || 'event'; $('eT').value = evt?.title || ''; $('eShip').value = evt?.ship || ''; $('eS').value = evt?.start_date || ''; $('eE').value = evt?.end_date || '';
   $('eLoc').value = evt?.location || ''; $('eD').value = evt?.description || ''; $('eL').value = evt?.link || ''; $('eLL').value = evt?.link_label || '';
   $('eA').checked = evt ? evt.active : true; evPic = evt?.image_url || null; setCoverBox('ePic', evPic);
 }
@@ -582,7 +584,7 @@ $('ePicF').onchange = async e => { const f = e.target.files[0]; if (!f) return; 
 $('ePicDel').onclick = () => { evPic = null; setCoverBox('ePic', null); };
 $('eForm').onsubmit = async e => {
   e.preventDefault();
-  const row = { title: $('eT').value.trim(), ship: $('eShip').value.trim() || null, start_date: $('eS').value, end_date: $('eE').value || null, location: $('eLoc').value.trim() || null,
+  const row = { kind: $('eK').value, title: $('eT').value.trim(), ship: $('eShip').value.trim() || null, start_date: $('eS').value, end_date: $('eE').value || null, location: $('eLoc').value.trim() || null,
     description: $('eD').value.trim() || null, link: $('eL').value.trim() || null, link_label: $('eLL').value.trim() || null, image_url: evPic, active: $('eA').checked };
   const q = evt ? sb.from('events').update(row).eq('id', evt.id) : sb.from('events').insert(row);
   const { data, error } = await q.select().single();

@@ -21,6 +21,7 @@ https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  3
 /extra-packages  /extra-packages.html 200
 /port-guides     /port-guides.html    200
 /deals           /deals.html          200
+/calendar        /calendar.html       200
 /tips            /blog.html           200
 /newsletter      /newsletter.html     200
 /events          /events.html         200

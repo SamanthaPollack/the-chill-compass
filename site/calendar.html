@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deals &amp; Events Calendar | The Chill Compass</title>
+<meta name="description" content="Margaritaville at Sea deals, theme cruises, group sailings and events on one calendar. Add any date to your own calendar.">
+<link rel="canonical" href="https://thechillcompass.com/calendar">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Chill Compass">
+<meta property="og:title" content="Deals &amp; Events Calendar | The Chill Compass">
+<meta property="og:description" content="Margaritaville at Sea deals, theme cruises, group sailings and events on one calendar. Add any date to your own calendar.">
+<meta property="og:url" content="https://thechillcompass.com/calendar">
+<meta property="og:image" content="https://thechillcompass.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<meta name="theme-color" content="#0B3954">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=22">
+<style>
+.sd-hero{background:linear-gradient(135deg,var(--navy),#14607d);color:#fff;border-radius:var(--r);padding:26px 26px 22px}
+.sd-hero h1{color:#fff;margin:6px 0 8px;font-size:30px;line-height:1.15}.sd-hero .eyebrow{color:var(--sun)}
+.sd-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.sd-facts span{background:rgba(255,255,255,.14);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.sd-sec{margin-top:22px}.sd-sec h2{margin:0 0 10px;font-size:22px}
+.itin{list-style:none;margin:0;padding:0;border-left:3px solid var(--teal);margin-left:10px}
+.itin li{position:relative;padding:8px 0 10px 22px}.itin li:before{content:'';position:absolute;left:-9px;top:14px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.itin li.sea:before{border-color:var(--sun)}.itin b{font-family:Fredoka;font-size:17px}.itin small{display:block;color:var(--ink-soft)}
+.fares{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}.fares th,.fares td{padding:10px 12px;text-align:left;border-bottom:1px solid #f1e6d1}
+.fares th{background:var(--sand);font-family:Fredoka}.fares td.na{color:#9aa9b4}
+.cal-hero{background:#0B3954;color:#fff;border-radius:22px;padding:24px 22px;margin-bottom:14px}
+.cal-hero h1{color:#fff;margin:4px 0 6px;font-size:clamp(26px,5vw,38px)}.cal-hero p{margin:0;opacity:.92}
+.cal-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:0 0 12px}
+.cal-filt{display:flex;gap:6px;flex-wrap:wrap}
+.cal-filt button{font:inherit;font-weight:700;font-size:14px;padding:7px 12px;border-radius:999px;border:2px solid var(--line);background:#fff;color:#0B3954;cursor:pointer}
+.cal-filt button.on{background:#0B3954;border-color:#0B3954;color:#fff}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav button{font:inherit;font-size:18px;font-weight:800;width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:#fff;color:#0B3954;cursor:pointer}
+.cal-nav h2{margin:0;min-width:170px;text-align:center;font-size:20px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 0 var(--line),0 8px 22px rgba(11,57,84,.07)}
+.cal-grid .dow{background:#fbf5e8;font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;text-align:center;padding:8px 0;color:#0B3954}
+.cal-grid .day{min-height:96px;border-top:1px solid var(--line);border-left:1px solid var(--line);padding:4px;display:flex;flex-direction:column;gap:3px}
+.cal-grid .day:nth-child(7n+1){border-left:0}
+.cal-grid .day.out{background:#fcfaf5;opacity:.55}
+.cal-grid .day.today .num{background:var(--sun);border-radius:50%}
+.cal-grid .num{font-size:12.5px;font-weight:800;width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#0B3954}
+.cal-chip{display:block;width:100%;text-align:left;font:inherit;font-size:12px;font-weight:700;line-height:1.25;border:0;border-radius:6px;padding:3px 6px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-chip.event{background:#d9f3f4;color:#0B3954}.cal-chip.deal{background:#ffe1dc;color:#9b2c1d}
+.cal-chip.cont{opacity:.75}
+.cal-list{margin-top:16px}
+.cal-list h3{margin:0 0 10px}
+.cal-item{display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 1px 0 var(--line),0 6px 16px rgba(11,57,84,.06);cursor:pointer;border:0;width:100%;text-align:left;font:inherit;color:inherit}
+.cal-date{flex:none;width:58px;text-align:center;border-radius:12px;padding:6px 0;font-weight:800;color:#0B3954}
+.cal-date.event{background:#d9f3f4}.cal-date.deal{background:#ffe1dc}
+.cal-date b{display:block;font-size:22px;line-height:1}.cal-date span{font-size:12px;text-transform:uppercase}
+.cal-item h4{margin:0 0 2px;font-size:16px}.cal-item small{color:var(--ink-soft)}
+.cal-tag{display:inline-block;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 8px;margin-right:6px}
+.cal-tag.event{background:#d9f3f4;color:#0B3954}.cal-tag.deal{background:#ffe1dc;color:#9b2c1d}
+.cal-empty{background:#fff;border-radius:16px;padding:16px;text-align:center}
+.cal-modal{position:fixed;inset:0;z-index:1000;background:rgba(11,57,84,.6);display:none;align-items:center;justify-content:center;padding:16px}
+.cal-modal.show{display:flex}
+.cal-card{background:#fff;border-radius:20px;max-width:520px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.cal-card img{width:100%;max-height:240px;object-fit:cover;display:block}
+.cal-card .in{padding:20px}.cal-card h3{margin:6px 0 6px;font-size:22px}
+.cal-card .meta{margin:0 0 10px;color:#0B3954;font-weight:700;font-size:14.5px}
+.cal-card .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cal-x{float:right;background:none;border:0;font-size:28px;line-height:1;cursor:pointer;color:#0B3954}
+.cal-deals{margin-top:18px}
+@media(max-width:640px){.cal-grid .day{min-height:46px;padding:2px}.cal-chip{font-size:0;height:6px;padding:0;border-radius:3px}.cal-grid .num{font-size:12px;width:22px;height:22px}.cal-nav h2{min-width:130px;font-size:18px}}
+
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="r" id="tbUser"></div>
+</div></div>
+<header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
+<div class="tagbar">A Margaritaville at Sea Blog</div>
+<div class="dock"><div class="wrap">
+  <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
+  <nav aria-label="Main"><ul>
+    <li><a href="/">Home</a></li>
+    <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
+    <li class="dd"><a href="/sailings" class="dd-btn" aria-haspopup="true" aria-expanded="false">Plan Your Cruise <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/sailings">🛳️ Sailings &amp; Cruise Guides</a><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a></div></li>
+    <li class="dd"><a href="/calendar" class="dd-btn" aria-haspopup="true" aria-expanded="false">Deals &amp; Events <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/calendar">📅 Calendar</a><a href="/deals">💰 Deals</a><a href="/events">🎉 Events</a></div></li>
+    <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/port-guides">🗺️ Port Guides</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
+    <li><a href="/rollcalls">Roll Calls</a></li>
+    <li><a href="/onboard" class="nav-hot">📋 Today on Board</a></li>
+  </ul></nav>
+</div></div>
+<div class="wrap"><div class="shell"><main>
+<div class="cal-hero"><div class="eyebrow" style="color:var(--sun)">📅 Deals &amp; Events</div><h1>Deals &amp; Events Calendar</h1><p>Theme cruises, group sailings, special rates and big Margaritaville at Sea moments, all in one place. Tap anything for details.</p></div>
+<div class="cal-bar"><div class="cal-filt" id="calFilt"><button type="button" data-k="all" class="on">All</button><button type="button" data-k="deal">💰 Deals</button><button type="button" data-k="event">🎉 Events</button></div>
+<div class="cal-nav"><button type="button" id="calPrev" aria-label="Previous month">‹</button><h2 id="calMonth"></h2><button type="button" id="calNext" aria-label="Next month">›</button></div></div>
+<div class="cal-grid" id="calGrid" aria-label="Calendar"></div>
+<div class="cal-list" id="calList"></div>
+<div class="cal-deals" id="calDeals"></div>
+</main>
+<div class="cal-modal" id="calModal" role="dialog" aria-modal="true" aria-label="Details"><div class="cal-card" id="calCard"></div></div>
+<aside class="side"><div class="widget" id="quote">
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
+  <div class="wb" style="text-align:center">
+    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
+    <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
+  </div>
+</div><div class="widget teal" id="signup">
+  <div class="wh"><h3>⛱️ Join the Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
+  <div class="wb">
+    <form class="mini-form js-signup" data-source="sidebar">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit">Join the Crew</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div><div class="widget navy">
+  <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
+  <div class="wb"><ul class="side-list" id="rcSide"><li style="opacity:.6">Loading…</li></ul>
+  <a href="/rollcalls" class="btn btn-navy btn-sm" style="width:100%;margin-top:10px">All Roll Calls</a></div>
+</div></aside></div></div>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>The Chill Compass</h3>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise reviews, deck plans and roll calls from travel advisors who keep going back for more. 🍹</p>
+      </div>
+      <div><h3>Explore</h3><ul>
+        <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
+        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/rollcalls">Roll Calls</a></li>
+        <li><a href="/faq">FAQ</a></li></ul></div>
+      <div><h3>Connect</h3><ul>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/write-for-us">Write for Us</a></li></ul></div>
+      <div><h3>About</h3><ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/account">My Account</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="disclaimer">
+      © <span id="yr">2026</span> The Chill Compass · Presented by Samantha Pollack, CTT and Associates, LLC<br>
+      Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
+    </div>
+  </div>
+</footer>
+
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <div style="font-size:46px">🗺️🧳</div>
+    <h2>Free Port Guides!</h2>
+    <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
+    <form class="form js-signup" data-source="popup">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
+      <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're in! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <h2>⛱️ Join the Crew</h2>
+    <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
+    <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
+    <div id="authMsg"></div>
+    <form id="authForm">
+      <div class="only-up" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label for="aFirst">First name</label><input id="aFirst" maxlength="50" autocomplete="given-name"></div>
+        <div class="field"><label for="aLast">Last name</label><input id="aLast" maxlength="50" autocomplete="family-name"></div></div></div>
+      <div class="field only-up" style="display:none"><label for="aName">Username</label><input id="aName" maxlength="20" placeholder="e.g. ParrotheadPam" autocomplete="username"><p class="fine" style="margin:4px 0 0">This is what other cruisers see on Roll Calls. Your first and last name stay private.</p></div>
+      <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
+      <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
+      <p class="err" id="authErr"></p>
+      <p class="fine" style="text-align:center"><button type="button" class="link" id="authForget">Forgot password?</button></p>
+      <p class="fine only-up" style="display:none">By joining you agree to be kind. Posts are public. No spam, selling or personal info, please; we may remove posts or accounts that break the rules.</p>
+    </form>
+  </div>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/app.js?v=22"></script>
+<script>
+document.addEventListener('cc:ready', async () => {
+  const el = document.getElementById('rcSide'); if (!el) return;
+  const { data } = await sb.from('roll_calls').select('id,ship,sail_date,post_count,last_post_at').gte('sail_date', new Date().toISOString().slice(0,10)).order('last_post_at', { ascending: false, nullsFirst: false }).limit(5);
+  el.innerHTML = (data && data.length) ? data.map(r => `<li><a href="/rollcall/${r.id}"><span class="dot d-${SHIPS[r.ship].slug}"></span>${esc(r.ship)} · ${dateOnly(r.sail_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</a><small>${r.post_count} posts${r.last_post_at ? ' · ' + timeAgo(r.last_post_at) : ''}</small></li>`).join('')
+    : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
+});
+</script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const e = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const D = s => new Date(String(s).slice(0, 10) + 'T00:00:00');
+  const nice = (s, o) => D(s).toLocaleDateString('en-US', o || { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  const q = new URLSearchParams(location.search);
+  let items = [], kind = ['deal', 'event'].includes(q.get('type')) ? q.get('type') : 'all';
+  const now = new Date(); let cur = /^\d{4}-\d{2}$/.test(q.get('m') || '') ? new Date(q.get('m') + '-01T00:00:00') : new Date(now.getFullYear(), now.getMonth(), 1);
+  const todayIso = iso(now);
+  const shown = () => items.filter(x => kind === 'all' || x.kind === kind);
+  const endOf = x => x.end_date || x.start_date;
+  const label = x => x.kind === 'deal' ? '💰 Deal' : '🎉 Event';
+  const range = x => x.end_date && x.end_date !== x.start_date ? nice(x.start_date) + ' – ' + nice(x.end_date) : nice(x.start_date);
+  function syncUrl() { const p = new URLSearchParams(); p.set('m', iso(cur).slice(0, 7)); if (kind !== 'all') p.set('type', kind); history.replaceState(null, '', '/calendar?' + p); }
+  function render() {
+    syncUrl();
+    document.querySelectorAll('#calFilt button').forEach(b => b.classList.toggle('on', b.dataset.k === kind));
+    $('calMonth').textContent = cur.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const first = new Date(cur.getFullYear(), cur.getMonth(), 1), last = new Date(cur.getFullYear(), cur.getMonth() + 1, 0);
+    const start = new Date(first); start.setDate(1 - first.getDay());
+    const end = new Date(last); end.setDate(last.getDate() + (6 - last.getDay()));
+    const list = shown();
+    let html = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div class="dow">${d}</div>`).join('');
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const di = iso(d), dow = d.getDay();
+      const hits = list.filter(x => x.start_date <= di && endOf(x) >= di);
+      html += `<div class="day${d.getMonth() !== cur.getMonth() ? ' out' : ''}${di === todayIso ? ' today' : ''}"><span class="num">${d.getDate()}</span>${hits.slice(0, 3).map(x => {
+        const startsHere = x.start_date === di || dow === 0;
+        return `<button type="button" class="cal-chip ${x.kind}${startsHere ? '' : ' cont'}" data-id="${e(x.id)}" title="${e(x.title)}">${startsHere ? (x.kind === 'deal' ? '💰 ' : '🎉 ') + e(x.title) : '&nbsp;'}</button>`;
+      }).join('')}${hits.length > 3 ? `<small style="font-size:11px;padding-left:4px">+${hits.length - 3} more</small>` : ''}</div>`;
+    }
+    $('calGrid').innerHTML = html;
+    const mStart = iso(first), mEnd = iso(last);
+    const inMonth = list.filter(x => x.start_date <= mEnd && endOf(x) >= mStart);
+    const upcoming = list.filter(x => endOf(x) >= todayIso && x.start_date > mEnd).slice(0, 3);
+    $('calList').innerHTML = `<h3>${e($('calMonth').textContent)}</h3>` + (inMonth.length ? inMonth.map(itemRow).join('') : `<div class="cal-empty">Nothing on the calendar this month.${upcoming.length ? ' Coming up next:' : ''}</div>`) +
+      (!inMonth.length && upcoming.length ? upcoming.map(itemRow).join('') : '');
+    document.querySelectorAll('[data-id]').forEach(b => b.onclick = () => openItem(b.dataset.id));
+  }
+  function itemRow(x) {
+    const d = D(x.start_date);
+    return `<button type="button" class="cal-item" data-id="${e(x.id)}"><div class="cal-date ${x.kind}"><span>${d.toLocaleDateString('en-US', { month: 'short' })}</span><b>${d.getDate()}</b></div>
+      <div><h4>${e(x.title)}</h4><small><span class="cal-tag ${x.kind}">${label(x)}</span>${e(range(x))}${x.ship ? ' · ' + e(x.ship) : ''}${x.location ? ' · ' + e(x.location) : ''}</small></div></button>`;
+  }
+  function ics(x) {
+    const f = s => String(s).replace(/-/g, ''), endX = new Date(D(endOf(x))); endX.setDate(endX.getDate() + 1);
+    const esc2 = s => String(s || '').replace(/\\/g, '\\\\').replace(/[,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+    const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//The Chill Compass//Calendar//EN', 'BEGIN:VEVENT', 'UID:' + x.id + '@thechillcompass.com',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART;VALUE=DATE:' + f(x.start_date), 'DTEND;VALUE=DATE:' + f(iso(endX)),
+      'SUMMARY:' + esc2(x.title), 'DESCRIPTION:' + esc2((x.description || '') + '\n\nhttps://thechillcompass.com/calendar'), x.location ? 'LOCATION:' + esc2(x.location) : '', 'END:VEVENT', 'END:VCALENDAR'].filter(Boolean).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type: 'text/calendar' }));
+    a.download = String(x.title).replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase().slice(0, 60) + '.ics'; document.body.appendChild(a); a.click(); a.remove();
+  }
+  function openItem(id) {
+    const x = items.find(i => String(i.id) === String(id)); if (!x) return;
+    $('calCard').innerHTML = `${x.image_url ? `<img src="${e(x.image_url)}" alt="">` : ''}<div class="in"><button type="button" class="cal-x" aria-label="Close">×</button>
+      <span class="cal-tag ${x.kind}">${label(x)}</span><h3>${e(x.title)}</h3>
+      <p class="meta">📅 ${e(range(x))}${x.ship ? '<br>🛳️ ' + e(x.ship) : ''}${x.location ? '<br>📍 ' + e(x.location) : ''}</p>
+      ${x.description ? `<p style="margin:0;white-space:pre-line">${e(x.description)}</p>` : ''}
+      <div class="acts">${x.link ? `<a class="btn btn-coral" href="${e(x.link)}" ${/^https?:\/\/(www\.)?thechillcompass\.com/i.test(x.link) || x.link.startsWith('/') ? '' : 'target="_blank" rel="noopener"'}>${e(x.link_label || 'Learn more')}</a>` : ''}
+        <a class="btn btn-teal" href="/sailings">💬 Get a free quote</a><button type="button" class="btn btn-ghost" id="calIcs">📅 Add to my calendar</button></div></div>`;
+    $('calModal').classList.add('show'); document.body.style.overflow = 'hidden';
+    $('calCard').querySelector('.cal-x').onclick = closeItem; $('calIcs').onclick = () => ics(x);
+  }
+  function closeItem() { $('calModal').classList.remove('show'); document.body.style.overflow = ''; }
+  $('calModal').onclick = ev => { if (ev.target === $('calModal')) closeItem(); };
+  document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeItem(); });
+  $('calPrev').onclick = () => { cur = new Date(cur.getFullYear(), cur.getMonth() - 1, 1); render(); };
+  $('calNext').onclick = () => { cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1); render(); };
+  document.querySelectorAll('#calFilt button').forEach(b => b.onclick = () => { kind = b.dataset.k; render(); });
+  let started = false;
+  async function go() {
+    if (started) return; started = true;
+    const { data } = await sb.from('events').select('*').eq('active', true).order('start_date');
+    items = (data || []).map(x => ({ ...x, kind: x.kind === 'deal' ? 'deal' : 'event' }));
+    render();
+    try {
+      const deals = await fetchPosts({ limit: 3, category: 'Deals' });
+      if (deals && deals.length) $('calDeals').innerHTML = `<h3 style="margin:0 0 10px">💰 Latest deal write-ups</h3>` + deals.map(p => `<a class="cal-item" href="/post/${encodeURIComponent(p.slug)}" style="text-decoration:none"><div class="cal-date deal"><span>Deal</span><b>💰</b></div><div><h4>${e(p.title)}</h4>${p.excerpt ? `<small>${e(String(p.excerpt).slice(0, 140))}${String(p.excerpt).length > 140 ? '…' : ''}</small>` : ''}</div></a>`).join('') + `<p style="margin:6px 0 0"><a class="link" href="/deals">See all deals →</a></p>`;
+    } catch (err) {}
+  }
+  document.addEventListener('cc:ready', go);
+  window.addEventListener('load', () => setTimeout(() => { if (typeof sb !== 'undefined') go(); }, 50));
+})();
+</script>
+</body>
+</html>
