@@ -452,3 +452,5 @@ footer.site a:hover{color:var(--sun)}
 .dd-panel a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--navy);font-size:16px;white-space:nowrap}
 .dd-panel a:hover,.dd-panel a:focus{background:#fff4e0;outline:none}
 .dd-panel a.on{background:var(--navy);color:#fff}
+.dock nav a.nav-orange{background:#FF8C1A;color:#fff;font-weight:600}
+.dock nav a.nav-orange:hover{background:#E67600;color:#fff}
