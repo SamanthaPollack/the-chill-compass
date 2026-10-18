@@ -243,8 +243,8 @@ document.addEventListener('cc:ready', async () => {
     const portCards = uniqStops.map((name, i) => {
       const p = findPort(ports, name), day = stops.find(x => x.port === name);
       const when = day ? fmt(day.date, { weekday: 'long', month: 'short', day: 'numeric' }) + (day.arrive || day.depart ? ' · ' + [day.arrive, day.depart].filter(Boolean).join(' – ') : '') : '';
-      if (!p) return `<div class="g-card g-port"><h3>${i + 1}. ${esc(name)}</h3>${when ? `<p class="when">${esc(when)}</p>` : ''}<p class="tl">Port guide coming soon.</p></div>`;
-      return `<div class="g-card g-port"><h3>${i + 1}. ${esc(p.name)}</h3>${when ? `<p class="when">📅 ${esc(when)}</p>` : ''}${p.tagline ? `<p class="tl">${esc(p.tagline)}</p>` : ''}
+      if (!p) return `<div class="g-card g-port"><h3>${esc(name)}</h3>${when ? `<p class="when">${esc(when)}</p>` : ''}<p class="tl">Port guide coming soon.</p></div>`;
+      return `<div class="g-card g-port"><h3>${esc(p.name)}</h3>${when ? `<p class="when">📅 ${esc(when)}</p>` : ''}${p.tagline ? `<p class="tl">${esc(p.tagline)}</p>` : ''}
         ${(p.highlights || []).length ? `<ul>${p.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${p.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(p.good_to_know)}</div>` : ''}</div>`;
     }).join('');
     const homeCard = home ? `<div class="g-card g-port"><h3>⚓ Sailing from ${esc(home.name)}</h3>${home.tagline ? `<p class="tl">${esc(home.tagline)}</p>` : ''}${(home.highlights || []).length ? `<ul>${home.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${home.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(home.good_to_know)}</div>` : ''}</div>` : '';
