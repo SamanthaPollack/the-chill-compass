@@ -71,7 +71,7 @@
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -82,7 +82,8 @@
     <li><a href="/">Home</a></li>
     <li><a href="/cruise-reviews">Cruise Reviews</a></li>
     <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/ships">Ships</a></li>
+    <li><a href="/onboard">Today on Board</a></li>
     <li><a href="/sailings">Sailings</a></li>
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
@@ -128,7 +129,7 @@
       </div>
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
         <li><a href="/extra-packages">Extra Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
@@ -264,11 +265,11 @@ document.addEventListener('cc:ready', async () => {
       <div class="g-facts"><div><b>${esc(c.nights || '–')}</b><span>nights</span></div><div><b>${uniqStops.length}</b><span>port${uniqStops.length === 1 ? '' : 's'} of call</span></div><div><b>${seaDays}</b><span>sea day${seaDays === 1 ? '' : 's'}</span></div><div><b>${esc(c.embark_port || '')}</b><span>home port</span></div></div>
       <div class="g-cols"><div class="g-card"><h2>🗺️ Your route</h2><ul class="g-route">${route}</ul></div>
         <div class="g-card g-ship"><h2>🛳️ ${esc(ship)} at a glance</h2>${sh.tagline ? `<p style="margin:0 0 6px"><b>${esc(sh.tagline)}</b></p>` : ''}${sh.intro ? `<p style="margin:0">${esc(sh.intro)}</p>` : ''}
-          ${hi.length ? `<ul>${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}<p class="g-noprint" style="margin:12px 0 0"><a class="link" href="/fleet/${esc(ship.toLowerCase())}">Rooms, 3D tours &amp; deck plans →</a></p></div></div>
+          ${hi.length ? `<ul>${hi.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}<p class="g-noprint" style="margin:12px 0 0"><a class="link" href="/ships/${esc(ship.toLowerCase())}">Rooms, 3D tours &amp; deck plans →</a></p></div></div>
       <div class="g-cta g-noprint">
         <a href="${esc(rcLink)}"><b>🙋 Join the Roll Call</b><span>${esc(rcText)}</span></a>
         <a href="${esc(quoteUrl)}"><b>💬 Get a free quote</b><span>A real travel advisor will reply. No cost, no obligation.</span></a>
-        <a href="/fleet/${esc(ship.toLowerCase())}#onboard"><b>📋 Today on board</b><span>Once you sail, the daily Cruise News &amp; Schedule lives here.</span></a></div>
+        <a href="/ships/${esc(ship.toLowerCase())}#onboard"><b>📋 Today on board</b><span>Once you sail, the daily Cruise News &amp; Schedule lives here.</span></a></div>
       <h2 style="margin:6px 0 12px">🏝️ Your ports</h2>
       <div class="g-ports">${homeCard}${portCards}</div>
       <p class="g-foot">Times and ports can change; your cruise line's documents are the final word. Guide by The Chill Compass, an independent blog not affiliated with Margaritaville at Sea. Book with a real advisor: thechillcompass.com</p>`;

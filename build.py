@@ -48,7 +48,8 @@ def header(tall=False):
     <li><a href="/">Home</a></li>
     <li><a href="/cruise-reviews">Cruise Reviews</a></li>
     <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/ships">Ships</a></li>
+    <li><a href="/onboard">Today on Board</a></li>
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
     <li><a href="/newsletter">Newsletter</a></li>
@@ -136,7 +137,7 @@ FOOTER = '''<footer class="site">
       </div>
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
         <li><a href="/extra-packages">Extra Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
@@ -276,7 +277,7 @@ document.addEventListener('cc:ready', async () => {
   const count = s => (rooms || []).filter(r => r.ship === s).length;
   document.getElementById('shipCards').innerHTML = (ships || []).map(s => {
     const facts = [s.guests && '👥 ' + s.guests, s.tonnage && '⚓ ' + s.tonnage].filter(Boolean).map(f => `<span>${esc(f)}</span>`).join('');
-    return `<a class="ship-card" href="/fleet/${SHIPS[s.name].slug}">
+    return `<a class="ship-card" href="/ships/${SHIPS[s.name].slug}">
       <div class="sc-img ship-${SHIPS[s.name].slug}" style="${s.hero_url ? `background-image:url('${esc(s.hero_url)}')` : ''}">${s.hero_url ? '' : `<span class="wm">${SHIPS[s.name].emoji}</span>`}</div>
       <div class="sc-body"><div class="eyebrow">${esc(s.tagline || '')}</div><h2>${esc(s.name)}</h2>
         <p>📍 ${esc(s.homeport || '')}</p>${facts ? `<div class="rc-chips">${facts}</div>` : ''}
@@ -318,7 +319,7 @@ function roomCard(r) {
 document.addEventListener('cc:ready', async () => {
   const slug = location.pathname.replace(/^\\/(fleet|deck-plans)\\/?/, '').replace(/\\/$/, '') || new URLSearchParams(location.search).get('ship') || 'paradise';
   const name = shipBySlug(slug) || 'Paradise';
-  document.getElementById('shipChips').innerHTML = Object.keys(SHIPS).map(k => `<a class="chip ${k === name ? 'on' : ''}" href="/fleet/${SHIPS[k].slug}"><span class="dot d-${SHIPS[k].slug}"></span>${k}</a>`).join('') + `<a class="chip" href="/fleet">All ships</a>`;
+  document.getElementById('shipChips').innerHTML = Object.keys(SHIPS).map(k => `<a class="chip ${k === name ? 'on' : ''}" href="/ships/${SHIPS[k].slug}"><span class="dot d-${SHIPS[k].slug}"></span>${k}</a>`).join('') + `<a class="chip" href="/fleet">All ships</a>`;
   const [{ data: s }, { data: rooms }] = await Promise.all([
     sb.from('ships').select('*').eq('name', name).maybeSingle(),
     sb.from('staterooms').select('*').eq('ship', name).eq('active', true).order('sort')]);
@@ -554,7 +555,7 @@ FAQS = [
   ("Is there Wi-Fi?", "Yes. The \"Coconut Telegraph\" plans start around $19.99 per night, per device for messaging. See our <a href='/extra-packages#wifi'>Extra Packages</a> page."),
   ("Is the drink package worth it?", "If you'll have about five or more drinks a day, usually yes. Remember that every adult in the stateroom has to buy it if one does. Our <a href='/extra-packages#drinks'>Extra Packages</a> page has the details."),
   ("Where can I smoke?", "Only in designated outdoor areas: Deck 9 next to the License to Chill pool on Paradise, and Deck 10 overlooking the LandShark pool on Islander. Smoking anywhere else can mean fines of up to $500."),
-  ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/fleet'>Fleet</a> page."),
+  ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/ships'>Ships</a> page."),
  ]),
 ]
 faq_html = title_block('❓ FAQ', 'Frequently asked questions', 'Quick answers about sailing Margaritaville at Sea. Don\'t see your question? <a href="/contact">Ask us</a>!')

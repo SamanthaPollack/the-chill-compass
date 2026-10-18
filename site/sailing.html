@@ -33,7 +33,7 @@
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -44,7 +44,8 @@
     <li><a href="/">Home</a></li>
     <li><a href="/cruise-reviews">Cruise Reviews</a></li>
     <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/ships">Ships</a></li>
+    <li><a href="/onboard">Today on Board</a></li>
     <li><a href="/sailings">Sailings</a></li>
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
@@ -110,7 +111,7 @@
       </div>
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
         <li><a href="/extra-packages">Extra Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
@@ -217,7 +218,7 @@ document.addEventListener('cc:ready', async () => {
       <h1>${esc(title)}</h1><div>${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}</div>
       <div class="sd-facts">${c.embark_port ? `<span>📍 ${esc(c.embark_port)}${c.disembark_port && c.disembark_port !== c.embark_port ? ' → ' + esc(c.disembark_port) : ' round trip'}</span>` : ''}
       ${from != null ? `<span>💲 From ${money(from, c.price_currency)} per person</span>` : ''}${c.taxes_and_fees ? `<span>Taxes & fees about ${money(c.taxes_and_fees, c.taxes_currency)}</span>` : ''}${c.obc_amount ? `<span>🎁 ${money(c.obc_amount, c.price_currency)} onboard credit</span>` : ''}${c.sold_out ? '<span>⚠️ Currently sold out</span>' : ''}</div></div>
-      <div class="sd-sec card"><h2>About this cruise</h2><p style="margin:0">${blurb(c)}</p>${sh ? `<p style="margin:12px 0 0"><a class="btn btn-navy" href="/guide/${esc(sh.toLowerCase())}-${esc(String(c.departure_date || '').slice(0, 10))}">📖 Open the free Cruise Guide</a></p><p style="margin:10px 0 0"><a class="link" href="/fleet/${esc(sh.toLowerCase())}">Explore the ${esc(sh)}: deck plans, rooms and more →</a></p>` : ''}</div>
+      <div class="sd-sec card"><h2>About this cruise</h2><p style="margin:0">${blurb(c)}</p>${sh ? `<p style="margin:12px 0 0"><a class="btn btn-navy" href="/guide/${esc(sh.toLowerCase())}-${esc(String(c.departure_date || '').slice(0, 10))}">📖 Open the free Cruise Guide</a></p><p style="margin:10px 0 0"><a class="link" href="/ships/${esc(sh.toLowerCase())}">Explore the ${esc(sh)}: deck plans, rooms and more →</a></p>` : ''}</div>
       ${it.length ? `<div class="sd-sec card"><h2>Day-by-day itinerary</h2><ul class="itin">${it.map(x => `<li class="${x.is_sea_day ? 'sea' : ''}"><b>Day ${esc(x.day_number || x.seq || '')}: ${esc(x.is_sea_day ? 'Fun day at sea' : (x.port || ''))}${x.country && !x.is_sea_day ? ', ' + esc(x.country) : ''}</b><small>${esc(fmt(x.date, { weekday: 'short', month: 'short', day: 'numeric' }))}${x.arrive ? ' · Arrive ' + esc(x.arrive) : ''}${x.depart ? ' · Depart ' + esc(x.depart) : ''}${x.tender ? ' · Tender port' : ''}${x.overnight ? ' · Overnight' : ''}</small></li>`).join('')}</ul></div>` : ''}
       ${fares.length ? `<div class="sd-sec card"><h2>Stateroom fares</h2><div class="tbl-wrap"><table class="fares"><tr><th>Stateroom</th><th>From (per person)</th></tr>${fares.map(f => `<tr><td>${esc(f.cabin_category || f.cabin_class)}${f.cabin_category && f.cabin_class && f.cabin_class !== f.cabin_category ? ' <small style="color:var(--ink-soft)">(' + esc(f.cabin_class) + ')</small>' : ''}</td><td class="${f.available === false || f.price_amount == null ? 'na' : ''}">${f.available === false ? 'Not available' : f.price_amount == null ? 'Ask us' : money(f.price_amount, f.price_currency)}</td></tr>`).join('')}</table></div></div>` : ''}`;
     // quote form

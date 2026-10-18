@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Fleet | The Chill Compass</title>
+<title>Our Ships | The Chill Compass</title>
 <meta name="description" content="Meet the Margaritaville at Sea fleet: Paradise, Islander and Beachcomber ship details, photos, deck plans and every stateroom type.">
-<link rel="canonical" href="https://thechillcompass.com/fleet">
+<link rel="canonical" href="https://thechillcompass.com/ships">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Chill Compass">
-<meta property="og:title" content="The Fleet | The Chill Compass">
+<meta property="og:title" content="Our Ships | The Chill Compass">
 <meta property="og:description" content="Meet the Margaritaville at Sea fleet: Paradise, Islander and Beachcomber ship details, photos, deck plans and every stateroom type.">
-<meta property="og:url" content="https://thechillcompass.com/fleet">
+<meta property="og:url" content="https://thechillcompass.com/ships">
 <meta property="og:image" content="https://thechillcompass.com/assets/img/share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -34,7 +34,8 @@
     <li><a href="/">Home</a></li>
     <li><a href="/cruise-reviews">Cruise Reviews</a></li>
     <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/fleet">Fleet</a></li>
+    <li><a href="/ships">Ships</a></li>
+    <li><a href="/onboard">Today on Board</a></li>
     <li><a href="/sailings">Sailings</a></li>
     <li><a href="/port-guides">Port Guides</a></li>
     <li><a href="/deals">Deals</a></li>
@@ -45,7 +46,7 @@
     <li><a href="/faq">FAQ</a></li>
   </ul></nav>
 </div></div>
-<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🚢 The Fleet</div><h1>Meet the Margaritaville at Sea ships</h1><p>Pick a ship to explore it: ship details and highlights, photos, deck plans, and every stateroom and suite type on one page.</p></div>
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🚢 Our Ships</div><h1>Meet the Margaritaville at Sea ships</h1><p>Pick a ship to explore it: ship details and highlights, photos, deck plans, and every stateroom and suite type on one page.</p></div>
 <div class="ship-cards" id="shipCards"><div class="loading">Loading ships…</div></div></main><aside class="side"><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb" style="text-align:center">
@@ -74,7 +75,7 @@
       </div>
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-        <li><a href="/fleet">The Fleet: Ships, Deck Plans &amp; Rooms</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
         <li><a href="/extra-packages">Extra Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
@@ -150,7 +151,7 @@ document.addEventListener('cc:ready', async () => {
   const count = s => (rooms || []).filter(r => r.ship === s).length;
   document.getElementById('shipCards').innerHTML = (ships || []).map(s => {
     const facts = [s.guests && '👥 ' + s.guests, s.tonnage && '⚓ ' + s.tonnage].filter(Boolean).map(f => `<span>${esc(f)}</span>`).join('');
-    return `<a class="ship-card" href="/fleet/${SHIPS[s.name].slug}">
+    return `<a class="ship-card" href="/ships/${SHIPS[s.name].slug}">
       <div class="sc-img ship-${SHIPS[s.name].slug}" style="${s.hero_url ? `background-image:url('${esc(s.hero_url)}')` : ''}">${s.hero_url ? '' : `<span class="wm">${SHIPS[s.name].emoji}</span>`}</div>
       <div class="sc-body"><div class="eyebrow">${esc(s.tagline || '')}</div><h2>${esc(s.name)}</h2>
         <p>📍 ${esc(s.homeport || '')}</p>${facts ? `<div class="rc-chips">${facts}</div>` : ''}
