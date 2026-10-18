@@ -52,6 +52,7 @@
 .g-port ul{margin:0 0 8px;padding-left:18px}.g-port li{margin:3px 0}
 .g-port .gtk{background:#fff7df;border-radius:10px;padding:8px 10px;font-size:14px}
 .g-port .when{font-size:13px;font-weight:700;color:#0B3954;margin:0 0 6px}
+.g-port .p-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.g-port .p-tabs .soon{opacity:.6;cursor:default}
 .g-cta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
 .g-cta a{display:block;text-decoration:none;color:#0B3954;background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px}
 .g-cta a b{display:block;font-size:16px;margin-bottom:2px}.g-cta a span{font-size:13.5px;color:var(--ink-soft)}
@@ -241,12 +242,18 @@ document.addEventListener('cc:ready', async () => {
       return `<li class="${x.is_sea_day ? 'sea' : ''}"><span class="n">${esc(n)}</span><div><b>${esc(lbl)}</b><small>${esc(fmt(x.date, { weekday: 'short', month: 'short', day: 'numeric' }))}${t ? ' · ' + esc(t) : ''}${x.tender ? ' · tender port' : ''}</small></div></li>`;
     }).join('');
     const hi = (sh.highlights || []).filter(Boolean).slice(0, 5);
+    // Printable port-of-call guides live (locked to crew members) on /port-guides. Add a port here as each guide is finished, e.g. cozumel: true
+    const PORT_GUIDES = {};
+    const EXC_URL = 'https://www.shoreexcursionsgroup.com/?id=2033842&data=samanthap@cruisestoursandtravel.com';
+    const portTabs = (label, slug) => `<div class="p-tabs g-noprint"><a class="btn btn-sm btn-navy" href="${EXC_URL}" target="_blank" rel="noopener">🏝️ Excursions</a>${slug && PORT_GUIDES[slug]
+      ? `<a class="btn btn-sm btn-ghost" href="/port-guides#guide-${esc(slug)}">📖 ${esc(label)} Guide</a>`
+      : `<span class="btn btn-sm btn-ghost soon" title="Coming soon">📖 ${esc(label)} Guide · soon</span>`}</div>`;
     const portCards = uniqStops.map((name, i) => {
       const p = findPort(ports, name), day = stops.find(x => x.port === name);
       const when = day ? fmt(day.date, { weekday: 'long', month: 'short', day: 'numeric' }) + (day.arrive || day.depart ? ' · ' + [day.arrive, day.depart].filter(Boolean).join(' – ') : '') : '';
-      if (!p) return `<div class="g-card g-port"><h3>${esc(name)}</h3>${when ? `<p class="when">${esc(when)}</p>` : ''}<p class="tl">Port guide coming soon.</p></div>`;
+      if (!p) return `<div class="g-card g-port"><h3>${esc(name)}</h3>${when ? `<p class="when">${esc(when)}</p>` : ''}<p class="tl">Port guide coming soon.</p>${portTabs(name, '')}</div>`;
       return `<div class="g-card g-port"><h3>${esc(p.name)}</h3>${when ? `<p class="when">📅 ${esc(when)}</p>` : ''}${p.tagline ? `<p class="tl">${esc(p.tagline)}</p>` : ''}
-        ${(p.highlights || []).length ? `<ul>${p.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${p.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(p.good_to_know)}</div>` : ''}</div>`;
+        ${(p.highlights || []).length ? `<ul>${p.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${p.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(p.good_to_know)}</div>` : ''}${portTabs(p.name, p.slug)}</div>`;
     }).join('');
     const homeCard = home ? `<div class="g-card g-port"><h3>⚓ Sailing from ${esc(home.name)}</h3>${home.tagline ? `<p class="tl">${esc(home.tagline)}</p>` : ''}${(home.highlights || []).length ? `<ul>${home.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${home.good_to_know ? `<div class="gtk"><b>Good to know:</b> ${esc(home.good_to_know)}</div>` : ''}</div>` : '';
     const quoteUrl = '/sailing?' + new URLSearchParams({ ship: c.ship_name || '', date: c.departure_date, id: c.sailing_id || c.id || '' });
