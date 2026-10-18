@@ -371,7 +371,7 @@ function wireDropdowns() {
   };
   const fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   dock.querySelectorAll('.dd-btn').forEach(btn => {
-    btn.addEventListener('click', e => { if (fine) return; e.preventDefault(); if (openBtn === btn) close(); else open(btn); });
+    btn.addEventListener('click', e => { if (fine && btn.getAttribute('href') !== '#') return; e.preventDefault(); if (openBtn === btn) close(); else open(btn); });
     btn.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); open(btn); const f = panel && panel.querySelector('a'); if (f) f.focus(); } });
     if (fine) {
       btn.addEventListener('mouseenter', () => { clearTimeout(hoverT); open(btn); });
