@@ -36,7 +36,9 @@
 .ob-ships button{font:inherit;font-weight:800;font-size:16px;padding:14px 8px;border-radius:14px;border:2px solid var(--line);background:#fff;color:#0B3954;cursor:pointer}
 .ob-ships button.on{background:var(--sun);border-color:var(--sun)}
 .ob-box{background:#fff;border-radius:18px;padding:18px;box-shadow:0 1px 0 var(--line),0 8px 22px rgba(11,57,84,.07);margin-bottom:16px}
-.ob-main{display:block;text-align:center;background:var(--coral,#f26b5b);color:#fff;text-decoration:none;font-weight:800;font-size:19px;padding:18px 14px;border-radius:16px}
+.ob-main{display:block;text-align:center;background:var(--coral,#f26b5b);color:#fff;font-weight:800;font-size:20px;padding:14px;border-radius:16px}
+.ob-grid a.ob-sched{background:var(--sun);border-color:var(--sun);box-shadow:0 4px 12px rgba(255,201,60,.45)}
+.ob-grid a.ob-sched small{display:block;color:#0B3954;opacity:.8}
 .ob-main small{display:block;font-size:14px;font-weight:700;opacity:.92;margin-top:4px}
 .ob-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
 .ob-grid a{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:#0B3954}
@@ -196,8 +198,9 @@ document.addEventListener('cc:ready', async () => {
     if (!d || (!d.schedule && !(d.items || []).length)) {
       box.innerHTML = `<p style="margin:0">We couldn't find today's schedule for ${NAMES[slug]}. ${slug === 'beachcomber' ? 'Beachcomber starts sailing in January 2027.' : 'Please try again in a moment, or check the Guest Services desk.'}</p>`; return;
     }
-    const main = d.schedule ? `<a class="ob-main" href="${e(d.schedule.url)}" target="_blank" rel="noopener">📋 Today's Cruise News &amp; Schedule<small>${e(d.schedule.label)}</small></a>` : '';
-    const more = (d.items || []).map(i => `<a href="${e(i.url)}" target="_blank" rel="noopener"><span>${ICON[i.kind] || '📄'}</span><span><b>${e(i.title)}</b>${i.detail ? `<small style="color:var(--ink-soft)">${e(i.detail)}</small>` : ''}</span></a>`).join('');
+    const main = d.schedule ? `<div class="ob-main">📍 ${e(d.schedule.label)}</div>` : '';
+    const sched = d.schedule ? `<a class="ob-sched" href="${e(d.schedule.url)}" target="_blank" rel="noopener"><span>📋</span><span><b>Today's Cruise News &amp; Schedule</b><small>Tap to open today's schedule</small></span></a>` : '';
+    const more = sched + (d.items || []).map(i => `<a href="${e(i.url)}" target="_blank" rel="noopener"><span>${ICON[i.kind] || '📄'}</span><span><b>${e(i.title)}</b>${i.detail ? `<small style="color:var(--ink-soft)">${e(i.detail)}</small>` : ''}</span></a>`).join('');
     box.innerHTML = main + (more ? `<div class="ob-grid">${more}</div>` : '') + `<p class="fine" style="margin:12px 0 0">Schedules are published by Margaritaville at Sea and open as PDFs. <a class="link" href="/ships/${slug}">More about ${NAMES[slug]} →</a></p>`;
   }
   btns.forEach(b => b.onclick = () => show(b.dataset.s));
