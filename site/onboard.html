@@ -41,7 +41,9 @@
 .ob-grid a.ob-sched small{display:block;color:#0B3954;opacity:.8}
 .ob-main small{display:block;font-size:14px;font-weight:700;opacity:.92;margin-top:4px}
 .ob-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-.ob-grid a{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:#0B3954}
+.ob-grid a{display:flex;gap:10px;align-items:center;padding:12px 30px 12px 12px;border:1.5px solid #e3d6bd;border-radius:14px;background:#fff;text-decoration:none;color:#0B3954;position:relative;box-shadow:0 2px 6px rgba(11,57,84,.06)}
+.ob-grid a::after{content:"›";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:24px;font-weight:700;opacity:.55}
+.ob-grid a:hover{border-color:#0B3954}
 .ob-grid a span:first-child{font-size:24px}.ob-grid b{display:block}
 .ob-tips{background:#fff7df;border-radius:16px;padding:14px 16px;margin-bottom:16px}
 .ob-tips h2{font-size:17px;margin:0 0 6px}.ob-tips ul{margin:0;padding-left:18px}.ob-tips li{margin:4px 0}
