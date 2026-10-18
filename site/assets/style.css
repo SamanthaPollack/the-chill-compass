@@ -441,3 +441,14 @@ footer.site a:hover{color:var(--sun)}
 .band .btn{white-space:nowrap}
 .wed-grid .wed-card .feat{grid-template-columns:1fr!important}
 .article img{max-width:100%;display:block;margin:0 auto}
+
+/* Grouped main menu with drop-downs (panel is placed on the dock so the scrolling nav never clips it) */
+.dock{overflow:visible}
+.dock .dd-btn .car{font-size:.8em;opacity:.7;margin-left:2px}
+.dock nav a.dd-btn[aria-expanded="true"]{background:#fff}
+.dock nav a.nav-hot{background:var(--sun);color:var(--navy);font-weight:600}
+.dock nav a.nav-hot.on{background:var(--navy);color:#fff}
+.dd-panel{position:absolute;z-index:40;min-width:220px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 12px 32px rgba(11,57,84,.18),0 1px 0 var(--line);font-family:Fredoka,sans-serif}
+.dd-panel a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--navy);font-size:16px;white-space:nowrap}
+.dd-panel a:hover,.dd-panel a:focus{background:#fff4e0;outline:none}
+.dd-panel a.on{background:var(--navy);color:#fff}

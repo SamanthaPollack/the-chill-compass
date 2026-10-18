@@ -349,12 +349,49 @@ function wirePopup() {
   document.addEventListener('mouseout', e => { if (!e.relatedTarget && e.clientY < 10) show(); });
 }
 
+function wireDropdowns() {
+  const dock = document.querySelector('.dock'); if (!dock) return;
+  const path = location.pathname.replace(/\/$/, '') || '/';
+  let panel = null, openBtn = null, hoverT = null;
+  const close = () => { if (panel) panel.remove(); panel = null; if (openBtn) openBtn.setAttribute('aria-expanded', 'false'); openBtn = null; };
+  const open = btn => {
+    if (openBtn === btn) return; close();
+    const menu = btn.parentElement.querySelector('.dd-menu'); if (!menu) return;
+    panel = document.createElement('div'); panel.className = 'dd-panel'; panel.setAttribute('role', 'menu');
+    panel.innerHTML = menu.innerHTML;
+    panel.querySelectorAll('a').forEach(a => { a.setAttribute('role', 'menuitem'); if (a.getAttribute('href') === path) a.classList.add('on'); });
+    dock.appendChild(panel);
+    const d = dock.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    let left = b.left - d.left; const maxLeft = d.width - panel.offsetWidth - 8;
+    panel.style.left = Math.max(8, Math.min(left, maxLeft)) + 'px';
+    panel.style.top = (b.bottom - d.top + 6) + 'px';
+    btn.setAttribute('aria-expanded', 'true'); openBtn = btn;
+    panel.addEventListener('mouseenter', () => clearTimeout(hoverT));
+    panel.addEventListener('mouseleave', () => { hoverT = setTimeout(close, 250); });
+  };
+  const fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  dock.querySelectorAll('.dd-btn').forEach(btn => {
+    btn.addEventListener('click', e => { if (fine) return; e.preventDefault(); if (openBtn === btn) close(); else open(btn); });
+    btn.addEventListener('keydown', e => { if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); open(btn); const f = panel && panel.querySelector('a'); if (f) f.focus(); } });
+    if (fine) {
+      btn.addEventListener('mouseenter', () => { clearTimeout(hoverT); open(btn); });
+      btn.addEventListener('mouseleave', () => { hoverT = setTimeout(close, 250); });
+    }
+  });
+  document.addEventListener('click', e => { if (panel && !panel.contains(e.target) && !(openBtn && openBtn.contains(e.target))) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel) { const b = openBtn; close(); if (b) b.focus(); } });
+  const nav = dock.querySelector('nav'); if (nav) nav.addEventListener('scroll', close, { passive: true });
+  window.addEventListener('resize', close);
+}
+
 function wireNav() {
   const path = location.pathname.replace(/\/$/, '') || '/';
-  document.querySelectorAll('.dock nav a').forEach(a => {
-    const href = a.getAttribute('href');
-    if (href === path || (href !== '/' && path.startsWith(href + '/'))) a.classList.add('on');
+  const match = href => href === path || (href !== '/' && path.startsWith(href + '/'));
+  document.querySelectorAll('.dock nav > ul > li > a:not(.dd-btn)').forEach(a => { if (match(a.getAttribute('href'))) a.classList.add('on'); });
+  document.querySelectorAll('.dock nav li.dd').forEach(li => {
+    if ([...li.querySelectorAll('.dd-menu a')].some(a => match(a.getAttribute('href')))) li.querySelector('.dd-btn').classList.add('on');
   });
+  wireDropdowns();
   const dock = document.querySelector('.dock');
   if (dock && 'IntersectionObserver' in window) {
     const m = document.querySelector('.masthead');

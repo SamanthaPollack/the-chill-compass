@@ -46,17 +46,13 @@ def header(tall=False):
   <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
   <nav aria-label="Main"><ul>
     <li><a href="/">Home</a></li>
-    <li><a href="/cruise-reviews">Cruise Reviews</a></li>
-    <li><a href="/extra-packages">Extra Packages</a></li>
-    <li><a href="/ships">Ships</a></li>
-    <li><a href="/onboard">Today on Board</a></li>
-    <li><a href="/port-guides">Port Guides</a></li>
+    <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
+    <li class="dd"><a href="/sailings" class="dd-btn" aria-haspopup="true" aria-expanded="false">Plan Your Cruise <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/sailings">🛳️ Sailings &amp; Cruise Guides</a><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a></div></li>
     <li><a href="/deals">Deals</a></li>
-    <li><a href="/newsletter">Newsletter</a></li>
-    <li><a href="/weddings">Weddings</a></li>
     <li><a href="/events">Events</a></li>
+    <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/port-guides">🗺️ Port Guides</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
     <li><a href="/rollcalls">Roll Calls</a></li>
-    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/onboard" class="nav-hot">📋 Today on Board</a></li>
   </ul></nav>
 </div></div>
 '''
