@@ -140,6 +140,10 @@ function setAuthMode(mode) {
   m.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.m === mode));
   m.querySelectorAll('.only-up').forEach(e => { e.style.display = mode === 'up' ? 'block' : 'none'; e.querySelector('input') && (e.querySelector('input').required = mode === 'up'); });
   document.getElementById('authGo').textContent = mode === 'up' ? 'Create My Account' : 'Sign In';
+  const idIn = document.getElementById('aEmail'), idLbl = m.querySelector('label[for=aEmail]');
+  if (idIn) { idIn.type = mode === 'up' ? 'email' : 'text'; idIn.autocomplete = mode === 'up' ? 'email' : 'username'; idIn.placeholder = mode === 'up' ? '' : 'Your username or email'; }
+  if (idLbl) idLbl.textContent = mode === 'up' ? 'Email' : 'Username or email';
+  const pw = document.getElementById('aPass'); if (pw) pw.autocomplete = mode === 'up' ? 'new-password' : 'current-password';
   document.getElementById('authErr').style.display = 'none';
 }
 function wireAuth() {
@@ -149,7 +153,7 @@ function wireAuth() {
   m.querySelectorAll('.seg button').forEach(b => b.onclick = () => setAuthMode(b.dataset.m));
   document.getElementById('authForget').onclick = async () => {
     const email = document.getElementById('aEmail').value.trim();
-    if (!email) return showAuthErr('Type your email above first, then click "Forgot password?" again.');
+    if (!email || !email.includes('@')) return showAuthErr('Type your email address above (not your username), then click "Forgot password?" again.');
     await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + '/account' });
     document.getElementById('authMsg').innerHTML = '<div class="notice">📬 If that email has an account, a reset link is on its way.</div>';
   };
@@ -174,9 +178,16 @@ function wireAuth() {
         e.target.reset(); setAuthMode('in'); return;
       }
     } else {
-      res = await sb.auth.signInWithPassword({ email, password });
+      let loginEmail = email;
+      if (!email.includes('@')) {
+        const { data: found, error: le } = await sb.rpc('email_for_username_login', { u: email, p: password });
+        if (le) { b.disabled = false; return showAuthErr(/too many/i.test(le.message || '') ? 'Too many tries. Please wait 15 minutes, or use "Forgot password?" with your email.' : 'Please sign in with your email address for now.'); }
+        if (!found) { b.disabled = false; return showAuthErr('Username or password is incorrect.'); }
+        loginEmail = found;
+      }
+      res = await sb.auth.signInWithPassword({ email: loginEmail, password });
       b.disabled = false;
-      if (res.error) return showAuthErr(/confirm/i.test(res.error.message) ? 'Please confirm your email first (check your inbox).' : 'Email or password is incorrect.');
+      if (res.error) return showAuthErr(/confirm/i.test(res.error.message) ? 'Please confirm your email first (check your inbox).' : 'Username/email or password is incorrect.');
     }
     m.classList.remove('show');
     await loadMe(); renderTopbarUser();
@@ -415,5 +426,15 @@ function wireNav() {
 document.addEventListener('DOMContentLoaded', async () => {
   wireNav(); wireSignups(); wirePopup(); renderAds(); wireQuote(); wireAuth();
   await loadMe(); renderTopbarUser();
+  openInviteFromLink();
   document.dispatchEvent(new CustomEvent('cc:ready'));
 });
+function openInviteFromLink() {
+  const q = new URLSearchParams(location.search); if (q.get('join') !== '1') return;
+  history.replaceState(null, '', location.pathname + location.hash);
+  if (ME || !document.getElementById('authModal')) return;
+  openAuth('up', '🎉 Welcome back to the crew! Choose a password below to finish setting up your account.');
+  const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+  set('aEmail', q.get('email')); set('aFirst', q.get('first')); set('aLast', q.get('last')); set('aName', q.get('u'));
+  const pw = document.getElementById('aPass'); if (pw) setTimeout(() => pw.focus(), 50);
+}
