@@ -226,7 +226,7 @@ def blog_page(fname, cat, path, desc):
         ('<section class="sec"><div id="lead"></div></section>' if is_home else '') +
         '<div class="chips" id="chips"></div><div class="rows" id="list"><div class="loading">Loading posts…</div></div>' +
         f'<div class="ad-slot" data-slot="{"home-mid" if is_home else "blog-bottom"}"></div>' +
-        ('''<section class="sec"><div class="band"><div class="e">📝</div><div><h3>Got a Margaritaville at Sea story?</h3>
+        ('''<section class="sec"><div class="band"><div class="e">📝</div><div><h3>Got a Margaritaville at Sea story, review, photos or tips?</h3>
   <p>Send your trip report, tips or photos to <a href="mailto:admin@thechillcompass.com?subject=Blog%20Submission">admin@thechillcompass.com</a> and you could be featured.</p></div>
   <a href="/write-for-us" class="btn btn-sun">How to Submit</a></div></section>''' if is_home else ''))
     js = '''<script>
