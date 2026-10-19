@@ -454,3 +454,14 @@ footer.site a:hover{color:var(--sun)}
 .dd-panel a.on{background:var(--navy);color:#fff}
 .dock nav a.nav-orange{background:#FF8C1A;color:#fff;font-weight:600}
 .dock nav a.nav-orange:hover{background:#E67600;color:#fff}
+
+/* Home sidebar: Your Cruise box with two big tiles */
+.ct-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ct-tile{aspect-ratio:1/1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;padding:12px;text-decoration:none;font-family:Fredoka,sans-serif;transition:transform .15s,box-shadow .15s}
+.ct-tile:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(11,57,84,.18)}
+.ct-tile .i{font-size:34px;line-height:1}
+.ct-tile b{font-size:17px;line-height:1.15}
+.ct-tile small{font-family:Nunito,sans-serif;font-size:12.5px;opacity:.9;line-height:1.25}
+.ct-onboard{background:var(--sun);color:var(--navy)}
+.ct-res{background:#FF8C1A;color:#fff}
+.ct-res:hover{background:#E67600}
