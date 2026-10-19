@@ -438,3 +438,52 @@ function openInviteFromLink() {
   set('aEmail', q.get('email')); set('aFirst', q.get('first')); set('aLast', q.get('last')); set('aName', q.get('u'));
   const pw = document.getElementById('aPass'); if (pw) setTimeout(() => pw.focus(), 50);
 }
+
+/* ---------- Group cruise "Get More Information" form ----------
+   Any link to /sailings?topic=<key>#quote whose <key> is listed here opens this pop-up form instead,
+   with the group details filled in. Requests save to Quotes (and email Samantha like other quotes). */
+const GROUP_INFO = {
+  'islander-oct-2027': { title: 'Islander 7-Night Jamaica & Western Caribbean Group Cruise', ship: 'Islander', dates: 'October 30 – November 6, 2027', depart: '2027-10-30',
+    from: 'Tampa (round trip)', ports: 'Cozumel · Grand Cayman · Montego Bay',
+    rooms: [['Cozy Interior', '$1,277.30'], ['Picturesque Oceanview', '$1,429.30'], ['Breezy Balcony', '$1,904.30'], ['Grand Terrace Suite', '$3,276.30']],
+    note: 'Totals are per stateroom for 2 guests, including port fees, taxes and gratuities, plus a $50 onboard credit.' }
+};
+function groupKeyFromHref(href) { try { const u = new URL(href, location.origin); if (u.pathname !== '/sailings') return null; const k = u.searchParams.get('topic'); return k && GROUP_INFO[k] ? k : null; } catch (e) { return null; } }
+function openGroupForm(key) {
+  const G = GROUP_INFO[key]; if (!G) return;
+  let m = document.getElementById('grpModal');
+  if (!m) { document.body.insertAdjacentHTML('beforeend', '<div class="modal" id="grpModal" role="dialog" aria-modal="true" aria-label="Get more information"><div class="box" style="max-width:540px"><button class="x" type="button" aria-label="Close">×</button><div id="grpBody"></div></div></div>');
+    m = document.getElementById('grpModal'); m.querySelector('.x').onclick = () => m.classList.remove('show'); m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); }); }
+  const opt = n => Array.from({ length: n }, (_, i) => i + 1);
+  document.getElementById('grpBody').innerHTML = `<h2 style="margin:0 0 4px">🎉 Get More Information</h2>
+    <div style="background:var(--sand,#FFF4E0);border-radius:12px;padding:10px 12px;margin:8px 0 12px;font-size:14.5px;line-height:1.45">
+      <b>${esc(G.title)}</b><br>🛳️ ${esc(G.ship)} · 📅 ${esc(G.dates)}<br>📍 ${esc(G.from)} · 🏝️ ${esc(G.ports)}</div>
+    <form class="qf" id="grpForm">
+      <div class="full"><label for="g_room">Stateroom type</label><select id="g_room" name="stateroom">${G.rooms.map(r => `<option value="${esc(r[0])}">${esc(r[0])} (${esc(r[1])} for 2)</option>`).join('')}<option value="Not sure yet">Not sure yet</option></select></div>
+      <div><label for="g_cabins">Staterooms</label><select id="g_cabins" name="cabins">${opt(6).map(n => `<option>${n}</option>`).join('')}</select></div>
+      <div><label for="g_ad">Adults (total)</label><select id="g_ad" name="adults">${opt(12).map(n => `<option${n === 2 ? ' selected' : ''}>${n}</option>`).join('')}</select></div>
+      <div><label for="g_ch">Kids (total)</label><select id="g_ch" name="children">${[0, ...opt(8)].map(n => `<option>${n}</option>`).join('')}</select></div>
+      <div><label for="g_pref">Best way to reach you</label><select id="g_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
+      <div class="full"><label for="g_name">Your name</label><input id="g_name" name="name" required maxlength="140" autocomplete="name"></div>
+      <div><label for="g_email">Email</label><input id="g_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
+      <div><label for="g_phone">Phone</label><input id="g_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
+      <div class="full"><label for="g_notes">Questions or special requests</label><textarea id="g_notes" name="notes" rows="2" maxlength="1500" placeholder="Celebrating something? Traveling with friends? Need a room near someone?"></textarea></div>
+      <div class="full"><button class="btn btn-coral" type="submit">Send My Request</button></div>
+    </form>
+    <p class="err" id="grpErr" style="display:none"></p>
+    <div class="qf-done" id="grpDone"><div class="e">🎉</div><h3>Request received!</h3><p>Thanks! We'll be in touch soon with availability and next steps for this group cruise. 🍹</p></div>
+    <p class="qf-fine">${esc(G.note)} Requests go to Cruises Tours and Travel, LLC · FL ST150140</p>`;
+  if (typeof ME !== 'undefined' && ME) { const nm = [ME.first_name, ME.last_name].filter(Boolean).join(' '); if (nm) document.getElementById('g_name').value = nm; if (ME.email) document.getElementById('g_email').value = ME.email; }
+  document.getElementById('grpForm').addEventListener('submit', async e => {
+    e.preventDefault(); const f = e.target, g = n => (f.elements[n].value || '').trim(), b = f.querySelector('button'), err = document.getElementById('grpErr');
+    err.style.display = 'none'; b.disabled = true;
+    const notes = `GROUP INFO REQUEST: ${G.title}, ${G.dates} (${G.ship} from ${G.from}).\nStaterooms wanted: ${g('cabins')} × ${g('stateroom')}.` + (g('notes') ? '\n' + g('notes') : '');
+    const { error } = await sb.from('quotes').insert({ name: g('name'), email: g('email'), phone: g('phone') || null, state: null, contact_pref: g('contact_pref') || null,
+      ship: G.ship, sail_date: G.depart, stateroom: g('stateroom'), adults: parseInt(g('adults') || '2', 10), children: parseInt(g('children') || '0', 10), notes: notes.slice(0, 2900), source: location.pathname + ' (group form)' });
+    b.disabled = false;
+    if (error) { err.textContent = 'Sorry, that didn\'t go through. Please check your email address and try again.'; err.style.display = 'block'; return; }
+    f.style.display = 'none'; document.getElementById('grpDone').style.display = 'block';
+  });
+  m.classList.add('show'); setTimeout(() => document.getElementById('g_room').focus(), 50);
+}
+document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('a[href]'); if (!a) return; const k = groupKeyFromHref(a.getAttribute('href')); if (!k) return; e.preventDefault(); openGroupForm(k); });
