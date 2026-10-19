@@ -242,10 +242,10 @@ document.addEventListener('cc:ready', async () => {
     }).join('');
     const hi = (sh.highlights || []).filter(Boolean).slice(0, 5);
     // Printable port-of-call guides live (locked to crew members) on /port-guides. Add a port here as each guide is finished, e.g. cozumel: true
-    const PORT_GUIDES = { cozumel: true, 'key-west': true };
+    const PORT_GUIDES = { cozumel: true, 'key-west': true, oranjestad: true, kralendijk: true, 'puerto-plata': true, 'amber-cove': 'puerto-plata' };
     const EXC_URL = 'https://www.shoreexcursionsgroup.com/?id=2033842&data=samanthap@cruisestoursandtravel.com';
     const portTabs = (label, slug) => (label = String(label || '').split(',')[0].trim(), `<div class="p-tabs g-noprint"><a class="btn btn-sm btn-navy" href="${EXC_URL}" target="_blank" rel="noopener">🏝️ Excursions</a>${slug && PORT_GUIDES[slug]
-      ? `<a class="btn btn-sm btn-ghost" href="/port-guides#guide-${esc(slug)}">📖 ${esc(label)} Guide</a>`
+      ? `<a class="btn btn-sm btn-ghost" href="/port-guides#guide-${esc(PORT_GUIDES[slug] === true ? slug : PORT_GUIDES[slug])}">📖 ${esc(label)} Guide</a>`
       : `<span class="btn btn-sm btn-ghost soon" title="Coming soon">📖 ${esc(label)} Guide · soon</span>`}</div>`);
     const portCards = uniqStops.map((name, i) => {
       const p = findPort(ports, name), day = stops.find(x => x.port === name);
