@@ -465,3 +465,9 @@ footer.site a:hover{color:var(--sun)}
 .ct-onboard{background:var(--sun);color:var(--navy)}
 .ct-res{background:#FF8C1A;color:#fff}
 .ct-res:hover{background:#E67600}
+
+/* Menu drop-down tabs: small orange arrow that stays on the same line */
+.dock nav a{white-space:nowrap}
+.dock .dd-btn .car{display:inline-block;color:#FF8C1A;opacity:1;font-size:.62em;margin-left:3px;vertical-align:middle;transform:translateY(-1px);transition:transform .15s}
+.dock nav a.dd-btn[aria-expanded="true"] .car{transform:translateY(-1px) rotate(180deg)}
+.dock nav a.on .car{color:var(--sun)}
