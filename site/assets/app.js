@@ -115,6 +115,7 @@ async function loadMe() {
   if (!session) { ME = null; return null; }
   const { data } = await sb.from('profiles').select('display_name,hometown,banned').eq('id', session.user.id).maybeSingle();
   ME = { id: session.user.id, email: session.user.email, ...(data || { display_name: session.user.email.split('@')[0] }) };
+  try { store('cc_subscribed', '1'); } catch (e) {}
   try { const { data: md } = await sb.from('member_details').select('first_name,last_name').eq('id', session.user.id).maybeSingle();
     const um = session.user.user_metadata || {};
     ME.first_name = md?.first_name ?? um.first_name ?? ''; ME.last_name = md?.last_name ?? um.last_name ?? ''; } catch (e) {}
@@ -300,37 +301,49 @@ function renderAds() {
   });
 }
 
-/* Newsletter signup – any form with class js-signup */
+/* Join the Crew – any form with class js-signup: creates a member account (with password) and adds them to the subscriber list */
 function wireSignups() {
   document.querySelectorAll('form.js-signup').forEach(form => {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const btn = form.querySelector('button');
-      const email = form.querySelector('[name=email]').value.trim();
       const val = n => (form.querySelector('[name=' + n + ']') || {}).value?.trim() || null;
-      const first = val('first_name'), last = val('last_name'), username = val('username');
+      const email = (val('email') || '').toLowerCase(), first = val('first_name'), last = val('last_name'), username = val('username');
+      const password = (form.querySelector('[name=password]') || {}).value || '';
       const err = form.parentElement.querySelector('.err');
-      const say = t => { if (err) { err.textContent = t; err.style.display = 'block'; } };
+      const say = (t, html) => { if (err) { err[html ? 'innerHTML' : 'textContent'] = t; err.style.display = 'block'; if (html) wireOpenSignin(form); } };
       if (err) err.style.display = 'none';
       if (form.querySelector('[name=last_name]') && (!first || !last)) return say('Please enter your first and last name.');
       if (form.querySelector('[name=username]') && !USERNAME_RE.test(username || '')) return say('Usernames are 3–20 letters, numbers, periods or underscores, no spaces.');
+      if (form.querySelector('[name=password]') && password.length < 8) return say('Please create a password with at least 8 characters.');
       btn.disabled = true;
-      let { error } = await sb.from('subscribers').insert({ email, first_name: first, last_name: last, username, source: form.dataset.source || location.pathname });
-      if (error && /last_name|username/.test(error.message || '') && error.code !== '23505')  // database not updated yet: save the basics
-        ({ error } = await sb.from('subscribers').insert({ email, first_name: [first, last].filter(Boolean).join(' ') || null, source: form.dataset.source || location.pathname }));
+      try {
+        if (username) { const { data: free, error: ue } = await sb.rpc('username_available', { u: username });
+          if (!ue && free === false) { btn.disabled = false; return say('That username is taken. Try another.'); } }
+      } catch (x) {}
+      // subscriber list first (keeps where they signed up); a duplicate email is fine
+      const { error: subErr } = await sb.from('subscribers').insert({ email, first_name: first, last_name: last, username, source: form.dataset.source || location.pathname });
+      if (subErr && subErr.code === '23505' && /username/i.test(subErr.message + ' ' + (subErr.details || ''))) { btn.disabled = false; return say('That username is taken. Try another.'); }
+      let confirmNote = '';
+      if (form.querySelector('[name=password]')) {
+        const res = await sb.auth.signUp({ email, password, options: { data: { display_name: username || '', first_name: first || '', last_name: last || '' }, emailRedirectTo: location.origin + location.pathname } });
+        if (res.error) { btn.disabled = false; return say(/already|registered/i.test(res.error.message) ? 'You already have an account with that email. <button type="button" class="link js-open-signin">Sign in</button>' : res.error.message, /already|registered/i.test(res.error.message)); }
+        if (res.data.user && Array.isArray(res.data.user.identities) && res.data.user.identities.length === 0) {
+          btn.disabled = false;
+          return say('You already have an account with that email. <button type="button" class="link js-open-signin">Sign in</button> or use "Forgot password?" there.', true);
+        }
+        if (res.data.session) { await loadMe(); renderTopbarUser(); document.dispatchEvent(new CustomEvent('cc:auth')); }
+        else confirmNote = '<br><small>📬 Check your email and click the link to confirm your account, then sign in anytime with your username or email.</small>';
+      } else if (subErr && subErr.code !== '23505') { btn.disabled = false; return say('Hmm, something went wrong. Please check your email and try again.'); }
       btn.disabled = false;
-      if (error && error.code === '23505' && /username/i.test(error.message + ' ' + (error.details || ''))) return say('That username is taken. Try another.');
-      if (error && error.code !== '23505') {
-        if (err) { err.textContent = 'Hmm, something went wrong. Please check your email and try again.'; err.style.display = 'block'; }
-        return;
-      }
       store('cc_subscribed', '1');
       form.style.display = 'none';
       const thx = form.parentElement.querySelector('.thanks');
-      if (thx) thx.style.display = 'block';
+      if (thx) { if (confirmNote && !thx.dataset.noted) { thx.insertAdjacentHTML('beforeend', confirmNote); thx.dataset.noted = '1'; } thx.style.display = 'block'; }
     });
   });
 }
+function wireOpenSignin(form) { setTimeout(() => form.parentElement.querySelectorAll('.js-open-signin').forEach(b => b.onclick = () => openAuth('in')), 0); }
 
 /* Gentle popup: after 40s or when leaving, once every 14 days, never for subscribers */
 function wirePopup() {
