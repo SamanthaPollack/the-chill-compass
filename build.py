@@ -48,8 +48,8 @@ def header(tall=False):
     <li><a href="/">Home</a></li>
     <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
     <li><a href="/sailings">Ready to Chill</a></li>
-    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Your Cruise <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/your-cruise">🔎 Find Your Cruise</a><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="https://reservations.margaritavilleatsea.com/cruise-control/guest-portal" target="_blank" rel="noopener">🧾 Manage Your Reservation ↗</a></div></li>
-    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Extras <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a><a href="/heroes-sail-free">⭐ Heroes Sail Free</a><a href="https://www.shoreexcursionsgroup.com/?id=2033842&amp;data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">🏝️ Shore Excursions ↗</a><a href="https://cruisestoursandtravel.com/insurance" target="_blank" rel="noopener">🛡️ Travel Insurance ↗</a><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></div></li>
+    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Your Cruise <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/your-cruise">🔎 Find Your Cruise</a><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/extra-packages">🍹 MAS Packages</a><a href="https://reservations.margaritavilleatsea.com/cruise-control/guest-portal" target="_blank" rel="noopener">🧾 Manage Your Reservation ↗</a></div></li>
+    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Extras <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/weddings">💍 Weddings</a><a href="/heroes-sail-free">⭐ Heroes Sail Free</a><a href="https://www.shoreexcursionsgroup.com/?id=2033842&amp;data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">🏝️ Shore Excursions ↗</a><a href="https://cruisestoursandtravel.com/insurance" target="_blank" rel="noopener">🛡️ Travel Insurance ↗</a><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></div></li>
     <li class="dd"><a href="/calendar" class="dd-btn" aria-haspopup="true" aria-expanded="false">Deals &amp; Events <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/calendar">📅 Calendar</a><a href="/deals">💰 Deals</a><a href="/events">🎉 Events</a></div></li>
     <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
     <li><a href="/port-guides">Cruise &amp; Port Guides</a></li>
@@ -135,7 +135,7 @@ FOOTER = '''<footer class="site">
       <div><h3>Explore</h3><ul>
         <li><a href="/cruise-reviews">Cruise Reviews</a></li>
         <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
-        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/extra-packages">MAS Packages</a></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/rollcalls">Roll Calls</a></li>
         <li><a href="/faq">FAQ</a></li></ul></div>
@@ -413,7 +413,7 @@ def tbl(rows, head=('Package', 'Price (from)', "What you get")):
     return '<div class="tbl-wrap"><table class="tbl"><thead><tr>' + ''.join(f'<th>{h}</th>' for h in head) + '</tr></thead><tbody>' + \
         ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in rows) + '</tbody></table></div>'
 
-pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, decoded',
+pk = title_block('🍹 MAS Packages', 'Drink, dining &amp; Wi-Fi packages, decoded',
     'Here\'s what you can add to your Margaritaville at Sea cruise, what it costs and when it\'s worth it.') + '''
 <div class="notice">Prices below are the cruise line's published "from" prices as of October 2026 and change often, especially with pre-cruise sales. Many packages are cheaper if you buy before you sail.</div>
 
@@ -475,7 +475,7 @@ pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, dec
 </ul>
 
 </div>'''
-page('extra-packages.html', 'Extra Packages', pk, desc='Margaritaville at Sea drink packages, specialty dining, Wi-Fi and add-ons explained, with prices and tips.', path='/extra-packages')
+page('extra-packages.html', 'MAS Packages', pk, desc='Margaritaville at Sea drink packages, specialty dining, Wi-Fi and add-ons explained, with prices and tips.', path='/extra-packages')
 
 # ======================= NEWSLETTER =======================
 nl = title_block('💌 Newsletter', 'Join the Chill Crew!', 'Our free email newsletter is the best way to keep up with The Chill Compass.') + '''
@@ -550,8 +550,8 @@ FAQS = [
   ("Can I bring my own alcohol?", "No outside alcohol is allowed. Bottles you buy in port are held at the gangway and returned at the end of the cruise."),
  ]),
  ('Onboard', [
-  ("Is there Wi-Fi?", "Yes. The \"Coconut Telegraph\" plans start around $19.99 per night, per device for messaging. See our <a href='/extra-packages#wifi'>Extra Packages</a> page."),
-  ("Is the drink package worth it?", "If you'll have about five or more drinks a day, usually yes. Remember that every adult in the stateroom has to buy it if one does. Our <a href='/extra-packages#drinks'>Extra Packages</a> page has the details."),
+  ("Is there Wi-Fi?", "Yes. The \"Coconut Telegraph\" plans start around $19.99 per night, per device for messaging. See our <a href='/extra-packages#wifi'>MAS Packages</a> page."),
+  ("Is the drink package worth it?", "If you'll have about five or more drinks a day, usually yes. Remember that every adult in the stateroom has to buy it if one does. Our <a href='/extra-packages#drinks'>MAS Packages</a> page has the details."),
   ("Where can I smoke?", "Only in designated outdoor areas: Deck 9 next to the License to Chill pool on Paradise, and Deck 10 overlooking the LandShark pool on Islander. Smoking anywhere else can mean fines of up to $500."),
   ("Which ship is right for me?", "Paradise is perfect for quick 2- to 5-night Bahamas and Key West getaways. Islander does 4- to 7-night Western Caribbean trips from Tampa. Beachcomber is the new, biggest ship, sailing longer Caribbean itineraries from Miami in 2027 and then Galveston. Compare them on our <a href='/ships'>Ships</a> page."),
  ]),
@@ -767,7 +767,7 @@ about = title_block('🧭 About Us', 'Hey there, fellow beach bum! 🍹', 'Meet 
   <ul>
     <li><b>⭐ Cruise Reviews:</b> the real deal on Paradise, Islander and Beachcomber</li>
     <li><b>🚢 Fleet:</b> each ship's details, photos, deck plans and every stateroom and suite type</li>
-    <li><b>🍹 Extra Packages:</b> drink, dining and Wi-Fi packages decoded</li>
+    <li><b>🍹 MAS Packages:</b> drink, dining and Wi-Fi packages decoded</li>
     <li><b>🏝️ Port Guides</b>, <b>💸 Deals</b> and <b>🎉 Events</b> worth planning around</li>
     <li><b>🙋 Roll Calls:</b> meet the people sailing on your ship and date</li>
   </ul>
