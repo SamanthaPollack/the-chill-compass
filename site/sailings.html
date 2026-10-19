@@ -24,6 +24,20 @@
 @media(max-width:760px){.sf-grid{grid-template-columns:1fr 1fr}}
 .sf-list{display:grid;gap:14px}
 .sl{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;border-radius:var(--r);padding:18px 20px;box-shadow:0 1px 0 var(--line),0 8px 24px rgba(11,57,84,.06);border-left:6px solid var(--teal)}
+.sl{position:relative;padding-right:56px}
+.sl .heart{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.sl .heart:hover{transform:scale(1.08)}.sl .heart.on{border-color:#ff8fa3;background:#fff0f3}
+.cmp-pill{position:fixed;right:18px;bottom:18px;z-index:60;display:none;align-items:center;gap:8px;background:var(--coral);color:#fff;border:0;border-radius:999px;padding:12px 18px;font:600 16px Fredoka,sans-serif;box-shadow:0 10px 24px rgba(11,57,84,.25);cursor:pointer}
+.cmp-pill.show{display:flex}.cmp-pill .n{background:#fff;color:var(--coral);border-radius:999px;padding:0 8px;font-size:14px}
+#cmpModal .box{max-width:1080px}
+.cmp-wrap{overflow-x:auto;margin-top:12px}
+.cmp{border-collapse:separate;border-spacing:0;min-width:100%;font-size:14.5px}
+.cmp th,.cmp td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;min-width:190px}
+.cmp th:first-child,.cmp td:first-child{min-width:110px;position:sticky;left:0;background:#fff;font:600 13px Fredoka,sans-serif;color:var(--teal-d);text-transform:uppercase;letter-spacing:.04em}
+.cmp thead th{font:600 16px Fredoka,sans-serif;color:var(--navy);text-transform:none;letter-spacing:0}
+.cmp .price{font:700 20px Fredoka,sans-serif;color:var(--navy)}
+.cmp .best{background:#f2fbf3}
+.cmp .rm{border:0;background:none;color:var(--ink-soft);cursor:pointer;font-size:13px;padding:0;text-decoration:underline}
 .sl.paradise{border-left-color:var(--coral)}.sl.islander{border-left-color:var(--teal)}.sl.beachcomber{border-left-color:var(--sun)}
 .sl h3{margin:0 0 4px;font-size:19px}.sl .m{color:var(--ink-soft);font-size:15px;line-height:1.5}
 .sl .pr{text-align:right;min-width:150px}.sl .pr b{display:block;font-family:Fredoka;font-size:22px;color:var(--navy)}.sl .pr small{color:var(--ink-soft)}
@@ -196,12 +210,68 @@ document.addEventListener('cc:ready', async () => {
     p.set('sort', $('s_sort').value);
     return p;
   }
+  /* ---- Saved sailings (hearts) and compare ---- */
+  const SKEY = 'cc_saved_sailings';
+  const saveKey = c => String(c.sailing_id || c.id || (c.ship_name + '|' + String(c.departure_date || '').slice(0, 10)));
+  let SAVED = (() => { try { return JSON.parse(localStorage.getItem(SKEY) || '[]') || []; } catch (e) { return []; } })();
+  const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(SAVED)); } catch (e) {} };
+  function snap(c) {
+    const it = Array.isArray(c.itinerary) ? c.itinerary : [];
+    const stops = [...new Set(it.filter(x => !x.is_sea_day && !x.is_embark && !x.is_disembark && x.port).map(x => x.port))];
+    const v = c.price_amount ?? c.price_from ?? c.lowest_price ?? c.min_price ?? c.price;
+    return { key: saveKey(c), ship_name: c.ship_name || '', title: c.title || '', departure_date: String(c.departure_date || '').slice(0, 10), return_date: String(c.return_date || '').slice(0, 10),
+      nights: c.nights || c.duration_nights || '', embark_port: c.embark_port || '', disembark_port: c.disembark_port || '', stops, sea_days: it.filter(x => x.is_sea_day).length || c.sea_days || 0,
+      price: v == null || v === '' || isNaN(Number(v)) ? null : Number(v), sailing_id: c.sailing_id || c.id || '', saved_at: Date.now() };
+  }
+  function toggleSave(c, btn) {
+    const k = saveKey(c), i = SAVED.findIndex(x => x.key === k);
+    if (i >= 0) SAVED.splice(i, 1);
+    else { if (SAVED.length >= 6) { alertSoft('You can compare up to 6 sailings. Remove one to add another.'); return; } SAVED.push(snap(c)); }
+    persist(); paintHearts(); paintPill();
+  }
+  function alertSoft(t) { const p = $('cmpPill'); const old = p.innerHTML; p.innerHTML = '⚠️ ' + t; p.classList.add('show'); setTimeout(() => { p.innerHTML = old; paintPill(); }, 2600); }
+  function paintHearts() {
+    document.querySelectorAll('#s_list .heart').forEach(b => { const c = rows[+b.dataset.i]; if (!c) return; const on = SAVED.some(x => x.key === saveKey(c));
+      b.classList.toggle('on', on); b.textContent = on ? '❤️' : '🤍'; b.setAttribute('aria-pressed', on); b.title = on ? 'Saved! Tap to remove' : 'Save to compare'; b.setAttribute('aria-label', on ? 'Remove from saved sailings' : 'Save this sailing to compare'); });
+  }
+  function paintPill() { const p = $('cmpPill'); p.innerHTML = `❤️ Compare saved <span class="n">${SAVED.length}</span>`; p.classList.toggle('show', SAVED.length > 0); }
+  function openCompare() {
+    const L = SAVED.slice().sort((a, b) => a.departure_date.localeCompare(b.departure_date));
+    if (!L.length) { $('cmpBody').innerHTML = '<p>No saved sailings yet. Tap the 🤍 on any sailing to save it here.</p>'; $('cmpModal').classList.add('show'); return; }
+    const prices = L.map(x => x.price).filter(v => v != null), lo = prices.length ? Math.min(...prices) : null;
+    const usd = v => v == null ? 'Ask us' : v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const ppn = x => x.price != null && x.nights ? usd(Math.round(x.price / x.nights)) + ' / night' : '–';
+    const row = (label, f, cls) => `<tr><td>${label}</td>${L.map(x => `<td class="${cls ? cls(x) : ''}">${f(x)}</td>`).join('')}</tr>`;
+    $('cmpBody').innerHTML = `<div class="cmp-wrap"><table class="cmp"><thead><tr><th></th>${L.map(x => `<th>${esc(short(x.ship_name) || 'Margaritaville at Sea')}<br><small style="font:400 13px Nunito,sans-serif;color:var(--ink-soft)">${esc(x.title || (x.nights + '-Night Cruise'))}</small></th>`).join('')}</tr></thead><tbody>
+      ${row('Sails', x => esc(fmt(x.departure_date)) + (x.return_date ? '<br><small>to ' + esc(fmt(x.return_date)) + '</small>' : ''))}
+      ${row('Nights', x => esc(x.nights || '–'))}
+      ${row('From', x => esc(x.embark_port || '–') + (x.disembark_port && x.disembark_port !== x.embark_port ? ' → ' + esc(x.disembark_port) : x.embark_port ? ' (round trip)' : ''))}
+      ${row('Ports', x => x.stops.length ? x.stops.map(esc).join('<br>') : '–')}
+      ${row('Sea days', x => esc(x.sea_days || 0))}
+      ${row('Price from', x => `<span class="price">${usd(x.price)}</span><br><small>per person</small>`, x => x.price != null && x.price === lo && L.length > 1 ? 'best' : '')}
+      ${row('Per night', x => ppn(x))}
+      ${row('', x => `<a class="btn btn-sm btn-coral" href="/sailing?${new URLSearchParams({ ship: x.ship_name, date: x.departure_date, id: x.sailing_id })}">Ask about this sailing</a><br><a class="link" style="font-size:14px;display:inline-block;margin-top:8px" href="/guide/${esc(short(x.ship_name).toLowerCase().split(/\s+/)[0])}-${esc(x.departure_date)}">📖 Cruise Guide</a><br><button type="button" class="rm" data-k="${esc(x.key)}" style="margin-top:8px">Remove</button>`)}
+    </tbody></table></div>${L.length > 1 && lo != null ? '<p class="fine" style="margin:10px 0 0">🟢 Green = lowest starting price. Prices are "from" fares per person and can change.</p>' : ''}`;
+    $('cmpBody').querySelectorAll('.rm').forEach(b => b.onclick = () => { SAVED = SAVED.filter(x => x.key !== b.dataset.k); persist(); paintHearts(); paintPill(); openCompare(); });
+    $('cmpModal').classList.add('show');
+  }
+  document.body.insertAdjacentHTML('beforeend', `<button type="button" class="cmp-pill" id="cmpPill"></button>
+    <div class="modal" id="cmpModal" role="dialog" aria-modal="true" aria-label="Compare saved sailings"><div class="box"><button class="x" type="button" aria-label="Close">×</button>
+    <h2 style="margin:0">❤️ Compare your saved sailings</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Saved on this device. Tap "Ask about this sailing" and a real travel advisor will help you book the best deal.</p>
+    <div id="cmpBody"></div><p style="margin:14px 0 0"><button type="button" class="btn btn-ghost btn-sm" id="cmpClear">Clear all</button></p></div></div>`);
+  $('cmpPill').onclick = openCompare;
+  $('cmpModal').querySelector('.x').onclick = () => $('cmpModal').classList.remove('show');
+  $('cmpModal').addEventListener('click', e => { if (e.target.id === 'cmpModal') $('cmpModal').classList.remove('show'); });
+  $('cmpClear').onclick = () => { if (!confirm('Remove all saved sailings?')) return; SAVED = []; persist(); paintHearts(); paintPill(); $('cmpModal').classList.remove('show'); };
+  $('s_list').addEventListener('click', e => { const b = e.target.closest('.heart'); if (!b) return; e.preventDefault(); const c = rows[+b.dataset.i]; if (c) toggleSave(c, b); });
+  paintPill();
   function card(c, i) {
     const ship = short(c.ship_name), n = c.nights || c.duration_nights || c.duration_days || '';
     const title = c.title || ((n ? n + '-Night ' : '') + (c.region || 'Getaway'));
     const ports = c.embark_port ? esc(c.embark_port) + (c.disembark_port && c.disembark_port !== c.embark_port ? ' → ' + esc(c.disembark_port) : ' (round trip)') : '';
     const pr = money(c), cls = (ship || '').toLowerCase().split(' ')[0];
-    return `<div class="sl ${esc(cls)}"><div><h3>${esc(title)}</h3>
+    const k = saveKey(c), on = SAVED.some(x => x.key === k);
+    return `<div class="sl ${esc(cls)}"><button type="button" class="heart${on ? ' on' : ''}" data-i="${i}" aria-pressed="${on}" aria-label="${on ? 'Remove from saved sailings' : 'Save this sailing to compare'}" title="${on ? 'Saved! Tap to remove' : 'Save to compare'}">${on ? '❤️' : '🤍'}</button><div><h3>${esc(title)}</h3>
       <div class="m">🛳️ <b>${esc(ship || 'Margaritaville at Sea')}</b>${n ? ' · ' + esc(n) + ' nights' : ''}<br>📅 ${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}${ports ? '<br>📍 ' + ports : ''}</div></div>
       <div class="pr">${pr ? `<small>From</small><b>${pr}</b><small>per person</small><br>` : ''}<a class="btn btn-sm btn-teal" href="${detail(c)}" style="margin-top:8px">Ask about this sailing</a><br><a class="link" href="${guideUrl(c)}" style="display:inline-block;margin-top:8px;font-size:14px">📖 Cruise Guide</a></div></div>`;
   }
