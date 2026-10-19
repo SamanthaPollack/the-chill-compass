@@ -390,8 +390,10 @@ footer.site a:hover{color:var(--sun)}
 .faq details[open] summary:after{content:"–"}
 .faq details div{padding:0 18px 16px;color:var(--ink-soft)}
 .g-lock{position:relative}
+.g-lock{padding-right:34px}
 .g-lock:after{content:"🔒";position:absolute;right:12px;top:10px;font-size:14px}
-.g-lock.open:after{content:"⬇️"}
+.g-lock.open:after{content:"↓";font:700 18px/1 Nunito,sans-serif;color:#FF8C1A;top:12px;right:14px}
+.g-lock.open:hover:after{transform:translateY(2px)}
 
 /* tagline badge on the banner */
 .masthead .tagline{position:absolute;right:max(20px,calc((100vw - 1240px)/2 + 20px));top:16px;z-index:3;pointer-events:none;background:rgba(255,255,255,.92);color:var(--navy);font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(14px,1.5vw,20px);padding:7px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(11,57,84,.25);border:2px solid var(--teal)}
