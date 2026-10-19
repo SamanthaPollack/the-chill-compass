@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#0B3954">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=27">
+<link rel="stylesheet" href="/assets/style.css?v=28">
 
 </head>
 <body>
@@ -214,7 +214,7 @@ document.addEventListener('cc:ready', async () => {
   setMeta('meta[property="og:description"]', 'content', d); setMeta('meta[property="og:url"]', 'content', location.origin + '/post/' + p.slug);
   setMeta('link[rel=canonical]', 'href', location.origin + '/post/' + p.slug);
   if (p.cover_url) setMeta('meta[property="og:image"]', 'content', p.cover_url);
-  const gal = (Array.isArray(p.gallery) ? p.gallery : []).filter(u => /^https?:\/\/|^\//.test(u || '')).slice(0, 4);
+  const gal = (Array.isArray(p.gallery) ? p.gallery : []).filter(u => /^https?:\/\/|^\//.test(u || '')).slice(0, 24);
   const heroBg = p.cover_url ? `background-image:url('${esc(p.cover_url)}')` : `background:${c.grad}`;
   const url = encodeURIComponent(location.href), t = encodeURIComponent(p.title);
   el.innerHTML = `
@@ -226,7 +226,7 @@ document.addEventListener('cc:ready', async () => {
     <article class="article">
       ${DOMPurify.sanitize(p.content || '', { ADD_TAGS: ['iframe'], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'] })}
       ${/^(https?:\/\/|\/)/i.test(p.button_url || '') ? `<p style="text-align:center;margin:28px 0 8px"><a class="btn btn-coral" style="font-size:18px;padding:14px 28px" href="${esc(p.button_url)}"${/^https?:/i.test(p.button_url) && !p.button_url.includes(location.host) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.button_label || 'Learn more')} →</a></p>` : ''}
-      ${gal.length ? `<div class="ship-gal post-gal" style="margin:26px 0">${gal.map((u, i) => `<button type="button" data-g="${i}" aria-label="Open photo ${i + 1}"><img src="${esc(u)}" alt="${esc(p.title)} photo ${i + 1}" loading="lazy"></button>`).join('')}</div>` : ''}
+      ${gal.length ? `<h3 style="margin:26px 0 10px">📸 Photos</h3><div class="ship-gal post-gal" style="margin:0 0 26px">${gal.map((u, i) => `<button type="button" data-g="${i}" aria-label="Open photo ${i + 1}"><img src="${esc(u)}" alt="${esc(p.title)} photo ${i + 1}" loading="lazy"></button>`).join('')}</div>` : ''}
       <div style="display:flex;align-items:center;gap:12px;margin:22px 0 6px"><button type="button" class="btn btn-ghost" id="likeBtn" style="font-size:17px">🤍 Like</button><span id="likeN" style="font-weight:700;color:var(--ink-soft)"></span></div>
       <div class="share"><b>Share the chill:</b>
         <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener">Facebook</a>

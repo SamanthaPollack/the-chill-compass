@@ -473,3 +473,8 @@ footer.site a:hover{color:var(--sun)}
 .dock .dd-btn .car{display:inline-block;color:#FF8C1A;opacity:1;font-size:.95em;margin-left:4px;vertical-align:middle;transform:translateY(-1px);transition:transform .15s}
 .dock nav a.dd-btn[aria-expanded="true"] .car{transform:translateY(-1px) rotate(180deg)}
 .dock nav a.on .car{color:var(--sun)}
+
+/* Reader photos at the end of a post: small, same-size squares (tap to enlarge) */
+.post-gal{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.post-gal button,.post-gal button:first-child{grid-column:auto;grid-row:auto;aspect-ratio:1;border-radius:10px}
+@media(max-width:640px){.post-gal{grid-template-columns:repeat(3,1fr)}.post-gal button:first-child{grid-column:auto;aspect-ratio:1}}
