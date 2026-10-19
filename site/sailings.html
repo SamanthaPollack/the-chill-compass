@@ -65,22 +65,26 @@
 <p style="text-align:center;margin-top:18px"><button class="btn btn-ghost" id="s_more" style="display:none">Show more sailings</button></p>
 <p class="fine" style="margin-top:22px">Sailing dates and prices come from a live cruise data feed and can change at any time. Prices shown are "from" fares per person and may not include taxes, fees and port expenses.</p>
 </main><aside class="side"><div class="widget" id="quote">
-  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p>Find your Margaritaville at Sea sailing, then tell us who's coming. A real travel advisor will reply, with no cost and no obligation.</p></div>
-  <div class="wb" style="text-align:center">
-    <a class="btn btn-coral" href="/sailings" style="width:100%">Get a Free Quote</a>
-    <p class="qf-fine">Quotes are provided by independent travel advisors.</p>
-  </div>
-</div><div class="widget teal" id="signup">
-  <div class="wh"><h3>⛱️ Join the Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
+  <div class="wh"><h3>🛳️ Get a Free Quote</h3><p><b>Can't find what you're looking for, or want us to see what special deals we can get for you?</b> Tell us about your trip and a real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb">
-    <form class="mini-form js-signup" data-source="sidebar">
-      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
-      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><input type="password" name="password" placeholder="Create a password (8+ characters)" aria-label="Create a password" required minlength="8" maxlength="72" autocomplete="new-password">
-      <button class="btn btn-sun" type="submit">Join the Crew</button>
+    <form class="qf js-quote">
+      <div class="full"><label for="q_name">Your name</label><input id="q_name" name="name" required maxlength="140" autocomplete="name"></div>
+      <div class="full"><label for="q_email">Email</label><input id="q_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
+      <div><label for="q_phone">Phone</label><input id="q_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
+      <div><label for="q_state">State</label><select id="q_state" name="state"><option value="">Choose</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>Outside US</option></select></div>
+      <div><label for="q_ship">Ship</label><select id="q_ship" name="ship"><option value="">Not sure yet</option><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select></div>
+      <div><label for="q_date">Sail month</label><input id="q_date" name="sail_date" type="month"></div>
+      <div class="full"><label for="q_sail">Sailing</label><select id="q_sail" name="sailing" disabled><option value="">Pick a ship or month to see sailings</option></select></div>
+      <div class="full"><label for="q_room">Stateroom</label><select id="q_room" name="stateroom"><option value="">Not sure yet</option><option>Interior</option><option>Ocean View</option><option>Balcony</option><option>Suite</option></select></div>
+      <div><label for="q_ad">Adults</label><select id="q_ad" name="adults"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      <div><label for="q_ch">Kids</label><select id="q_ch" name="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+      <div class="full"><label for="q_pref">Best way to reach you</label><select id="q_pref" name="contact_pref"><option>Email</option><option>Phone call</option><option>Text</option></select></div>
+      <div class="full"><label for="q_notes">What are you looking for?</label><textarea id="q_notes" name="notes" rows="3" maxlength="2000" placeholder="Dates, ports, budget, celebrations, flexible dates, deals you've seen…"></textarea></div>
+      <div class="full"><button class="btn btn-coral" type="submit">Get My Free Quote</button></div>
     </form>
     <div class="err"></div>
-    <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
-    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+    <div class="qf-done"><div class="e">🎉</div><h3>Request received!</h3><p>One of our travel advisors will be in touch soon with options, pricing and any special deals we can find. Cheers! 🍹</p></div>
+    <p class="qf-fine">Quotes by Cruises Tours and Travel, LLC · FL ST150140</p>
   </div>
 </div><div class="widget navy">
   <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
