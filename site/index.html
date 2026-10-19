@@ -160,7 +160,11 @@ document.addEventListener('cc:ready', async () => {
   const cat = PAGE_CAT || qcat || null;
   document.getElementById('chips').innerHTML = `<a class="chip ${cat ? '' : 'on'}" href="/">All</a>` +
     Object.keys(CATS).map(k => `<a class="chip ${k === cat ? 'on' : ''}" href="/${CATS[k].slug}">${CATS[k].emoji} ${k}</a>`).join('');
-  const posts = await fetchPosts({ limit: 60, category: cat });
+  let posts = await fetchPosts({ limit: 60, category: cat });
+  if (!cat) { // home page order: latest Tips & News first, then Cruise Reviews, Deals, then everything else (newest first within each)
+    const ORDER = ['Tips & News', 'Cruise Reviews', 'Deals'], rank = p => { const i = ORDER.indexOf(p.category); return i < 0 ? ORDER.length : i; };
+    posts = posts.map((p, i) => [p, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map(x => x[0]);
+  }
   const lead = document.getElementById('lead');
   let rest = posts;
   if (lead && !cat) {
