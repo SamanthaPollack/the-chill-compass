@@ -35,6 +35,8 @@ https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  3
 /about           /about.html          200
 /parrothead-clubs /parrothead-clubs.html 200
 /heroes-sail-free /heroes-sail-free.html 200
+/share /share.html 200
+/share/* /share.html 200
 /heroes /heroes-sail-free 301!
 /parrothead-chapters /parrothead-clubs 301!
 /contact         /contact.html        200

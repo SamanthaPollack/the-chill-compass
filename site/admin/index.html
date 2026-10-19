@@ -79,6 +79,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
       <button class="tab" data-p="quotes">🛳️ Quotes <span class="n" id="qN">0</span></button>
       <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
       <button class="tab" data-p="rc">🙋 Roll Calls</button>
+      <button class="tab" data-p="subm">📝 Submissions <span class="n" id="submN">0</span></button>
       <button class="tab" data-p="chap">🦜 Chapters <span class="n" id="chapN">0</span></button>
       <button class="tab" data-p="rooms">🚢 Fleet &amp; Rooms</button>
       <button class="tab" data-p="events">🎉 Events &amp; Deals</button>
@@ -138,6 +139,11 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
     <!-- MESSAGES -->
     <div class="panel" id="p-msgs"><div class="bar"><h2>Contact Messages</h2></div><div id="msgList"></div></div>
 
+
+    <!-- READER SUBMISSIONS -->
+    <div class="panel" id="p-subm"><div class="bar"><h2>Reader Submissions</h2><select id="submFilter" style="font:inherit;padding:8px;border-radius:10px"><option value="new" selected>Waiting for review</option><option value="drafted">Turned into posts</option><option value="declined">Declined</option><option value="">All</option></select></div>
+      <p class="hint" style="margin:-4px 0 12px">Reviews, stories and pictures sent from the Share Your Story page. Nothing is public until you create a draft, edit it and publish it.</p>
+      <div id="submList"></div></div>
 
     <!-- PARROTHEAD CHAPTERS -->
     <div class="panel" id="p-chap"><div class="bar"><h2>Parrothead Chapters</h2><a class="btn btn-ghost" href="/parrothead-clubs" target="_blank">View the directory ↗</a></div><div id="chapList"></div></div>
@@ -259,7 +265,7 @@ async function boot() {
   const { data: ok } = await sb.rpc('is_admin');
   if (!ok) { await sb.auth.signOut(); $('lerr').textContent = 'This account does not have admin access.'; $('lerr').style.display = 'block'; return show('login'); }
   $('who').textContent = session.user.email;
-  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadChapters(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
+  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadSubm(); loadChapters(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
 }
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault(); $('lerr').style.display = 'none';
@@ -442,6 +448,44 @@ async function loadMsgs() {
 async function delMsg(id) {
   if (!confirm('Delete this message?')) return;
   await sb.from('messages').delete().eq('id', id); loadMsgs();
+}
+
+/* ---------- reader submissions ---------- */
+let SUBM = [];
+const KIND = { review: '⭐ Review', story: '📖 Story', photos: '📸 Pictures' };
+async function loadSubm() {
+  const { data, error } = await sb.from('submissions').select('*').order('created_at', { ascending: false });
+  if (error) { $('submList').innerHTML = '<div class="amsg">Submissions aren\'t set up yet (run the reader-submissions SQL in Supabase).</div>'; return; }
+  SUBM = data || []; $('submN').textContent = SUBM.filter(x => x.status === 'new').length; drawSubm();
+}
+function drawSubm() {
+  const f = $('submFilter').value, L = SUBM.filter(x => !f || x.status === f);
+  $('submList').innerHTML = L.length ? L.map(x => `<div class="amsg"><div class="h"><b>${KIND[x.kind] || x.kind} · ${esc(x.title || '(no title)')}</b><span style="opacity:.6">${fmtDate(x.created_at)}</span></div>
+    <div style="font-size:14px;margin-top:4px">From <b>${esc(x.name)}</b> · <a href="mailto:${esc(x.email)}?subject=${encodeURIComponent('Your Chill Compass submission')}">${esc(x.email)}</a>${x.ship ? ' · 🛳️ ' + esc(x.ship) : ''}${x.sail_date ? ' · ' + esc(x.sail_date) : ''}${x.rating ? ' · ' + '⭐'.repeat(x.rating) : ''}</div>
+    ${x.body ? `<p>${esc(x.body)}</p>` : ''}
+    ${(x.photos || []).length ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;margin:8px 0">${x.photos.map(u => `<a href="${esc(u)}" target="_blank" style="aspect-ratio:1;border-radius:8px;background:#eee center/cover no-repeat url('${esc(u)}')"></a>`).join('')}</div>` : ''}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">${x.status === 'drafted' && x.post_id ? `<button class="btn btn-ghost btn-sm" onclick="editPost('${x.post_id}')">Open the draft post</button>` : `<button class="btn btn-coral btn-sm" onclick="draftFromSubm('${x.id}')">✏️ Create draft post</button>`}
+      ${x.status === 'new' ? `<button class="btn btn-ghost btn-sm" onclick="setSubm('${x.id}','declined')">Decline</button>` : x.status === 'declined' ? `<button class="btn btn-ghost btn-sm" onclick="setSubm('${x.id}','new')">Move back to review</button>` : ''}
+      <button class="link red" onclick="delSubm('${x.id}')">Delete</button></div></div>`).join('')
+    : '<div class="amsg" style="text-align:center">Nothing here right now. 🏝️</div>';
+}
+$('submFilter').onchange = drawSubm;
+async function setSubm(id, status) { await sb.from('submissions').update({ status }).eq('id', id); toast(status === 'declined' ? 'Declined' : 'Updated'); loadSubm(); }
+async function delSubm(id) { if (!confirm('Delete this submission for good?')) return; await sb.from('submissions').delete().eq('id', id); loadSubm(); }
+function paras(t) { return String(t || '').trim().split(/\n\s*\n/).map(p => '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>').join(''); }
+async function draftFromSubm(id) {
+  const x = SUBM.find(s => s.id === id); if (!x) return;
+  const first = String(x.name || '').trim().split(/\s+/)[0] || 'a reader';
+  const meta = [x.rating ? '<strong>' + '⭐'.repeat(x.rating) + ' (' + x.rating + '/5)</strong>' : '', x.ship ? 'Ship: ' + esc(x.ship) : '', x.kind !== 'photos' && x.sail_date ? 'Sailed: ' + esc(x.sail_date) : ''].filter(Boolean).join(' · ');
+  const content = (meta ? '<p>' + meta + '</p>' : '') + paras(x.body) + '<p><em>Shared by ' + esc(first) + ', a Chill Compass reader. Thank you! 🍹</em></p>';
+  const title = x.title || (x.kind === 'photos' ? 'Reader Photos' : 'Reader ' + (x.kind === 'review' ? 'Review' : 'Story'));
+  const plain = String(x.body || '').replace(/\s+/g, ' ').trim();
+  const row = { title, slug: slugify(title) + '-' + Math.random().toString(36).slice(2, 6), category: 'Cruise Reviews', excerpt: (plain || (x.kind === 'photos' ? 'Photos shared by ' + first + ', a Chill Compass reader.' : '')).slice(0, 200),
+    content, cover_url: (x.photos || [])[0] || null, gallery: (x.photos || []).slice(x.kind === 'photos' ? 0 : 1, 25), published: false };
+  const { data: p, error } = await sb.from('posts').insert(row).select().single();
+  if (error) return toast('Could not create the draft: ' + error.message);
+  await sb.from('submissions').update({ status: 'drafted', post_id: p.id }).eq('id', id);
+  toast('Draft created. Edit it, then publish when you\'re happy!'); loadSubm(); loadPosts(); openEditor(p);
 }
 
 /* ---------- parrothead chapters ---------- */
