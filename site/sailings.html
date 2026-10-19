@@ -70,6 +70,7 @@
     <li><a href="/">Home</a></li>
     <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
     <li><a href="/sailings">Ready to Chill</a></li>
+    <li><a href="/heroes-sail-free">⭐ Heroes Sail Free</a></li>
     <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Extras <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a><a href="https://www.shoreexcursionsgroup.com/?id=2033842&amp;data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">🏝️ Shore Excursions ↗</a><a href="https://cruisestoursandtravel.com/insurance" target="_blank" rel="noopener">🛡️ Travel Insurance ↗</a><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></div></li>
     <li class="dd"><a href="/calendar" class="dd-btn" aria-haspopup="true" aria-expanded="false">Deals &amp; Events <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/calendar">📅 Calendar</a><a href="/deals">💰 Deals</a><a href="/events">🎉 Events</a></div></li>
     <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
@@ -340,6 +341,13 @@ document.addEventListener('cc:ready', async () => {
   $('cmpModal').addEventListener('click', e => { if (e.target.id === 'cmpModal') $('cmpModal').classList.remove('show'); });
   $('s_list').addEventListener('click', e => { const b = e.target.closest('.heart'); if (!b) return; e.preventDefault(); const c = rows[+b.dataset.i]; if (c) toggleSave(c); });
   $('qOpen').onclick = () => { $('qForm').hidden = false; $('qOpen').hidden = true; $('q_name').focus(); };
+  (function () { // /sailings#quote (and ?topic=heroes) opens the quote form ready to go
+    const q = new URLSearchParams(location.search);
+    if (location.hash !== '#quote' && !q.get('topic')) return;
+    $('qForm').hidden = false; $('qOpen').hidden = true;
+    if (q.get('topic') === 'heroes' && !$('q_notes').value) $('q_notes').value = 'Heroes Sail Free: friends & family who want to sail with a hero. ';
+    setTimeout(() => { $('quote').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  })();
   document.addEventListener('cc:ready', loadSaved);
   document.addEventListener('cc:auth', loadSaved);
   paintPill(); paintSide();
