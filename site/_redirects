@@ -33,6 +33,8 @@ https://www.thechillcompass.com/*          https://thechillcompass.com/:splat  3
 /rollcalls       /rollcalls.html      200
 /account         /account.html        200
 /about           /about.html          200
+/parrothead-clubs /parrothead-clubs.html 200
+/parrothead-chapters /parrothead-clubs 301!
 /contact         /contact.html        200
 /write-for-us    /write-for-us.html   200
 /privacy         /privacy.html        200

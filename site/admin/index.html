@@ -79,6 +79,7 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
       <button class="tab" data-p="quotes">🛳️ Quotes <span class="n" id="qN">0</span></button>
       <button class="tab" data-p="msgs">🐚 Messages <span class="n" id="msgN">0</span></button>
       <button class="tab" data-p="rc">🙋 Roll Calls</button>
+      <button class="tab" data-p="chap">🦜 Chapters <span class="n" id="chapN">0</span></button>
       <button class="tab" data-p="rooms">🚢 Fleet &amp; Rooms</button>
       <button class="tab" data-p="events">🎉 Events &amp; Deals</button>
       <button class="tab" data-p="acct">⚙️ Account</button>
@@ -137,6 +138,9 @@ th{background:#fbf6ec;font-family:Fredoka;font-weight:600}
     <!-- MESSAGES -->
     <div class="panel" id="p-msgs"><div class="bar"><h2>Contact Messages</h2></div><div id="msgList"></div></div>
 
+
+    <!-- PARROTHEAD CHAPTERS -->
+    <div class="panel" id="p-chap"><div class="bar"><h2>Parrothead Chapters</h2><a class="btn btn-ghost" href="/parrothead-clubs" target="_blank">View the directory ↗</a></div><div id="chapList"></div></div>
 
     <!-- QUOTES -->
     <div class="panel" id="p-quotes">
@@ -255,7 +259,7 @@ async function boot() {
   const { data: ok } = await sb.rpc('is_admin');
   if (!ok) { await sb.auth.signOut(); $('lerr').textContent = 'This account does not have admin access.'; $('lerr').style.display = 'block'; return show('login'); }
   $('who').textContent = session.user.email;
-  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
+  show('app'); initEditor(); loadPosts(); loadSubs(); loadMsgs(); loadChapters(); loadQuotes(); loadRc(); loadRooms(); loadShips(); loadEvents();
 }
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault(); $('lerr').style.display = 'none';
@@ -438,6 +442,20 @@ async function delMsg(id) {
   if (!confirm('Delete this message?')) return;
   await sb.from('messages').delete().eq('id', id); loadMsgs();
 }
+
+/* ---------- parrothead chapters ---------- */
+async function loadChapters() {
+  const { data, error } = await sb.rpc('admin_chapters');
+  if (error) { $('chapList').innerHTML = '<div class="amsg">The chapters list isn\'t set up yet (run the parrothead-chapters SQL in Supabase).</div>'; return; }
+  const rows = data || [];
+  $('chapN').textContent = rows.filter(c => !c.approved).length;
+  $('chapList').innerHTML = rows.length ? rows.map(c => `<div class="amsg"><div class="h"><b>${c.approved ? '✅' : '🕒 Waiting for approval ·'} ${esc(c.name)}</b><span style="opacity:.6">${fmtDate(c.created_at)}</span></div>
+    <p>📍 ${esc([c.city, c.state, c.country].filter(Boolean).join(', '))}${c.meetings ? '\n🗓️ ' + esc(c.meetings) : ''}${c.website ? '\n🌐 ' + esc(c.website) : ''}${c.facebook ? '\n📘 ' + esc(c.facebook) : ''}${c.about ? '\n\n' + esc(c.about) : ''}\n\nContact: ${esc(c.contact_name || '')} · <a href="mailto:${esc(c.contact_email)}">${esc(c.contact_email)}</a></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${c.approved ? `<button class="btn btn-ghost btn-sm" onclick="setChap('${c.id}', false)">Hide from directory</button>` : `<button class="btn btn-coral btn-sm" onclick="setChap('${c.id}', true)">✅ Approve &amp; list it</button>`}<button class="btn btn-ghost btn-sm" onclick="delChap('${c.id}')">Delete</button></div></div>`).join('')
+    : '<div class="amsg" style="text-align:center">No chapters have signed up yet. 🦜</div>';
+}
+async function setChap(id, approved) { const { error } = await sb.from('parrothead_chapters').update({ approved }).eq('id', id); toast(error ? 'Could not update' : approved ? 'Approved and listed' : 'Hidden'); loadChapters(); }
+async function delChap(id) { if (!confirm('Delete this chapter listing?')) return; await sb.from('parrothead_chapters').delete().eq('id', id); loadChapters(); }
 
 /* ---------- account ---------- */
 $('pwForm').addEventListener('submit', async e => {
