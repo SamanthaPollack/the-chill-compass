@@ -30,6 +30,19 @@
 .cmp-pill{position:fixed;right:18px;bottom:18px;z-index:60;display:none;align-items:center;gap:8px;background:var(--coral);color:#fff;border:0;border-radius:999px;padding:12px 18px;font:600 16px Fredoka,sans-serif;box-shadow:0 10px 24px rgba(11,57,84,.25);cursor:pointer}
 .cmp-pill.show{display:flex}.cmp-pill .n{background:#fff;color:var(--coral);border-radius:999px;padding:0 8px;font-size:14px}
 #cmpModal .box{max-width:1080px}
+.sv-list{display:grid;gap:8px}
+.sv{display:flex;gap:10px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer}
+.sv.on{border-color:var(--teal);background:#f2fbfc}.sv input{width:20px;height:20px;accent-color:var(--teal);flex:none}
+.sv span{flex:1}.sv small{color:var(--ink-soft)}
+.cmp-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:12px;z-index:120;font-size:15px;display:none;max-width:92vw;text-align:center}
+.cmp-toast.show{display:block}
+.cs-card{border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 10px;position:relative}
+.cs-card.best{border-color:#7fd08a;background:#f2fbf3}
+.cs-card b{font-family:Fredoka;font-size:16px}.cs-card .meta{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+.cs-card .pr{font:700 19px Fredoka,sans-serif;color:var(--navy)}.cs-card .pr small{font:400 12.5px Nunito,sans-serif;color:var(--ink-soft)}
+.cs-card .tag{position:absolute;top:8px;right:10px;font-size:11.5px;font-weight:800;color:#2c8a3c}
+.cs-card .x2{position:absolute;bottom:8px;right:10px;border:0;background:none;color:var(--ink-soft);text-decoration:underline;font-size:12.5px;cursor:pointer}
+.cs-acts{display:grid;gap:8px}
 .cmp-wrap{overflow-x:auto;margin-top:12px}
 .cmp{border-collapse:separate;border-spacing:0;min-width:100%;font-size:14.5px}
 .cmp th,.cmp td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;min-width:190px}
@@ -56,7 +69,7 @@
   <nav aria-label="Main"><ul>
     <li><a href="/">Home</a></li>
     <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
-    <li><a href="/sailings">Sail Dates</a></li>
+    <li><a href="/sailings">Ready to Chill</a></li>
     <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Extras <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a><a href="https://www.shoreexcursionsgroup.com/?id=2033842&amp;data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">🏝️ Shore Excursions ↗</a><a href="https://cruisestoursandtravel.com/insurance" target="_blank" rel="noopener">🛡️ Travel Insurance ↗</a><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></div></li>
     <li class="dd"><a href="/calendar" class="dd-btn" aria-haspopup="true" aria-expanded="false">Deals &amp; Events <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/calendar">📅 Calendar</a><a href="/deals">💰 Deals</a><a href="/events">🎉 Events</a></div></li>
     <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
@@ -64,7 +77,7 @@
     <li><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></li>
   </ul></nav>
 </div></div>
-<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🗓️ Get a Free Quote</div><h1>Find your Margaritaville at Sea sailing</h1><p>Browse upcoming Paradise, Islander and Beachcomber sailings. Spot one you like? Tap "Ask about this sailing" to see the details and request your free quote.</p></div>
+<div class="wrap"><div class="shell"><main><div class="page-title"><div class="eyebrow">🍹 Ready to Chill?</div><h1>Find your Margaritaville at Sea sailing</h1><p>Browse upcoming Paradise, Islander and Beachcomber sailings. Spot one you like? Tap "Ask about this sailing" to see the details and request your free quote.</p></div>
 <form class="card sf" id="sf">
   <div class="sf-grid">
     <div class="field"><label for="s_ship">Ship</label><select id="s_ship"><option value="">All ships</option></select></div>
@@ -78,10 +91,14 @@
 <div id="s_list" class="sf-list"><div class="loading">Loading sailings…</div></div>
 <p style="text-align:center;margin-top:18px"><button class="btn btn-ghost" id="s_more" style="display:none">Show more sailings</button></p>
 <p class="fine" style="margin-top:22px">Sailing dates and prices come from a live cruise data feed and can change at any time. Prices shown are "from" fares per person and may not include taxes, fees and port expenses.</p>
-</main><aside class="side"><div class="widget" id="quote">
+</main><aside class="side"><div class="widget navy" id="cmpSide">
+  <div class="wh"><h3>❤️ Compare Cruises</h3><p>Save up to 3 favorite sailings and see them side by side.</p></div>
+  <div class="wb" id="cmpSideBody"><p style="margin:0;color:var(--ink-soft)">Loading…</p></div>
+</div><div class="widget" id="quote">
   <div class="wh"><h3>🛳️ Get a Free Quote</h3><p><b>Can't find what you're looking for, or want us to see what special deals we can get for you?</b> Tell us about your trip and a real travel advisor will reply, with no cost and no obligation.</p></div>
   <div class="wb">
-    <form class="qf js-quote">
+    <button type="button" class="btn btn-coral" id="qOpen" style="width:100%">Can't find it? Get a free quote</button>
+    <form class="qf js-quote" id="qForm" hidden>
       <div class="full"><label for="q_name">Your name</label><input id="q_name" name="name" required maxlength="140" autocomplete="name"></div>
       <div class="full"><label for="q_email">Email</label><input id="q_email" name="email" type="email" required maxlength="250" autocomplete="email"></div>
       <div><label for="q_phone">Phone</label><input id="q_phone" name="phone" type="tel" maxlength="30" autocomplete="tel" placeholder="Optional"></div>
@@ -210,61 +227,122 @@ document.addEventListener('cc:ready', async () => {
     p.set('sort', $('s_sort').value);
     return p;
   }
-  /* ---- Saved sailings (hearts) and compare ---- */
-  const SKEY = 'cc_saved_sailings';
-  const saveKey = c => String(c.sailing_id || c.id || (c.ship_name + '|' + String(c.departure_date || '').slice(0, 10)));
-  let SAVED = (() => { try { return JSON.parse(localStorage.getItem(SKEY) || '[]') || []; } catch (e) { return []; } })();
-  const persist = () => { try { localStorage.setItem(SKEY, JSON.stringify(SAVED)); } catch (e) {} };
+  /* ---- Saved sailings (hearts, Chill Crew members only) and compare up to 3 ---- */
+  const MAX_SAVED = 30, MAX_CMP = 3, OLD_KEY = 'cc_saved_sailings';
+  const saveKey = c => String(c._key || c.sailing_id || c.id || (c.ship_name + '|' + String(c.departure_date || '').slice(0, 10)));
+  let SAVED = [], PICK = [], pending = null;
+  const signedIn = () => typeof ME !== 'undefined' && !!ME;
   function snap(c) {
     const it = Array.isArray(c.itinerary) ? c.itinerary : [];
     const stops = [...new Set(it.filter(x => !x.is_sea_day && !x.is_embark && !x.is_disembark && x.port).map(x => x.port))];
     const v = c.price_amount ?? c.price_from ?? c.lowest_price ?? c.min_price ?? c.price;
     return { key: saveKey(c), ship_name: c.ship_name || '', title: c.title || '', departure_date: String(c.departure_date || '').slice(0, 10), return_date: String(c.return_date || '').slice(0, 10),
       nights: c.nights || c.duration_nights || '', embark_port: c.embark_port || '', disembark_port: c.disembark_port || '', stops, sea_days: it.filter(x => x.is_sea_day).length || c.sea_days || 0,
-      price: v == null || v === '' || isNaN(Number(v)) ? null : Number(v), sailing_id: c.sailing_id || c.id || '', saved_at: Date.now() };
+      price: v == null || v === '' || isNaN(Number(v)) ? null : Number(v), sailing_id: c.sailing_id || c.id || '' };
   }
-  function toggleSave(c, btn) {
-    const k = saveKey(c), i = SAVED.findIndex(x => x.key === k);
-    if (i >= 0) SAVED.splice(i, 1);
-    else { if (SAVED.length >= 6) { alertSoft('You can compare up to 6 sailings. Remove one to add another.'); return; } SAVED.push(snap(c)); }
-    persist(); paintHearts(); paintPill();
+  async function loadSaved() {
+    if (!signedIn()) { SAVED = []; PICK = []; paintHearts(); paintPill(); paintSide(); return; }
+    // carry over anything saved on this device before sign-in
+    let old = []; try { old = JSON.parse(localStorage.getItem(OLD_KEY) || '[]') || []; } catch (e) {}
+    if (old.length) {
+      const { error } = await sb.from('saved_sailings').upsert(old.slice(0, MAX_SAVED).map(x => ({ user_id: ME.id, sailing_key: x.key, data: x })), { onConflict: 'user_id,sailing_key', ignoreDuplicates: true });
+      if (!error) { try { localStorage.removeItem(OLD_KEY); } catch (e) {} }
+    }
+    const { data, error } = await sb.from('saved_sailings').select('sailing_key,data,created_at').order('created_at', { ascending: true });
+    SAVED = error ? [] : (data || []).map(r => ({ ...r.data, key: r.sailing_key }));
+    PICK = PICK.filter(k => SAVED.some(x => x.key === k)); fillPick();
+    if (pending) { const c = pending; pending = null; if (!SAVED.some(x => x.key === saveKey(c))) await toggleSave(c); }
+    paintHearts(); paintPill(); paintSide();
   }
-  function alertSoft(t) { const p = $('cmpPill'); const old = p.innerHTML; p.innerHTML = '⚠️ ' + t; p.classList.add('show'); setTimeout(() => { p.innerHTML = old; paintPill(); }, 2600); }
+  async function toggleSave(c) {
+    if (!signedIn()) { pending = c; joinPrompt(); return; }
+    const k = saveKey(c), on = SAVED.some(x => x.key === k);
+    if (on) {
+      SAVED = SAVED.filter(x => x.key !== k); PICK = PICK.filter(x => x !== k); fillPick(); paintHearts(); paintPill(); paintSide();
+      await sb.from('saved_sailings').delete().eq('sailing_key', k);
+    } else {
+      if (SAVED.length >= MAX_SAVED) { toast('You have ' + MAX_SAVED + ' saved sailings. Remove one to save another.'); return; }
+      const d = snap(c); SAVED.push(d); if (PICK.length < MAX_CMP) PICK.push(k); paintHearts(); paintPill(); paintSide();
+      const { error } = await sb.from('saved_sailings').insert({ user_id: ME.id, sailing_key: k, data: d });
+      if (error) { SAVED = SAVED.filter(x => x.key !== k); PICK = PICK.filter(x => x !== k); paintHearts(); paintPill(); paintSide(); toast('Sorry, we couldn\'t save that one. Please try again.'); return; }
+      toast(PICK.includes(k) ? '❤️ Saved and added to your comparison!' : '❤️ Saved! You\'re comparing 3 already. Tap "Choose" to swap.');
+    }
+  }
+  function fillPick() { // keep up to 3 picked; fill empty spots with the most recently saved
+    for (const x of SAVED.slice().reverse()) { if (PICK.length >= MAX_CMP) break; if (!PICK.includes(x.key)) PICK.push(x.key); }
+  }
+  function paintSide() {
+    const box = $('cmpSideBody'); if (!box) return;
+    if (!signedIn()) { box.innerHTML = `<p style="margin:0 0 10px"><b>Want to compare cruises?</b> Tap the 🤍 on any sailing to save it. Join the Chill Crew (free) and your favorites are saved to compare, on any device.</p><div class="cs-acts"><button type="button" class="btn btn-sun" data-a="up">Join the Chill Crew</button><button type="button" class="btn btn-ghost btn-sm" data-a="in">Already a member? Sign in</button></div>`;
+      box.querySelectorAll('[data-a]').forEach(b => b.onclick = () => openAuth(b.dataset.a)); return; }
+    const L = PICK.map(k => SAVED.find(x => x.key === k)).filter(Boolean).sort((a, b) => a.departure_date.localeCompare(b.departure_date));
+    if (!L.length) { box.innerHTML = '<p style="margin:0">Tap the 🤍 on up to 3 sailings and they\'ll line up here to compare.</p>'; return; }
+    const prices = L.map(x => x.price).filter(v => v != null), lo = L.length > 1 && prices.length ? Math.min(...prices) : null;
+    box.innerHTML = L.map(x => { const best = lo != null && x.price === lo;
+      return `<div class="cs-card${best ? ' best' : ''}">${best ? '<span class="tag">LOWEST PRICE</span>' : ''}<b>${esc(short(x.ship_name))}</b> · ${esc(x.nights)} nights
+        <div class="meta">📅 ${esc(fmt(x.departure_date))}<br>📍 ${route(x)}${(x.stops || []).length ? '<br>🏝️ ' + x.stops.map(esc).join(', ') : ''}</div>
+        <div class="pr">${usd(x.price)} <small>per person${x.price != null && x.nights ? ' · ' + usd(Math.round(x.price / x.nights)) + '/night' : ''}</small></div>
+        <a class="link" style="font-size:13.5px" href="/sailing?${new URLSearchParams({ ship: x.ship_name, date: x.departure_date, id: x.sailing_id })}">Ask about this sailing →</a>
+        <button type="button" class="x2" data-k="${esc(x.key)}">Remove</button></div>`; }).join('') +
+      `<div class="cs-acts">${L.length > 1 ? '<button type="button" class="btn btn-coral" id="csTable">See side by side</button>' : '<p class="fine" style="margin:0">Save one more to compare side by side.</p>'}${SAVED.length > L.length ? `<button type="button" class="btn btn-ghost btn-sm" id="csChoose">Choose from all ${SAVED.length} saved</button>` : ''}</div>`;
+    box.querySelectorAll('.x2').forEach(b => b.onclick = () => { const c = SAVED.find(x => x.key === b.dataset.k); if (c) toggleSave({ sailing_id: c.sailing_id, ship_name: c.ship_name, departure_date: c.departure_date, _key: c.key }); });
+    const t = $('csTable'); if (t) t.onclick = () => { openSaved(); drawCompare(L); };
+    const ch = $('csChoose'); if (ch) ch.onclick = openSaved;
+  }
+  function joinPrompt() {
+    openAuth('up', '❤️ <b>Want to compare cruises?</b> Join the Chill Crew (it\'s free) to save sailings you love and compare up to 3 side by side. Already a member? Tap <b>Sign in</b>.');
+  }
+  function toast(t) { const el = $('cmpToast'); el.innerHTML = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2600); }
   function paintHearts() {
     document.querySelectorAll('#s_list .heart').forEach(b => { const c = rows[+b.dataset.i]; if (!c) return; const on = SAVED.some(x => x.key === saveKey(c));
       b.classList.toggle('on', on); b.textContent = on ? '❤️' : '🤍'; b.setAttribute('aria-pressed', on); b.title = on ? 'Saved! Tap to remove' : 'Save to compare'; b.setAttribute('aria-label', on ? 'Remove from saved sailings' : 'Save this sailing to compare'); });
   }
-  function paintPill() { const p = $('cmpPill'); p.innerHTML = `❤️ Compare saved <span class="n">${SAVED.length}</span>`; p.classList.toggle('show', SAVED.length > 0); }
-  function openCompare() {
+  function paintPill() { const p = $('cmpPill'); p.innerHTML = `❤️ My saved sailings <span class="n">${SAVED.length}</span>`; p.classList.toggle('show', SAVED.length > 0); }
+  const usd = v => v == null ? 'Ask us' : v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  const route = x => esc(x.embark_port || '–') + (x.disembark_port && x.disembark_port !== x.embark_port ? ' → ' + esc(x.disembark_port) : x.embark_port ? ' (round trip)' : '');
+  function openSaved() {
     const L = SAVED.slice().sort((a, b) => a.departure_date.localeCompare(b.departure_date));
     if (!L.length) { $('cmpBody').innerHTML = '<p>No saved sailings yet. Tap the 🤍 on any sailing to save it here.</p>'; $('cmpModal').classList.add('show'); return; }
-    const prices = L.map(x => x.price).filter(v => v != null), lo = prices.length ? Math.min(...prices) : null;
-    const usd = v => v == null ? 'Ask us' : v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-    const ppn = x => x.price != null && x.nights ? usd(Math.round(x.price / x.nights)) + ' / night' : '–';
-    const row = (label, f, cls) => `<tr><td>${label}</td>${L.map(x => `<td class="${cls ? cls(x) : ''}">${f(x)}</td>`).join('')}</tr>`;
-    $('cmpBody').innerHTML = `<div class="cmp-wrap"><table class="cmp"><thead><tr><th></th>${L.map(x => `<th>${esc(short(x.ship_name) || 'Margaritaville at Sea')}<br><small style="font:400 13px Nunito,sans-serif;color:var(--ink-soft)">${esc(x.title || (x.nights + '-Night Cruise'))}</small></th>`).join('')}</tr></thead><tbody>
-      ${row('Sails', x => esc(fmt(x.departure_date)) + (x.return_date ? '<br><small>to ' + esc(fmt(x.return_date)) + '</small>' : ''))}
-      ${row('Nights', x => esc(x.nights || '–'))}
-      ${row('From', x => esc(x.embark_port || '–') + (x.disembark_port && x.disembark_port !== x.embark_port ? ' → ' + esc(x.disembark_port) : x.embark_port ? ' (round trip)' : ''))}
-      ${row('Ports', x => x.stops.length ? x.stops.map(esc).join('<br>') : '–')}
-      ${row('Sea days', x => esc(x.sea_days || 0))}
-      ${row('Price from', x => `<span class="price">${usd(x.price)}</span><br><small>per person</small>`, x => x.price != null && x.price === lo && L.length > 1 ? 'best' : '')}
-      ${row('Per night', x => ppn(x))}
-      ${row('', x => `<a class="btn btn-sm btn-coral" href="/sailing?${new URLSearchParams({ ship: x.ship_name, date: x.departure_date, id: x.sailing_id })}">Ask about this sailing</a><br><a class="link" style="font-size:14px;display:inline-block;margin-top:8px" href="/guide/${esc(short(x.ship_name).toLowerCase().split(/\s+/)[0])}-${esc(x.departure_date)}">📖 Cruise Guide</a><br><button type="button" class="rm" data-k="${esc(x.key)}" style="margin-top:8px">Remove</button>`)}
-    </tbody></table></div>${L.length > 1 && lo != null ? '<p class="fine" style="margin:10px 0 0">🟢 Green = lowest starting price. Prices are "from" fares per person and can change.</p>' : ''}`;
-    $('cmpBody').querySelectorAll('.rm').forEach(b => b.onclick = () => { SAVED = SAVED.filter(x => x.key !== b.dataset.k); persist(); paintHearts(); paintPill(); openCompare(); });
+    $('cmpBody').innerHTML = `<p style="margin:10px 0 6px;font-weight:700">Pick up to ${MAX_CMP} to compare:</p><div class="sv-list">${L.map(x => `<label class="sv${PICK.includes(x.key) ? ' on' : ''}"><input type="checkbox" value="${esc(x.key)}"${PICK.includes(x.key) ? ' checked' : ''}><span><b>${esc(short(x.ship_name))}</b> · ${esc(fmt(x.departure_date))} · ${esc(x.nights)} nights<br><small>${route(x)} · from ${usd(x.price)}</small></span><button type="button" class="rm" data-k="${esc(x.key)}" title="Remove from saved">Remove</button></label>`).join('')}</div>
+      <p style="margin:10px 0 0"><button type="button" class="btn btn-coral" id="cmpGo">Compare ${PICK.length} sailing${PICK.length === 1 ? '' : 's'}</button></p><div id="cmpTable"></div>`;
+    $('cmpBody').querySelectorAll('.sv input').forEach(cb => cb.onchange = () => {
+      if (cb.checked && PICK.length >= MAX_CMP) { cb.checked = false; toast('You can compare up to ' + MAX_CMP + ' at a time. Uncheck one first.'); return; }
+      PICK = cb.checked ? [...PICK, cb.value] : PICK.filter(k => k !== cb.value); paintSide(); openSaved();
+    });
+    $('cmpBody').querySelectorAll('.rm').forEach(b => b.onclick = async e => { e.preventDefault(); const x = SAVED.find(s => s.key === b.dataset.k); if (!x) return;
+      SAVED = SAVED.filter(s => s.key !== x.key); PICK = PICK.filter(k => k !== x.key); fillPick(); paintHearts(); paintPill(); paintSide(); openSaved(); await sb.from('saved_sailings').delete().eq('sailing_key', x.key); });
+    $('cmpGo').onclick = () => drawCompare(L.filter(x => PICK.includes(x.key)));
     $('cmpModal').classList.add('show');
   }
-  document.body.insertAdjacentHTML('beforeend', `<button type="button" class="cmp-pill" id="cmpPill"></button>
-    <div class="modal" id="cmpModal" role="dialog" aria-modal="true" aria-label="Compare saved sailings"><div class="box"><button class="x" type="button" aria-label="Close">×</button>
-    <h2 style="margin:0">❤️ Compare your saved sailings</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Saved on this device. Tap "Ask about this sailing" and a real travel advisor will help you book the best deal.</p>
-    <div id="cmpBody"></div><p style="margin:14px 0 0"><button type="button" class="btn btn-ghost btn-sm" id="cmpClear">Clear all</button></p></div></div>`);
-  $('cmpPill').onclick = openCompare;
+  function drawCompare(L) {
+    if (L.length < 2) { $('cmpTable').innerHTML = '<p class="fine" style="margin:10px 0 0">Pick at least 2 sailings to compare.</p>'; return; }
+    const prices = L.map(x => x.price).filter(v => v != null), lo = prices.length ? Math.min(...prices) : null;
+    const ppn = x => x.price != null && x.nights ? usd(Math.round(x.price / x.nights)) + ' / night' : '–';
+    const row = (label, f, cls) => `<tr><td>${label}</td>${L.map(x => `<td class="${cls ? cls(x) : ''}">${f(x)}</td>`).join('')}</tr>`;
+    $('cmpTable').innerHTML = `<div class="cmp-wrap"><table class="cmp"><thead><tr><th></th>${L.map(x => `<th>${esc(short(x.ship_name) || 'Margaritaville at Sea')}<br><small style="font:400 13px Nunito,sans-serif;color:var(--ink-soft)">${esc(x.title || (x.nights + '-Night Cruise'))}</small></th>`).join('')}</tr></thead><tbody>
+      ${row('Sails', x => esc(fmt(x.departure_date)) + (x.return_date ? '<br><small>to ' + esc(fmt(x.return_date)) + '</small>' : ''))}
+      ${row('Nights', x => esc(x.nights || '–'))}
+      ${row('From', x => route(x))}
+      ${row('Ports', x => (x.stops || []).length ? x.stops.map(esc).join('<br>') : '–')}
+      ${row('Sea days', x => esc(x.sea_days || 0))}
+      ${row('Price from', x => `<span class="price">${usd(x.price)}</span><br><small>per person</small>`, x => x.price != null && x.price === lo ? 'best' : '')}
+      ${row('Per night', x => ppn(x))}
+      ${row('', x => `<a class="btn btn-sm btn-coral" href="/sailing?${new URLSearchParams({ ship: x.ship_name, date: x.departure_date, id: x.sailing_id })}">Ask about this sailing</a><br><a class="link" style="font-size:14px;display:inline-block;margin-top:8px" href="/guide/${esc(short(x.ship_name).toLowerCase().split(/\s+/)[0])}-${esc(x.departure_date)}">📖 Cruise Guide</a>`)}
+    </tbody></table></div>${lo != null ? '<p class="fine" style="margin:10px 0 0">🟢 Green = lowest starting price. Prices are "from" fares per person and can change.</p>' : ''}`;
+    $('cmpTable').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.body.insertAdjacentHTML('beforeend', `<button type="button" class="cmp-pill" id="cmpPill"></button><div class="cmp-toast" id="cmpToast" role="status"></div>
+    <div class="modal" id="cmpModal" role="dialog" aria-modal="true" aria-label="Your saved sailings"><div class="box"><button class="x" type="button" aria-label="Close">×</button>
+    <h2 style="margin:0">❤️ Your saved sailings</h2><p style="margin:4px 0 0;color:var(--ink-soft)">Saved to your Chill Crew account, so they're here on any device. Tap "Ask about this sailing" and a real travel advisor will help you book the best deal.</p>
+    <div id="cmpBody"></div></div></div>`);
+  $('cmpPill').onclick = openSaved;
   $('cmpModal').querySelector('.x').onclick = () => $('cmpModal').classList.remove('show');
   $('cmpModal').addEventListener('click', e => { if (e.target.id === 'cmpModal') $('cmpModal').classList.remove('show'); });
-  $('cmpClear').onclick = () => { if (!confirm('Remove all saved sailings?')) return; SAVED = []; persist(); paintHearts(); paintPill(); $('cmpModal').classList.remove('show'); };
-  $('s_list').addEventListener('click', e => { const b = e.target.closest('.heart'); if (!b) return; e.preventDefault(); const c = rows[+b.dataset.i]; if (c) toggleSave(c, b); });
-  paintPill();
+  $('s_list').addEventListener('click', e => { const b = e.target.closest('.heart'); if (!b) return; e.preventDefault(); const c = rows[+b.dataset.i]; if (c) toggleSave(c); });
+  $('qOpen').onclick = () => { $('qForm').hidden = false; $('qOpen').hidden = true; $('q_name').focus(); };
+  document.addEventListener('cc:ready', loadSaved);
+  document.addEventListener('cc:auth', loadSaved);
+  paintPill(); paintSide();
   function card(c, i) {
     const ship = short(c.ship_name), n = c.nights || c.duration_nights || c.duration_days || '';
     const title = c.title || ((n ? n + '-Night ' : '') + (c.region || 'Getaway'));
