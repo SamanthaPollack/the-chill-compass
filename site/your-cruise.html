@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find Your Cruise | The Chill Compass</title>
+<meta name="description" content="Already booked on Margaritaville at Sea? Search your ship and sail date to open your free cruise guide, roll call and onboard schedule.">
+<link rel="canonical" href="https://thechillcompass.com/your-cruise">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Chill Compass">
+<meta property="og:title" content="Find Your Cruise | The Chill Compass">
+<meta property="og:description" content="Already booked on Margaritaville at Sea? Search your ship and sail date to open your free cruise guide, roll call and onboard schedule.">
+<meta property="og:url" content="https://thechillcompass.com/your-cruise">
+<meta property="og:image" content="https://thechillcompass.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<meta name="theme-color" content="#0B3954">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css?v=28">
+
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls" class="hide-s">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="r" id="tbUser"></div>
+</div></div>
+<header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
+<div class="tagbar">A Margaritaville at Sea Blog</div>
+<div class="dock"><div class="wrap">
+  <a href="/" class="mini" aria-label="Home"><img src="/assets/img/logo.jpg" alt="The Chill Compass" width="66" height="44"></a>
+  <nav aria-label="Main"><ul>
+    <li><a href="/">Home</a></li>
+    <li class="dd"><a href="/ships" class="dd-btn" aria-haspopup="true" aria-expanded="false">Ships <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/ships">🚢 All Ships</a><a href="/ships/paradise">🌴 Paradise</a><a href="/ships/islander">🏝️ Islander</a><a href="/ships/beachcomber">🐚 Beachcomber</a></div></li>
+    <li><a href="/sailings">Ready to Chill</a></li>
+    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Your Cruise <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/your-cruise">🔎 Find Your Cruise</a><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="https://reservations.margaritavilleatsea.com/cruise-control/guest-portal" target="_blank" rel="noopener">🧾 Manage Your Reservation ↗</a></div></li>
+    <li class="dd"><a href="#" class="dd-btn" aria-haspopup="true" aria-expanded="false">Extras <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/extra-packages">🍹 Extra Packages</a><a href="/weddings">💍 Weddings</a><a href="/heroes-sail-free">⭐ Heroes Sail Free</a><a href="https://www.shoreexcursionsgroup.com/?id=2033842&amp;data=samanthap@cruisestoursandtravel.com" target="_blank" rel="noopener">🏝️ Shore Excursions ↗</a><a href="https://cruisestoursandtravel.com/insurance" target="_blank" rel="noopener">🛡️ Travel Insurance ↗</a><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></div></li>
+    <li class="dd"><a href="/calendar" class="dd-btn" aria-haspopup="true" aria-expanded="false">Deals &amp; Events <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/calendar">📅 Calendar</a><a href="/deals">💰 Deals</a><a href="/events">🎉 Events</a></div></li>
+    <li class="dd"><a href="/cruise-reviews" class="dd-btn" aria-haspopup="true" aria-expanded="false">Tips &amp; Reviews <span class="car">▾</span></a><div class="dd-menu" hidden><a href="/cruise-reviews">⭐ Cruise Reviews</a><a href="/faq">❓ FAQ</a><a href="/newsletter">📰 Newsletter</a></div></li>
+    <li><a href="/port-guides">Cruise &amp; Port Guides</a></li>
+    <li><a href="/parrothead-clubs">🦜 Find a Parrothead Club</a></li>
+  </ul></nav>
+</div></div>
+<div class="wrap"><div class="shell"><main><style>
+.yc-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+.yc-res{margin-top:18px}
+.yc-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.yc-acts a{display:block;text-decoration:none;color:var(--navy);background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font:600 16px Fredoka,sans-serif}
+.yc-acts a:hover{border-color:var(--sun)}.yc-acts small{display:block;font:400 13px Nunito,sans-serif;color:var(--ink-soft)}
+@media(max-width:700px){.yc-form,.yc-acts{grid-template-columns:1fr}}
+</style>
+<div class="page-title"><div class="eyebrow">🛳️ Your Cruise</div><h1>Find Your Cruise</h1><p>Already booked? Pick your ship and sail date to open everything for your sailing: your free cruise guide, your roll call and more.</p></div>
+<div class="card">
+  <form class="yc-form" id="ycForm">
+    <div class="field" style="margin:0"><label for="yc_ship">Ship</label><select id="yc_ship" required><option value="">Choose your ship</option><option>Paradise</option><option>Islander</option><option>Beachcomber</option></select></div>
+    <div class="field" style="margin:0"><label for="yc_date">Sail date</label><input id="yc_date" type="date" required></div>
+    <button class="btn btn-coral" type="submit" id="yc_go">🔎 Find My Cruise</button>
+  </form>
+  <div class="yc-res" id="ycRes"></div>
+</div>
+</main><aside class="side"><div class="widget teal" id="signup">
+  <div class="wh"><h3>⛱️ Join the Chill Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
+  <div class="wb">
+    <form class="mini-form js-signup" data-source="sidebar">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><input type="password" name="password" placeholder="Create a password (8+ characters)" aria-label="Create a password" required minlength="8" maxlength="72" autocomplete="new-password">
+      <button class="btn btn-sun" type="submit">Join the Chill Crew</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div><div class="widget navy">
+  <div class="wh"><h3>🙋 Roll Call Chatter</h3><p>Meet your shipmates before you sail.</p></div>
+  <div class="wb"><ul class="side-list" id="rcSide"><li style="opacity:.6">Loading…</li></ul>
+  <a href="/rollcalls" class="btn btn-navy btn-sm" style="width:100%;margin-top:10px">All Roll Calls</a></div>
+</div></aside></div></div>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h3>The Chill Compass</h3>
+        <p style="margin:0;font-size:15px">Pointing you toward sun, ocean, cruise, relax &amp; good vibes. Cruise reviews, deck plans and roll calls from travel advisors who keep going back for more. 🍹</p>
+      </div>
+      <div><h3>Explore</h3><ul>
+        <li><a href="/cruise-reviews">Cruise Reviews</a></li>
+        <li><a href="/ships">Our Ships: Deck Plans &amp; Rooms</a></li>
+        <li><a href="/extra-packages">Extra Packages</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/rollcalls">Roll Calls</a></li>
+        <li><a href="/faq">FAQ</a></li></ul></div>
+      <div><h3>Connect</h3><ul>
+        <li><a href="/port-guides#guides">Free Port Guides</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/write-for-us">Write for Us</a></li></ul></div>
+      <div><h3>About</h3><ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/account">My Account</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="disclaimer">
+      © <span id="yr">2026</span> The Chill Compass · Presented by Samantha Pollack, CTT and Associates, LLC<br>
+      Independent blog, not affiliated with, endorsed by or sponsored by Margaritaville at Sea or Margaritaville Enterprises. Stateroom details are summarized from public cruise line information and may change.
+    </div>
+  </div>
+</footer>
+
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="Free guides">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <div style="font-size:46px">🗺️🧳</div>
+    <h2>Free Port Guides!</h2>
+    <p style="margin:6px 0 18px">Palm Beach, Tampa, Miami &amp; Galveston, plus our packing list, straight to your inbox.</p>
+    <form class="form js-signup" data-source="popup">
+      <input type="text" name="first_name" placeholder="First name" aria-label="First name" required maxlength="80"><input type="text" name="last_name" placeholder="Last name" aria-label="Last name" required maxlength="80"><input type="text" name="username" placeholder="Username (e.g. ParrotheadPam)" aria-label="Username" required maxlength="20" pattern="[A-Za-z0-9._]{3,20}" title="3–20 letters, numbers, periods or underscores, no spaces">
+      <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250"><input type="password" name="password" placeholder="Create a password (8+ characters)" aria-label="Create a password" required minlength="8" maxlength="72" autocomplete="new-password">
+      <button class="btn btn-sun" type="submit" style="width:100%">Send Them!</button>
+    </form>
+    <div class="err"></div>
+    <div class="thanks">🎉 You're in! Watch your inbox.</div>
+    <div class="fine">No spam, ever. Unsubscribe anytime.</div>
+  </div>
+</div>
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
+  <div class="box">
+    <button class="x" aria-label="Close">×</button>
+    <h2>⛱️ Join the Chill Crew</h2>
+    <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
+    <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
+    <div id="authMsg"></div>
+    <form id="authForm">
+      <div class="only-up" style="display:none"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field"><label for="aFirst">First name</label><input id="aFirst" maxlength="50" autocomplete="given-name"></div>
+        <div class="field"><label for="aLast">Last name</label><input id="aLast" maxlength="50" autocomplete="family-name"></div></div></div>
+      <div class="field only-up" style="display:none"><label for="aName">Username</label><input id="aName" maxlength="20" placeholder="e.g. ParrotheadPam" autocomplete="username"><p class="fine" style="margin:4px 0 0">This is what other cruisers see on Roll Calls. Your first and last name stay private.</p></div>
+      <div class="field"><label for="aEmail">Email</label><input id="aEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="aPass">Password</label><input id="aPass" type="password" required minlength="8" autocomplete="current-password"></div>
+      <button class="btn btn-coral" id="authGo" type="submit" style="width:100%">Sign In</button>
+      <p class="err" id="authErr"></p>
+      <p class="fine" style="text-align:center"><button type="button" class="link" id="authForget">Forgot password?</button></p>
+      <p class="fine only-up" style="display:none">By joining you agree to be kind. Posts are public. No spam, selling or personal info, please; we may remove posts or accounts that break the rules.</p>
+    </form>
+  </div>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/app.js?v=27"></script>
+<script>
+document.addEventListener('cc:ready', async () => {
+  const el = document.getElementById('rcSide'); if (!el) return;
+  const { data } = await sb.from('roll_calls').select('id,ship,sail_date,post_count,last_post_at').gte('sail_date', new Date().toISOString().slice(0,10)).order('last_post_at', { ascending: false, nullsFirst: false }).limit(5);
+  el.innerHTML = (data && data.length) ? data.map(r => `<li><a href="/rollcall/${r.id}"><span class="dot d-${SHIPS[r.ship].slug}"></span>${esc(r.ship)} · ${dateOnly(r.sail_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</a><small>${r.post_count} posts${r.last_post_at ? ' · ' + timeAgo(r.last_post_at) : ''}</small></li>`).join('')
+    : '<li>No roll calls yet. <a href="/rollcalls">Start the first one!</a></li>';
+});
+</script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const fmt = d => new Date(String(d).slice(0, 10) + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  const today = new Date().toISOString().slice(0, 10); $('yc_date').min = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
+  const q = new URLSearchParams(location.search); if (q.get('ship')) $('yc_ship').value = q.get('ship'); if (q.get('date')) $('yc_date').value = q.get('date');
+  async function find() {
+    const ship = $('yc_ship').value, date = $('yc_date').value, res = $('ycRes');
+    if (!ship || !date) { res.innerHTML = '<p class="err" style="display:block">Please choose your ship and sail date.</p>'; return; }
+    history.replaceState(null, '', '/your-cruise?' + new URLSearchParams({ ship, date }));
+    res.innerHTML = '<div class="loading">Looking up your sailing…</div>'; $('yc_go').disabled = true;
+    let c = null;
+    try { const d = await fetch('/.netlify/functions/cruisefeed?' + new URLSearchParams({ ship_name: 'Margaritaville at Sea ' + ship, departure_from: date, departure_to: date, limit: '3' })).then(r => r.json()); c = (d.items || [])[0] || null; } catch (e) {}
+    let rc = null; try { const { data } = await sb.from('roll_calls').select('id,member_count,post_count').eq('ship', ship).eq('sail_date', date).maybeSingle(); rc = data; } catch (e) {}
+    $('yc_go').disabled = false;
+    const slug = SHIPS[ship] ? SHIPS[ship].slug : ship.toLowerCase();
+    if (!c) { res.innerHTML = `<p style="margin:0">🏝️ We couldn't find a ${esc(ship)} sailing departing ${esc(fmt(date))}. Double-check the date on your booking confirmation. It's the day you board.</p>`; return; }
+    const it = Array.isArray(c.itinerary) ? c.itinerary : [];
+    const stops = [...new Set(it.filter(x => !x.is_sea_day && !x.is_embark && !x.is_disembark && x.port).map(x => x.port))];
+    res.innerHTML = `<div style="background:var(--sand);border-radius:14px;padding:14px 16px"><div class="eyebrow">✅ Found your sailing</div>
+      <h2 style="margin:4px 0 4px">${esc(c.title || (c.nights + '-Night Cruise'))}</h2>
+      <div style="color:var(--ink-soft)">🛳️ ${esc(ship)} · 📅 ${esc(fmt(c.departure_date))}${c.return_date ? ' – ' + esc(fmt(c.return_date)) : ''}${c.embark_port ? ' · 📍 ' + esc(c.embark_port) : ''}${stops.length ? '<br>🏝️ ' + stops.map(esc).join(' · ') : ''}</div></div>
+      <div class="yc-acts">
+        <a href="/guide/${slug}-${date}">📖 Your Cruise Guide<small>Route, ports, tips and a printable PDF</small></a>
+        <a href="${rc ? '/rollcall/' + rc.id : '/rollcalls?ship=' + encodeURIComponent(ship) + '&date=' + date}">🙋 Your Roll Call<small>${rc ? (rc.member_count || 0) + ' shipmates so far. Say hi!' : 'Be the first to start it for this sailing'}</small></a>
+        <a href="/onboard/${slug}">📋 Today on Board<small>Daily schedule and ship map once you sail</small></a>
+        <a href="/port-guides#guides">🗺️ Port Guides<small>Free printable guides for your ports</small></a>
+      </div>`;
+  }
+  $('ycForm').addEventListener('submit', e => { e.preventDefault(); find(); });
+  if (q.get('ship') && q.get('date')) document.addEventListener('cc:ready', find);
+})();
+</script>
+</body>
+</html>
