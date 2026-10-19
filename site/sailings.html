@@ -346,6 +346,10 @@ document.addEventListener('cc:ready', async () => {
     if (location.hash !== '#quote' && !q.get('topic')) return;
     $('qForm').hidden = false; $('qOpen').hidden = true;
     if (q.get('topic') === 'heroes' && !$('q_notes').value) $('q_notes').value = 'Heroes Sail Free: friends & family who want to sail with a hero. ';
+    const GROUPS = { 'islander-oct-2027': { ship: 'Islander', month: '2027-10', note: 'GROUP REGISTRATION: Islander 7-Night Jamaica & Western Caribbean group, Oct 30 – Nov 6, 2027 from Tampa. Stateroom type wanted: ' } };
+    const G = GROUPS[q.get('topic')];
+    if (G) { if ($('q_ship')) $('q_ship').value = G.ship; if ($('q_date')) $('q_date').value = G.month; if (!$('q_notes').value) $('q_notes').value = G.note;
+      const h = document.querySelector('#quote .wh h3'); if (h) h.textContent = '🎉 Register for the Group Cruise'; const bt = document.querySelector('#quote button[type=submit]'); if (bt) bt.textContent = 'Register / Get More Info'; }
     setTimeout(() => { $('quote').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
   })();
   document.addEventListener('cc:ready', loadSaved);
