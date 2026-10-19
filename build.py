@@ -37,7 +37,7 @@ def head(title, desc=DESC, path='/', extra=''):
 
 def header(tall=False):
     return f'''<div class="topbar"><div class="wrap">
-  <div class="l"><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
+  <div class="l"><a href="/rollcalls" class="hide-s">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a><span>FL Seller of Travel ST150140</span></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead{' tall' if tall else ''}"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -82,12 +82,12 @@ QUOTE = '''<div class="widget" id="quote">
 </div>'''
 
 GUIDES_W = '''<div class="widget teal" id="signup">
-  <div class="wh"><h3>⛱️ Join the Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
+  <div class="wh"><h3>⛱️ Join the Chill Crew</h3><p>Get instant access to our free port guides, our newsletter, and first-to-know updates on Margaritaville at Sea deals and sailings.</p></div>
   <div class="wb">
     <form class="mini-form js-signup" data-source="sidebar">
       <input type="text" name="first_name" placeholder="First name" aria-label="First name" maxlength="80">
       <input type="email" name="email" placeholder="Email address" aria-label="Email address" required maxlength="250">
-      <button class="btn btn-sun" type="submit">Join the Crew</button>
+      <button class="btn btn-sun" type="submit">Join the Chill Crew</button>
     </form>
     <div class="err"></div>
     <div class="thanks">🎉 Welcome to the crew! <a href="/port-guides#guides">Open your free port guides →</a></div>
@@ -107,7 +107,7 @@ def sidebar(rc=True):
 AUTH = '''<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
   <div class="box">
     <button class="x" aria-label="Close">×</button>
-    <h2>⛱️ Join the Crew</h2>
+    <h2>⛱️ Join the Chill Crew</h2>
     <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
     <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
     <div id="authMsg"></div>
@@ -476,7 +476,7 @@ pk = title_block('🍹 Extra Packages', 'Drink, dining &amp; Wi-Fi packages, dec
 page('extra-packages.html', 'Extra Packages', pk, desc='Margaritaville at Sea drink packages, specialty dining, Wi-Fi and add-ons explained, with prices and tips.', path='/extra-packages')
 
 # ======================= NEWSLETTER =======================
-nl = title_block('💌 Newsletter', 'Join the crew!', 'Our free email newsletter is the best way to keep up with The Chill Compass.') + '''
+nl = title_block('💌 Newsletter', 'Join the Chill Crew!', 'Our free email newsletter is the best way to keep up with The Chill Compass.') + '''
 <div class="nl-card">
   <div class="nl-perks">
     <div><span>🗺️</span><b>Free port guides</b><small>Palm Beach, Tampa, Miami &amp; Galveston, printable PDFs</small></div>
@@ -691,7 +691,7 @@ async function loadPosts() {
 async function delPost(id) { if (!confirm('Delete your post?')) return; await sb.from('roll_call_posts').delete().eq('id', id); loadPosts(); }
 function drawComposer() {
   const c = document.getElementById('composer');
-  if (!ME) { c.innerHTML = `<div class="composer" style="text-align:center"><p style="margin:0 0 10px"><b>Want to join the conversation?</b> A free account lets you post and check in.</p><button class="btn btn-coral" onclick="openAuth('up')">Join the Crew</button> <button class="btn btn-ghost" onclick="openAuth('in')">Sign in</button></div>`; return; }
+  if (!ME) { c.innerHTML = `<div class="composer" style="text-align:center"><p style="margin:0 0 10px"><b>Want to join the conversation?</b> A free account lets you post and check in.</p><button class="btn btn-coral" onclick="openAuth('up')">Join the Chill Crew</button> <button class="btn btn-ghost" onclick="openAuth('in')">Sign in</button></div>`; return; }
   if (ME.banned) { c.innerHTML = '<div class="notice">Your account can\\'t post right now. Questions? Email admin@thechillcompass.com.</div>'; return; }
   c.innerHTML = `<form class="composer" id="cmp"><label for="body" style="font-weight:800">Post as ${esc(ME.display_name)}</label>
     <textarea id="body" maxlength="4000" required placeholder="Say hi, share plans, ask questions… 🍹"></textarea>

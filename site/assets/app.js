@@ -125,7 +125,7 @@ async function loadMe() {
 function renderTopbarUser() {
   const el = document.getElementById('tbUser'); if (!el) return;
   el.innerHTML = ME ? (ME.is_admin ? `<a class="me" href="/admin/" title="Open your admin dashboard">⛱️ ${esc(ME.display_name)} · Dashboard</a>` : `<span class="me">⛱️ ${esc(ME.display_name)}</span>`) + `<button id="tbOut">Sign out</button>`
-    : `<button data-auth="in">Sign in</button><button data-auth="up" style="color:var(--sun);font-weight:700">Join the crew</button>`;
+    : `<button data-auth="in">Sign in</button><button data-auth="up" style="color:var(--sun);font-weight:700">Join the Chill Crew</button>`;
   const out = document.getElementById('tbOut'); if (out) out.onclick = async () => { await sb.auth.signOut(); location.reload(); };
   el.querySelectorAll('[data-auth]').forEach(b => b.onclick = () => openAuth(b.dataset.auth));
 }
@@ -312,7 +312,7 @@ function renderAds() {
   });
 }
 
-/* Join the Crew – any form with class js-signup: creates a member account (with password) and adds them to the subscriber list */
+/* Join the Chill Crew – any form with class js-signup: creates a member account (with password) and adds them to the subscriber list */
 function wireSignups() {
   document.querySelectorAll('form.js-signup').forEach(form => {
     form.addEventListener('submit', async e => {

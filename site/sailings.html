@@ -32,7 +32,7 @@
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
+  <div class="l"><a href="/onboard">📋 Today on Board</a><a href="/rollcalls" class="hide-s">🙋 Roll Calls</a><a href="/port-guides#guides" class="hide-s">🗺️ Free Port Guides</a><a href="/about" class="hide-s">About Us</a></div>
   <div class="r" id="tbUser"></div>
 </div></div>
 <header class="masthead"><a class="home" href="/" aria-label="The Chill Compass home"></a><h1 class="sr">The Chill Compass: A Margaritaville at Sea Blog</h1></header>
@@ -140,7 +140,7 @@
 <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in" data-mode="in">
   <div class="box">
     <button class="x" aria-label="Close">×</button>
-    <h2>⛱️ Join the Crew</h2>
+    <h2>⛱️ Join the Chill Crew</h2>
     <p style="margin:4px 0 0;color:var(--ink-soft)">A free account lets you post on Roll Calls and meet your shipmates.</p>
     <div class="seg"><button type="button" data-m="in">Sign in</button><button type="button" data-m="up">Create account</button></div>
     <div id="authMsg"></div>
@@ -160,7 +160,7 @@
 </div>
 <script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/assets/app.js?v=25"></script>
+<script src="/assets/app.js?v=26"></script>
 <script>
 document.addEventListener('cc:ready', async () => {
   const el = document.getElementById('rcSide'); if (!el) return;
