@@ -201,6 +201,14 @@ document.addEventListener('cc:ready', async () => {
     if (!d || (!d.schedule && !(d.items || []).length)) {
       box.innerHTML = `<p style="margin:0">We couldn't find today's schedule for ${NAMES[slug]}. ${slug === 'beachcomber' ? 'Beachcomber starts sailing in January 2027.' : 'Please try again in a moment, or check the Guest Services desk.'}</p>`; return;
     }
+    // No ship map from the cruise line? Use the deck plan uploaded in our admin (Fleet & Rooms)
+    d.items = d.items || [];
+    if (!d.items.some(i => i.kind === 'map')) {
+      try {
+        const { data: shipRow } = await sb.from('ships').select('deck_plan_url').eq('name', NAMES[slug]).maybeSingle();
+        if (shipRow && shipRow.deck_plan_url) d.items.unshift({ kind: 'map', title: 'Ship Map', detail: 'Deck plans for ' + NAMES[slug], url: shipRow.deck_plan_url });
+      } catch (err) {}
+    }
     const main = d.schedule ? `<div class="ob-main">📍 ${e(d.schedule.label)}</div>` : '';
     const sched = d.schedule ? `<a class="ob-sched" href="${e(d.schedule.url)}" target="_blank" rel="noopener"><span>📋</span><span><b>Today's Cruise News &amp; Schedule</b><small>Tap to open today's schedule</small></span></a>` : '';
     const more = sched + (d.items || []).map(i => `<a href="${e(i.url)}" target="_blank" rel="noopener"><span>${ICON[i.kind] || '📄'}</span><span><b>${e(i.title)}</b>${i.detail ? `<small style="color:var(--ink-soft)">${e(i.detail)}</small>` : ''}</span></a>`).join('');
