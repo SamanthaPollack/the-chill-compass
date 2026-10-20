@@ -479,6 +479,7 @@ footer.site a:hover{color:var(--sun)}
 .post-gal button,.post-gal button:first-child{grid-column:auto;grid-row:auto;aspect-ratio:1;border-radius:10px}
 @media(max-width:640px){.post-gal{grid-template-columns:repeat(3,1fr)}.post-gal button:first-child{grid-column:auto;aspect-ratio:1}}
 
-footer.site .social{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-footer.site .social a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid rgba(223,234,241,.35);border-radius:999px;font-size:14px;font-weight:600}
-footer.site .social a:hover{border-color:var(--sun);color:var(--sun)}
+footer.site .social{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+footer.site .social a{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-size:15px;font-weight:700;color:#fff;background:#1877F2;box-shadow:0 4px 14px rgba(24,119,242,.45);transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+footer.site .social a:hover,footer.site .social a:focus-visible{color:#fff;background:#3b8cf5;transform:translateY(-2px);box-shadow:0 6px 18px rgba(24,119,242,.6)}
+footer.site .social a svg{flex:none}
